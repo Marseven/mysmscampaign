@@ -66,11 +66,11 @@ class CampagnesController extends AppController
     }
 
     public function edit(){
-        if (empty($this->request->params['?']['campagne'])) {
+        if ($this->request->getQuery('campagne') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
-            $id = (int)$this->request->params['?']['campagne'];
+            $id = (int)$this->request->getQuery('campagne');
             $campagneTable = TableRegistry::get('campagnes');
             $campagne = $campagneTable->get($id);
             if (!$campagne) {
@@ -94,11 +94,11 @@ class CampagnesController extends AppController
     }
 
     public function delete(){
-        if(empty($this->request->params['?']['campagne'])){
+        if ($this->request->getQuery('campagne') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id = (int)$this->request->params['?']['campagne'];
+            $id = (int)$this->request->getQuery('campagne');
             $campagneTable = TableRegistry::get('campagnes');
             $campagne = $campagneTable->get($id);
             if (!$campagne) {

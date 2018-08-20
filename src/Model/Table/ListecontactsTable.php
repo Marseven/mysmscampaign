@@ -12,7 +12,7 @@ class ListecontactsTable extends Table
 
     public function initialize(array $config)
     {
-        $this->table('listecontacts');
+        $this->setTable('listecontacts');
         $this->belongsTo('users')
             ->setForeignKey('iduser') // Avant la version CakePHP 3.4, utilisez foreignKey() au lieu de setForeignKey()
             ->setJoinType('INNER');

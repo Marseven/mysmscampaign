@@ -47,11 +47,11 @@
             <?= $this->Flash->render() ?>
         </div>
         <div class="panel-body">
-            <?= $this->form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'remember']]); ?>
+            <?= $this->Form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'remember']]); ?>
 
             <div class="form-group ">
                 <div class="col-xs-12">
-                    <?= $this->form->input('email', array(
+                    <?= $this->Form->control('email', array(
                         'class' => 'form-control',
                         'placeholder' => 'Email',
                         'type' => 'text',
@@ -63,7 +63,7 @@
 
             <div class="form-group text-center m-t-30">
                 <div class="col-xs-12">
-                    <?= $this->form->input('Envoyer', array(
+                    <?= $this->Form->control('Envoyer', array(
                         'class' => 'btn btn-success',
                         'id'    => 'connexion',
                         'type'  => 'submit',
@@ -77,7 +77,7 @@
                     <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>" class="text-muted"><i class="fa fa-lock m-r-5"></i> Connexion</a>
                 </div>
             </div>
-            <?= $this->form->end(); ?>
+            <?= $this->Form->end(); ?>
 
         </div>
     </div>

@@ -182,15 +182,15 @@ class RapportController extends AppController
 
     public function downloadLog()
     {
-        if (empty($this->request->params['?']['date'])) {
+        if ($this->request->getQuery('date') == false) {
             $this->Flash->error('Information manquante.');
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
-            $date=new \DateTime($this->request->params['?']['date']);
+            $date=new \DateTime($this->request->getQuery('date'));
             $date = $date->format('Ymd');
             $log_exist = file_exists(WWW_ROOT . 'files' . DS . 'logs/log'.$date.'.txt');
             if($log_exist){
-                $this->redirect('http://mysmscampaign.test/files/logs/log'.$date.'.txt');
+                $this->redirect('http://mysmscampaign.jobs-conseil.com/files/logs/log'.$date.'.txt');
             }else{
                 $this->Flash->error('Le log demandé n\'existe pas.');
                 $this->redirect(['action' => 'logger']);
@@ -200,7 +200,7 @@ class RapportController extends AppController
     }
 
     public function imprimer(){
-        if(empty($this->request->params['?']['campagne'])){
+        if($this->request->getQuery('campagne') == false){
             $this->Flash->error('Information manquante.');
             $this->redirect(['controller' => 'Users','action' => 'logout']);
         }else{
@@ -208,7 +208,7 @@ class RapportController extends AppController
             $campagne = $campagneTable->find()->contain(['Smss'])
                 ->where(
                     [
-                        'id' => $this->request->params['?']['campagne'],
+                        'id' => $this->request->getQuery('campagne'),
                     ]
                 )
                 ->all();
@@ -266,7 +266,7 @@ class RapportController extends AppController
                 // Get the PDF string returned
                 $pdf = $CakePdf->output();
                 $pdf = $CakePdf->write(WWW_ROOT . 'files' . DS . 'Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
-                $this->redirect('http://mysmscampaign.test/files/Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
+                $this->redirect('http://mysmscampaign.jobs-conseil.com/files/Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
             }
         }
     }

@@ -536,11 +536,11 @@ class SmsController extends AppController
     }
 
     public function editModelSms(){
-        if (empty($this->request->params['?']['modelsms'])) {
+        if ($this->request->getQuery('modelsms') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
-            $id = (int)$this->request->params['?']['modelsms'];
+            $id = (int)$this->request->getQuery('modelsms');
             $modelesmsTable = TableRegistry::get('modelesmss');
             $modelsms = $modelesmsTable->get($id);
             $this->set(compact('modelsms'));
@@ -568,11 +568,11 @@ class SmsController extends AppController
     }
 
     public function deleteModelSms(){
-        if(empty($this->request->params['?']['modelsms'])){
+        if ($this->request->getQuery('modelsms') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id = (int)$this->request->params['?']['modelsms'];
+            $id = (int)$this->request->getQuery('modelsms');
             $modelesmsTable = TableRegistry::get('modelesmss');
             $modelesms = $modelesmsTable->get($id);
             if (!$modelesms) {

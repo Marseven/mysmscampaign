@@ -4,9 +4,9 @@
 
             <h4 class="header-title m-t-0 m-b-30">Créer un utilisateur</h4>
 
-            <?= $this->form->create($user); ?>
+            <?= $this->Form->create($user); ?>
                 <div class="form-group">
-                    <?= $this->form->input('nom', array(
+                    <?= $this->Form->control('nom', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Nom*',
@@ -15,7 +15,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('prenom', array(
+                    <?= $this->Form->control('prenom', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Prenom*',
@@ -24,7 +24,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('email', array(
+                    <?= $this->Form->control('email', array(
                         'class' => 'form-control',
                         'type' => 'email',
                         'placeholder' => 'Email',
@@ -33,7 +33,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('telephone', array(
+                    <?= $this->Form->control('telephone', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Téléphone',
@@ -46,7 +46,7 @@
                     <input type="date" name="dateNaiss"  required placeholder="Date de Naissance" class="form-control" id="dateNaiss">
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('adresse', array(
+                    <?= $this->Form->control('adresse', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Adresse',
@@ -55,7 +55,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('codeZip', array(
+                    <?= $this->Form->control('codeZip', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Code Postal',
@@ -64,7 +64,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('ville', array(
+                    <?= $this->Form->control('ville', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Ville',
@@ -73,7 +73,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('province', array(
+                    <?= $this->Form->control('province', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Province',
@@ -82,7 +82,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('pays', array(
+                    <?= $this->Form->control('pays', array(
                         'class' => 'form-control',
                         'type' => 'text',
                         'placeholder' => 'Pays',
@@ -91,7 +91,7 @@
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('password', array(
+                    <?= $this->Form->control('password', array(
                         'class' => 'form-control',
                         'placeholder' => 'Mot de Passe*',
                         'type' => 'password',
@@ -101,7 +101,7 @@
 
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('password_verify', array(
+                    <?= $this->Form->control('password_verify', array(
                         'class' => 'form-control',
                         'type' => 'password',
                         'placeholder' => 'Confirmer Mot de Passe*',
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="form-group text-right m-b-0">
-                    <?= $this->form->input('Creer', array(
+                    <?= $this->Form->control('Creer', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => ''
@@ -122,7 +122,7 @@
                     </button>
                 </div>
 
-            <?= $this->form->end(); ?>
+            <?= $this->Form->end(); ?>
         </div>
     </div><!-- end col -->
 </div>

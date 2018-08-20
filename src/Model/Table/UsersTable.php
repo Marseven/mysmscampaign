@@ -12,7 +12,7 @@ class UsersTable extends Table
 
     public function initialize(array $config)
     {
-        $this->table('users');
+        $this->setTable('users');
         $this->hasMany('api')
              ->setForeignKey('iduser')
              ->setDependent(true);

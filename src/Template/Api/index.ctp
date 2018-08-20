@@ -9,9 +9,9 @@
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-8">
-                    <?= isset($api->id) ? $this->form->create($api, ['url' => ['action' => 'edit', 'api' => $api->id], 'class' => 'form-horizontale']) : $this->form->create($api, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
+                    <?= isset($api->id) ? $this->Form->create($api, ['url' => ['action' => 'edit', 'api' => $api->id], 'class' => 'form-horizontale']) : $this->Form->create($api, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
                     <div class="form-group">
-                        <?= $this->form->input('service', array(
+                        <?= $this->Form->control('service', array(
                             'class' => 'form-control',
                             'type'  => 'text',
                             'label' => 'Nom de l\'API ',
@@ -19,7 +19,7 @@
                         )); ?>
                     </div>
                     <div class="form-group">
-                        <?= $this->form->input('url', array(
+                        <?= $this->Form->control('url', array(
                             'class' => 'form-control',
                             'type'  => 'text',
                             'label' => 'URL d\'accès ',
@@ -27,7 +27,7 @@
                         )); ?>
                     </div>
                     <div class="form-group">
-                        <?= $this->form->input('login', array(
+                        <?= $this->Form->control('login', array(
                             'class' => 'form-control',
                             'type'  => 'text',
                             'label' => 'Login ',
@@ -35,7 +35,7 @@
                         )); ?>
                     </div>
                     <div class="form-group">
-                        <?= $this->form->input('apikey', array(
+                        <?= $this->Form->control('apikey', array(
                             'class' => 'form-control',
                             'type'  => 'text',
                             'label' => 'API Key ',
@@ -52,19 +52,19 @@
                             </div>
                         </div>
                     </div>
-                    <?= $this->form->input('iduser', array(
+                    <?= $this->Form->control('iduser', array(
                         'class' => 'form-control',
                         'type'  => 'hidden',
                         'value' => $user->id,
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->form->input('Terminer', array(
+                    <?= $this->Form->control('Terminer', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
                     )); ?>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
             </div>
         </div>

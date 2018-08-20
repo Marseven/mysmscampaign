@@ -12,7 +12,7 @@ class SmssTable extends Table
 
     public function initialize(array $config)
     {
-        $this->table('smss');
+        $this->setTable('smss');
         $this->belongsTo('users')
             ->setForeignKey('iduser') // Avant la version CakePHP 3.4, utilisez foreignKey() au lieu de setForeignKey()
             ->setJoinType('INNER');

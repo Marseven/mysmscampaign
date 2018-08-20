@@ -9,9 +9,9 @@
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-8">
-                    <?= isset($expediteur->id) ? $this->form->create($expediteur, ['url' => ['action' => 'edit', 'expediteur' => $expediteur->id], 'class' => 'form-horizontale']) : $this->form->create($expediteur, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
+                    <?= isset($expediteur->id) ? $this->Form->create($expediteur, ['url' => ['action' => 'edit', 'expediteur' => $expediteur->id], 'class' => 'form-horizontale']) : $this->Form->create($expediteur, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
                         <div class="form-group">
-                            <?= $this->form->input('titre', array(
+                            <?= $this->Form->control('titre', array(
                                 'class' => 'form-control',
                                 'type'  => 'text',
                                 'label' => 'Nom de l\'expéditeur ',
@@ -31,19 +31,19 @@
                                 </div>
                             </div>
                         </div>
-                        <?= $this->form->input('iduser', array(
+                        <?= $this->Form->control('iduser', array(
                             'class' => 'form-control',
                             'type'  => 'hidden',
                             'value' => $user->id,
                             'label' => '',
                         )); ?>
                     <br>
-                        <?= $this->form->input('Terminer', array(
+                        <?= $this->Form->control('Terminer', array(
                             'class' => 'btn btn-success',
                             'type'  => 'submit',
                             'label' => '',
                         )); ?>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
             </div>
         </div>

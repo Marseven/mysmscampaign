@@ -12,7 +12,7 @@ class ApiTable extends Table
 
     public function initialize(array $config)
     {
-        $this->table('api');
+        $this->setTable('api');
         $this->belongsTo('users')
             ->setForeignKey('iduser') // Avant la version CakePHP 3.4, utilisez foreignKey() au lieu de setForeignKey()
             ->setJoinType('INNER');

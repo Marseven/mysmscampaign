@@ -46,11 +46,11 @@
             <h4 class="text-uppercase font-bold m-b-0">Réinitialisation du mot de passe.</h4>
         </div>
         <div class="panel-body">
-            <?= $this->form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'resetPassword']]); ?>
+            <?= $this->Form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'resetPassword']]); ?>
 
             <div class="form-group">
                 <div class="col-xs-12">
-                    <?= $this->form->input('password', array(
+                    <?= $this->Form->control('password', array(
                         'class' => 'form-control',
                         'placeholder' => 'Mot de passe',
                         'type' => 'password',
@@ -62,7 +62,7 @@
 
             <div class="form-group">
                 <div class="col-xs-12">
-                    <?= $this->form->input('password_verify', array(
+                    <?= $this->Form->control('password_verify', array(
                         'class' => 'form-control',
                         'placeholder' => 'Confirmer Le Mot de passe',
                         'type' => 'password',
@@ -74,7 +74,7 @@
 
             <div class="form-group text-center m-t-30">
                 <div class="col-xs-12">
-                    <?= $this->form->input('Valider', array(
+                    <?= $this->Form->control('Valider', array(
                         'class' => 'btn btn-success',
                         'id'    => 'connexion',
                         'type'  => 'submit',
@@ -88,7 +88,7 @@
                     <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>" class="text-muted"><i class="fa fa-lock m-r-5"></i> Connexion</a>
                 </div>
             </div>
-            <?= $this->form->end(); ?>
+            <?= $this->Form->end(); ?>
 
         </div>
     </div>

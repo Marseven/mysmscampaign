@@ -42,17 +42,17 @@
 
 
         <div class="bg-picture card-box">
-            <?= $this->form->create('Sms', ['url' => ['controller' => 'Sms', 'action' => 'fastSendSms'], 'class' => 'form-horizontal']); ?>
+            <?= $this->Form->create('Sms', ['url' => ['controller' => 'Sms', 'action' => 'fastSendSms'], 'class' => 'form-horizontal']); ?>
                 <h4 class="header-title m-t-0 m-b-30"><i class="ti-comment m-r-5"></i> Envoi Rapide de SMS</h4>
                 <div class="form-group">
-                    <?= $this->Form->input('idexpediteur', array(
+                    <?= $this->Form->control('idexpediteur', array(
                         'options' => $expediteurs,
                         'class' => 'form-control',
                         'label' => 'Expéditeur',
                     )); ?>
                 </div>
                 <div class="form-group">
-                    <?= $this->form->input('idcontact', array(
+                    <?= $this->Form->control('idcontact', array(
                         'options' => $contact_add,
                         'class' => 'select2 form-control',
                         'label' => 'Sélectionner un contact',
@@ -62,7 +62,7 @@
                 <div class="form-group">
                     <label class="control-label">Message</label>
                     <div class="">
-                        <?= $this->form->input('contenu', array(
+                        <?= $this->Form->control('contenu', array(
                             'class' => 'form-control',
                             'id' => 'textarea',
                             'placeholder' => 'Le message',
@@ -76,13 +76,13 @@
                     </div>
                 </div>
                 <div class="p-t-10 pull-right">
-                    <?= $this->form->input('Envoyer', array(
+                    <?= $this->Form->control('Envoyer', array(
                         'class' => 'btn btn-purple',
                         'type'  => 'submit',
                         'label' => '',
                     )); ?>
                 </div>
-            <?= $this->form->end(); ?>
+            <?= $this->Form->end(); ?>
         </div>
     </div>
 

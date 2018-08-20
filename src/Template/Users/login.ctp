@@ -47,11 +47,11 @@
             <?= $this->Flash->render() ?>
         </div>
         <div class="panel-body">
-            <?= $this->form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'login']]); ?>
+            <?= $this->Form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'login']]); ?>
 
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <?= $this->form->input('email', array(
+                        <?= $this->Form->control('email', array(
                             'class' => 'form-control',
                             'placeholder' => 'Email',
                             'type' => 'text',
@@ -63,7 +63,7 @@
 
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <?= $this->form->input('password', array(
+                        <?= $this->Form->control('password', array(
                             'class' => 'form-control',
                             'placeholder' => 'Mot de passe',
                             'type' => 'password',
@@ -75,7 +75,7 @@
 
                 <div class="form-group text-center m-t-30">
                     <div class="col-xs-12">
-                        <?= $this->form->input('Connexion', array(
+                        <?= $this->Form->control('Connexion', array(
                             'class' => 'btn btn-success',
                             'id'    => 'connexion',
                             'type'  => 'submit',
@@ -89,7 +89,7 @@
                         <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'remember']) ?>" class="text-muted"><i class="fa fa-lock m-r-5"></i> Mot de passe oublié?</a>
                     </div>
                 </div>
-            <?= $this->form->end(); ?>
+            <?= $this->Form->end(); ?>
 
         </div>
     </div>

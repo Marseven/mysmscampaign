@@ -15,9 +15,9 @@
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-6">
-                    <?= $this->form->create($contact, ['url' => ['action' => 'ajouterContact', 'listecontact' => $listecontact->id], 'class' => 'form-horizontale']) ?>
+                    <?= $this->Form->create($contact, ['url' => ['action' => 'ajouterContact', 'listecontact' => $listecontact->id], 'class' => 'form-horizontale']) ?>
                     <div class="form-group">
-                        <?= $this->form->input('contacts', array(
+                        <?= $this->Form->control('contacts', array(
                             'options' => $contact_add,
                             'class' => 'select2 select2-multiple',
                             'multiple' => "multiple",
@@ -27,19 +27,19 @@
                             'required'
                         )); ?>
                     </div>
-                    <?= $this->form->input('iduser', array(
+                    <?= $this->Form->control('iduser', array(
                         'class' => 'form-control',
                         'type'  => 'hidden',
                         'value' => $user->id,
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->form->input('Terminer', array(
+                    <?= $this->Form->control('Terminer', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
                     )); ?>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
             </div>
         </div>

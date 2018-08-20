@@ -85,11 +85,11 @@ class ContactsController extends AppController
     }
 
     public function editContact(){
-        if (empty($this->request->params['?']['contact'])) {
+        if ($this->request->getQuery('contact') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
-            $id = (int)$this->request->params['?']['contact'];
+            $id = (int)$this->request->getQuery('contact');
             $contactTable = TableRegistry::get('contacts');
             $contact = $contactTable->get($id);
             if (!$contact) {
@@ -139,11 +139,11 @@ class ContactsController extends AppController
     }
 
     public function deleteContact(){
-        if(empty($this->request->params['?']['contact'])){
+        if($this->request->getQuery('contact') == false){
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id = (int)$this->request->params['?']['contact'];
+            $id = (int)$this->request->getQuery('contact');
             $contactTable = TableRegistry::get('contacts');
             $contact = $contactTable->get($id);
             if (!$contact) {
@@ -160,11 +160,11 @@ class ContactsController extends AppController
 
     public function viewList()
     {
-        if (empty($this->request->params['?']['listecontact'])) {
+        if ($this->request->getQuery('listecontact') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
-            $id = (int)$this->request->params['?']['listecontact'];
+            $id = (int)$this->request->getQuery('listecontact');
             $listecontactTable = TableRegistry::get('listecontacts');
             $contactTable = TableRegistry::get('Contacts');
             $contact = $contactTable->newEntity();
@@ -187,12 +187,12 @@ class ContactsController extends AppController
     }
 
     public function retirerContact(){
-        if(empty($this->request->params['?']['contact']) || empty($this->request->params['?']['listecontact'])){
+        if($this->request->getQuery('contact') == false || $this->request->getQuery('listecontact') == false){
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id_contact = (int)$this->request->params['?']['contact'];
-            $id_liste = (int)$this->request->params['?']['listecontact'];
+            $id_contact = (int)$this->request->getQuery('contact');
+            $id_liste = (int)$this->request->getQuery('listecontact');
             $listcontactTable = TableRegistry::get('contact');
             $listcontact = $listcontactTable->find()->where(
                 [
@@ -213,11 +213,11 @@ class ContactsController extends AppController
     }
 
     public function ajouterContact(){
-        if(empty($this->request->getData()['contacts']) || empty($this->request->params['?']['listecontact'])){
+        if($this->request->getQuery('contact') == false || $this->request->getQuery('listecontact') == false){
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id_liste = (int)$this->request->params['?']['listecontact'];
+            $id_liste = (int)$this->request->getQuery('listecontact');
             $listecontactTable = TableRegistry::get('contacts_listecontacts');
             $liste_contactTable = TableRegistry::get('listecontacts');
             $contactTable = TableRegistry::get('Contacts');
@@ -371,11 +371,11 @@ class ContactsController extends AppController
     }
 
     public function deleteListContact(){
-        if(empty($this->request->params['?']['listecontact'])){
+        if($this->request->getQuery('listecontact') == false){
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id = (int)$this->request->params['?']['listecontact'];
+            $id = (int)$this->request->getQuery('listecontact');
             $listcontactTable = TableRegistry::get('contact');
             $listcontact = $listcontactTable->get($id);
             if (!$listcontact) {

@@ -101,7 +101,7 @@ class UsersController extends AppController {
 
         //Modele SMS
         $modelesTable = TableRegistry::get('Modelesmss');
-        $modeles = $modelesTable->find()->contain('Users')->orderDesc('modelesmss.dateCreation')->limit(5)->all();
+        $modeles = $modelesTable->find()->contain('Users')->orderDesc('Modelesmss.dateCreation')->limit(5)->all();
         $this->set(compact('modeles'));
 
         //SMS
@@ -233,8 +233,8 @@ class UsersController extends AppController {
 
     function edit($id = null){
         $usersTable = TableRegistry::get('Users');
-        if(!empty($this->request->params['?']['user'])){
-            $id = (int)$this->request->params['?']['user'];
+        if($this->request->getQuery('user')){
+            $id = (int)$this->request->getQuery('user');
             $user_edit = $usersTable->get($id);
             if (!$user_edit) {
                 $this->Flash->error('Ce profil n\'exite pas');
@@ -319,7 +319,7 @@ class UsersController extends AppController {
                     'action' => 'reset_password',
                     'token' => $user->id.'-'.md5($user->password)
                 );*/
-				$link = "http://mysmscampaign.test/users/reset_password/?token=".$user->id.'-'.md5($user->password);
+				$link = "http://mysmscampaign.jobs-conseil.com/users/reset_password/?token=".$user->id.'-'.md5($user->password);
 				$user->reset_token = md5($user->password);
                 $usersTable->save($user);
                 $mail = new Email();
@@ -394,11 +394,11 @@ class UsersController extends AppController {
     }
 
     public function delete(){
-        if(empty($this->request->params['?']['user'])){
+        if($this->request->getQuery('user') == false){
             $this->Flash->error('Information manquante.');
             return $this->redirect(['action' => 'logout']);
         }else{
-            $id = (int)$this->request->params['?']['user'];
+            $id = (int)$this->request->getQuery('user');
         }
         $usersTable = TableRegistry::get('Users');
         $user = $usersTable->get($id);

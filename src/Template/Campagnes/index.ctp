@@ -9,9 +9,9 @@
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-8">
-                    <?= isset($api->id) ? $this->form->create($campagne, ['url' => ['action' => 'edit', 'api' => $campagne->id], 'class' => 'form-horizontale']) : $this->form->create($campagne, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
+                    <?= isset($api->id) ? $this->Form->create($campagne, ['url' => ['action' => 'edit', 'api' => $campagne->id], 'class' => 'form-horizontale']) : $this->Form->create($campagne, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
                     <div class="form-group">
-                        <?= $this->form->input('libelle', array(
+                        <?= $this->Form->control('libelle', array(
                             'class' => 'form-control',
                             'type'  => 'text',
                             'label' => 'Nom de la campagne ',
@@ -25,19 +25,19 @@
                             <input type="datetime-local" id="example-input1-group1" name="dateEnvoi" required class="form-control" placeholder="">
                         </div>
                     </div>
-                    <?= $this->form->input('iduser', array(
+                    <?= $this->Form->control('iduser', array(
                         'class' => 'form-control',
                         'type'  => 'hidden',
                         'value' => $user->id,
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->form->input('Terminer', array(
+                    <?= $this->Form->control('Terminer', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
                     )); ?>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
             </div>
         </div>

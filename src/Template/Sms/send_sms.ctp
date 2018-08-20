@@ -4,14 +4,14 @@
 
             <h4 class="header-title m-t-0 m-b-30">Envoi de SMS</h4>
 
-            <?= $this->form->create('Sms', ['url' => ['action' => 'sendSms'], 'type' => 'file', 'class' => 'form-horizontal']); ?>
+            <?= $this->Form->create('Sms', ['url' => ['action' => 'sendSms'], 'type' => 'file', 'class' => 'form-horizontal']); ?>
                 <div class="row">
                     <div class="col-lg-6">
                         <h5 style="color: #3287f1">1 - Message</h5>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Expéditeur</label>
                             <div class="col-md-10">
-                                <?= $this->Form->input('idexpediteur', array(
+                                <?= $this->Form->control('idexpediteur', array(
                                     'options' => $expediteurs,
                                     'class' => 'form-control col-sm-3',
                                     'label' => '',
@@ -30,7 +30,7 @@
                                         <?php } ?>
                                     </ul>
                                 </div>
-                                <?= $this->form->input('modele', array(
+                                <?= $this->Form->control('modele', array(
                                     'id' => 'modele',
                                     'type'  => 'hidden',
                                     'value' => 0,
@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Message</label>
                             <div class="col-md-10">
-                                <?= $this->form->input('contenu', array(
+                                <?= $this->Form->control('contenu', array(
                                     'class' => 'form-control',
                                     'id' => 'textarea',
                                     'placeholder' => 'Le message',
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div id="js_partie1" class="col-md-10">
-                                <?= $this->form->input('contact', array(
+                                <?= $this->Form->control('contact', array(
                                     'class' => 'form-control',
                                     'data-mask' => '99999999999',
                                     'type' => 'text',
@@ -86,7 +86,7 @@
                             <div id="js_partie2" style="display: none;" class="col-md-10">
                                 <div class="col-md-5">
                                     <br>
-                                    <?= $this->Form->input('listecontact', array(
+                                    <?= $this->Form->control('listecontact', array(
                                         'options' => $listes,
                                         'class' => 'form-control col-sm-3',
                                         'label' => '',
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="col-md-2" style="text-align: center"><br><span style="font-weight: 800;">OU</span></div>
                                 <div class="col-md-5">
-                                    <?= $this->form->input('listecontact_import', array(
+                                    <?= $this->Form->control('listecontact_import', array(
                                         'class' => 'form-control',
                                         'type' => 'file',
                                         'label' => '',
@@ -119,7 +119,7 @@
                                         <label style="font-weight: 800;" for="campagne">Nouvelle</label>
                                     </div>
                                     <div id="js_partie3" class="form-group">
-                                        <?= $this->form->input('campagne_unstore', array(
+                                        <?= $this->Form->control('campagne_unstore', array(
                                             'class' => 'form-control',
                                             'type' => 'text',
                                             'placeholder' => 'Nom de la campagne',
@@ -133,7 +133,7 @@
                                         <label style="font-weight: 800;" for="campagne">Existante</label>
                                     </div>
                                     <div id="js_partie4" style="display: none;" class="form-group">
-                                        <?= $this->Form->input('campagne_store', array(
+                                        <?= $this->Form->control('campagne_store', array(
                                             'options' => $campagnes,
                                             'class' => 'form-control',
                                             'label' => '',
@@ -170,14 +170,14 @@
                                 </div>
                             </div>
                         </div>
-                        <?= $this->form->input('Envoyer', array(
+                        <?= $this->Form->control('Envoyer', array(
                             'class' => 'btn btn-purple',
                             'type'  => 'submit',
                             'label' => '',
                         )); ?>
                     </div><!-- end col -->
                 </div><!-- end row -->
-            <?= $this->form->end(); ?>
+            <?= $this->Form->end(); ?>
         </div>
     </div><!-- end col -->
 </div>

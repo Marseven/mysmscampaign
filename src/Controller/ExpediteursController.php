@@ -87,11 +87,11 @@ class ExpediteursController extends AppController
     }
 
     public function edit(){
-        if (empty($this->request->params['?']['expediteur'])) {
+        if ($this->request->getQuery('expediteur') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
-            $id = (int)$this->request->params['?']['expediteur'];
+            $id = (int)$this->request->getQuery('expediteur');
             $expediteurTable = TableRegistry::get('expediteurs');
             $expediteur = $expediteurTable->get($id);
             if (!$expediteur) {
@@ -141,11 +141,11 @@ class ExpediteursController extends AppController
     }
 
     public function delete(){
-        if(empty($this->request->params['?']['expediteur'])){
+        if ($this->request->getQuery('expediteur') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id = (int)$this->request->params['?']['expediteur'];
+            $id = (int)$this->request->getQuery('expediteur');
             $expediteurTable = TableRegistry::get('expediteurs');
             $expediteur = $expediteurTable->get($id);
             if (!$expediteur) {

@@ -9,9 +9,9 @@
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-8">
-                    <?= isset($modelsms->id) ? $this->form->create($modelsms, ['url' => ['action' => 'editModelSms', 'modelsms' => $modelsms->id], 'class' => 'form-horizontale']) : $this->form->create($modelsms, ['url' => ['action' => 'addModelSms'], 'class' => 'form-horizontale']) ?>
+                    <?= isset($modelsms->id) ? $this->Form->create($modelsms, ['url' => ['action' => 'editModelSms', 'modelsms' => $modelsms->id], 'class' => 'form-horizontale']) : $this->Form->create($modelsms, ['url' => ['action' => 'addModelSms'], 'class' => 'form-horizontale']) ?>
                         <div class="form-group">
-                            <?= $this->form->input('libelle', array(
+                            <?= $this->Form->control('libelle', array(
                                 'class' => 'form-control',
                                 'type'  => 'text',
                                 'label' => 'Nom du modèle ',
@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-10">
-                                <?= $this->form->input('contenu', array(
+                                <?= $this->Form->control('contenu', array(
                                     'class' => 'form-control',
                                     'id' => 'textarea',
                                     'placeholder' => 'Le message',
@@ -38,18 +38,18 @@
                                 <button type="button" class="param btn btn-xs btn-facebook" data-tag="param_1">Nom</button>
                             </div>
                         </div>
-                        <?= $this->form->input('iduser', array(
+                        <?= $this->Form->control('iduser', array(
                             'class' => 'form-control',
                             'type'  => 'hidden',
                             'value' => $user->id,
                             'label' => '',
                         )); ?>
-                        <?= $this->form->input('Terminer', array(
+                        <?= $this->Form->control('Terminer', array(
                             'class' => 'btn btn-success',
                             'type'  => 'submit',
                             'label' => '',
                         )); ?>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
             </div>
         </div>

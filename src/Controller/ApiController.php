@@ -140,11 +140,11 @@ class ApiController extends AppController
 
     public function edit()
     {
-        if (empty($this->request->params['?']['api'])) {
+        if ($this->request->getQuery('api') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
-            $id = (int)$this->request->params['?']['api'];
+            $id = (int)$this->request->getQuery('api');
             $apiTable = TableRegistry::get('api');
             $api = $apiTable->get($id);
             if (!$api) {
@@ -194,11 +194,11 @@ class ApiController extends AppController
     }
 
     public function delete(){
-        if(empty($this->request->params['?']['api'])){
+        if ($this->request->getQuery('api') == false) {
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
-            $id = (int)$this->request->params['?']['api'];
+            $id = (int)$this->request->getQuery('api');
             $apiTable = TableRegistry::get('api');
             $api = $apiTable->get($id);
             if (!$api) {

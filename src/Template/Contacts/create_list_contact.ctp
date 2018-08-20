@@ -13,9 +13,9 @@
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-6">
-                    <?= isset($listecontact->id) ? $this->form->create($listecontact, ['url' => ['action' => 'editListContact', 'contact' => $listecontact->id], 'class' => 'form-horizontale']) : $this->form->create($listecontact, ['url' => ['action' => 'createListContact'], 'class' => 'form-horizontale']) ?>
+                    <?= isset($listecontact->id) ? $this->Form->create($listecontact, ['url' => ['action' => 'editListContact', 'contact' => $listecontact->id], 'class' => 'form-horizontale']) : $this->Form->create($listecontact, ['url' => ['action' => 'createListContact'], 'class' => 'form-horizontale']) ?>
                     <div class="form-group">
-                        <?= $this->form->input('libelle', array(
+                        <?= $this->Form->control('libelle', array(
                             'class' => 'form-control',
                             'type'  => 'text',
                             'label' => 'Nom de la liste',
@@ -23,7 +23,7 @@
                         )); ?>
                     </div>
                     <div class="form-group">
-                        <?= $this->form->input('contacts', array(
+                        <?= $this->Form->control('contacts', array(
                             'options' => $contact_add,
                             'class' => 'select2 select2-multiple',
                             'multiple' => "multiple",
@@ -33,30 +33,30 @@
                             'required'
                         )); ?>
                     </div>
-                    <?= $this->form->input('iduser', array(
+                    <?= $this->Form->control('iduser', array(
                         'class' => 'form-control',
                         'type'  => 'hidden',
                         'value' => $user->id,
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->form->input('Terminer', array(
+                    <?= $this->Form->control('Terminer', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
                     )); ?>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
                 <div class="col-sm-6">
                     <h4>Ou importer une liste</h4>
-                    <?= $this->form->create('listecontacts', ['url' => ['action' => 'createListContact'], 'type' => 'file', 'class' => 'form-ineline']) ?>
+                    <?= $this->Form->create('listecontacts', ['url' => ['action' => 'createListContact'], 'type' => 'file', 'class' => 'form-ineline']) ?>
                     <div class="input-group m-t-10">
                         <input type="file" name="listecontact" id="example-input2-group2" class="form-control" required placeholder="fichier xlsx, csv.">
                         <span class="input-group-btn">
                         <button type="submit" class="btn btn-success">Importer</button>
                     </span>
                     </div>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
             </div>
         </div>

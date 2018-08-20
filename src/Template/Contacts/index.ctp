@@ -9,9 +9,9 @@
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-8">
-                    <?= isset($contact->id) ? $this->form->create($contact, ['url' => ['action' => 'editContact', 'contact' => $contact->id], 'class' => 'form-horizontale']) : $this->form->create($contact, ['url' => ['action' => 'addContact'], 'class' => 'form-horizontale']) ?>
+                    <?= isset($contact->id) ? $this->Form->create($contact, ['url' => ['action' => 'editContact', 'contact' => $contact->id], 'class' => 'form-horizontale']) : $this->Form->create($contact, ['url' => ['action' => 'addContact'], 'class' => 'form-horizontale']) ?>
                     <div class="form-group">
-                        <?= $this->form->input('nom', array(
+                        <?= $this->Form->control('nom', array(
                             'class' => 'form-control',
                             'type'  => 'text',
                             'label' => 'Nom',
@@ -19,7 +19,7 @@
                         )); ?>
                     </div>
                     <div class="form-group">
-                        <?= $this->form->input('telephone', array(
+                        <?= $this->Form->control('telephone', array(
                             'class' => 'form-control',
                             'data-mask' => '99999999999',
                             'type' => 'text',
@@ -28,19 +28,19 @@
                         )); ?>
                         <span class="font-13 text-muted">e.g 24101020304</span>
                     </div>
-                    <?= $this->form->input('iduser', array(
+                    <?= $this->Form->control('iduser', array(
                         'class' => 'form-control',
                         'type'  => 'hidden',
                         'value' => $user->id,
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->form->input('Terminer', array(
+                    <?= $this->Form->control('Terminer', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
                     )); ?>
-                    <?= $this->form->end(); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
             </div>
         </div>

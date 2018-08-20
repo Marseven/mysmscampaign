@@ -44,7 +44,7 @@ class AppController extends Controller
     {
         parent::initialize();
 
-        $this->loadComponent('RequestHandler',  ['viewClassMap' => ['xlsx' => 'Cewi/Excel.Excel']]);
+        $this->loadComponent('RequestHandler', ['viewClassMap' => ['xlsx' => 'Cewi/Excel.Excel'], 'enableBeforeRedirect' => false]);
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
             'authorize' => 'Controller',
