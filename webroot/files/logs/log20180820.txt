@@ -1,0 +1,3 @@
+20/08/2018 12:12:39 -- Mebodo Aristide -- confirmation de utilisateur 2
+20/08/2018 12:13:23 -- kenback stéphane -- Déconnexion de utilisateur 2
+20/08/2018 12:14:01 -- Mebodo Aristide -- Authentification de utilisateur 1
