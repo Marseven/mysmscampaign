@@ -284,8 +284,8 @@ class UsersController extends AppController {
             $user->confirmed_token = NULL;
             $usersTable->save($user);
             $this->Flash->success('Bienvenue Sur MySMSCampaign By Setrag,  '.$user->nom.' '.$user->prenom);
-            $this->_log('confirmation de utilisateur '.$user->id);
             $this->Auth->setUser($user);
+            $this->_log('confirmation de utilisateur '.$user->id);
             return $this->redirect($this->Auth->redirectUrl());
         }else{
             $this->Flash->error('Ce lien n\'est plus valide.');
@@ -426,8 +426,8 @@ class UsersController extends AppController {
             $user = $usersTable->newEntity($user);
             $user->dateNaiss = $this->age($user->dateNaiss);
         }
-        if(!empty($this->request->params['?']['user'])){
-            $id = (int)$this->request->params['?']['user'];
+        if($this->request->getQuery('user') != false){
+            $id = (int)$this->request->getQuery('user');
             $user = $usersTable->get($id);
             if (!$user) {
                 $this->Flash->error('Ce profil n\'exite pas');

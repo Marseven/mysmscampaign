@@ -8,7 +8,7 @@
 
             <h4 class="header-title m-t-0 m-b-30">Listes des Campagnes Programmées</h4>
 
-            <table id="datatable-buttons" class="table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>#ID</th>
@@ -58,9 +58,15 @@
 <?= $this->Html->script('../plugins/datatables/responsive.bootstrap.min.js', ['block'=>true]) ?>
 
 
-<!-- Datatable init js -->
-<?= $this->Html->script('../pages/datatables.init.js', ['block'=>true]) ?>
-
+<?=$this->Html->scriptStart(['block' => true]) ?>
+$(document).ready(function() {
+$('#datatable').dataTable( {
+"language": {
+"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+}
+} );
+} );
+<?= $this->Html->scriptEnd()?>
 
 <?=$this->Html->scriptStart(['block' => true]) ?>
 $(document).ready(function() {

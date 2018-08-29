@@ -61,7 +61,7 @@ class SmsController extends AppController
         $expediteurTable = TableRegistry::get('expediteurs');
         $campagneTable = TableRegistry::get('campagnes');
         $smsTable = TableRegistry::get('smss');
-        $smscontactTable = TableRegistry::get('contacts_smss');
+        $smscontactTable = TableRegistry::get('contactsmss');
         $smsmodeleTable = TableRegistry::get('modelesmss_smss');
 
         $user = $this->Auth->user();
@@ -71,9 +71,12 @@ class SmsController extends AppController
         }
 
         if($this->request->is('post')){
+            //debug($this->request->getData());
             if ($this->request->getData()['destinataire'] == 'mobile'){
-                $contacts = array();
-                $nom_tel_existe = ContactsTable::nom_tel_existe('', $this->request->getData()['contact']);
+                $contacts = explode(',', $this->request->getData()['contact']);
+                //debug($contacts);die;
+                //Code Recyclé - pour sauvegarde de contact automatique
+                /*$nom_tel_existe = ContactsTable::nom_tel_existe('', $this->request->getData()['contact']);
                 $nom_existe = ContactsTable::nom_existe('');
                 $tel_existe = ContactsTable::tel_existe($this->request->getData()['contact']);
                 if ($nom_tel_existe == false){
@@ -96,7 +99,7 @@ class SmsController extends AppController
                     }
                 }else{
                     $contacts[0] = $nom_tel_existe;
-                }
+                }*/
             }elseif($this->request->getData()['listecontact_import']['name'] != ''){
                 $filename = $this->request->getData()['listecontact_import']['name'];
                 $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
@@ -120,8 +123,14 @@ class SmsController extends AppController
 
                     foreach($data as $d){
                         $d['TELEPHONE1'] = $this::format_telehone($d['TELEPHONE1']);
-                        $d['TELEPHONE1'] = "241".$d['TELEPHONE1'];
-                        $nom_tel_existe = ContactsTable::nom_tel_existe($d['CLIENT'], $d['TELEPHONE1']);
+                        if ($d['TELEPHONE1'] == false) {
+                            $this->Flash->error('Numéro de téléphone invalide.');
+                            return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
+                        }
+                        $contacts[$i] = $d['TELEPHONE1'];
+                        $i++;
+                        ////Code Recyclé - pour sauvegarde de contact automatique
+                        /*$nom_tel_existe = ContactsTable::nom_tel_existe($d['CLIENT'], $d['TELEPHONE1']);
                         $nom_existe = ContactsTable::nom_existe($d['CLIENT']);
                         $tel_existe = ContactsTable::tel_existe($d['TELEPHONE1']);
                         if ($nom_tel_existe == false){
@@ -150,7 +159,7 @@ class SmsController extends AppController
                         }else{
                             $contacts[$i] = $nom_tel_existe;
                             $i++;
-                        }
+                        }*/
                     }
 
                     $listecontact->contacts = $i;
@@ -216,8 +225,14 @@ class SmsController extends AppController
                     $campagne->iduser = $user->id;
                     $campagneTable->save($campagne);
                     $camp_store = false;
-                }else{
+                }elseif ($campagne) {
+                    $campagne = $campagneTable->get($this->request->getData()['campagne_store']);
+                    if(isset($date)) $campagne->dateEnvoi = $date;
+                    $campagneTable->save($campagne);
                     $camp_store = true;
+                }else{
+                   $this->Flash->error('Campagne invalide. Veuillez choisir une campagne existante ou entrer un nom valide de campagne.');
+                    return $this->redirect(['controller' => 'Sms','action' => 'sendSms']); 
                 }
             }else{
                 $campagne = $campagneTable->get($this->request->getData()['campagne_store']);
@@ -256,10 +271,14 @@ class SmsController extends AppController
                 $smsData .= "<DYNAMIC>$verif</DYNAMIC>";
             }
             foreach ($contacts as $contact){
-                $smsData.=     "<SMS>
-                                    <MOBILEPHONE>$contact->telephone</MOBILEPHONE>";
-                                     if ($verif == 1){
-                                        $smsData .= "<PARAM_1>$contact->nom</PARAM_1>";
+                $smsData.=     "<SMS>";
+                                     if ($verif == 1 && is_object($contact)){
+                                        $smsData .= "<MOBILEPHONE>$contact->telephone</MOBILEPHONE>
+                                                     <PARAM_1>$contact->nom</PARAM_1>";
+                                     }elseif(is_object($contact)){
+                                        $smsData .= "<MOBILEPHONE>$contact->telephone</MOBILEPHONE>";
+                                     }else{
+                                        $smsData .= "<MOBILEPHONE>$contact</MOBILEPHONE>";
                                      }
                                 $smsData.= "</SMS>";
             }
@@ -294,7 +313,8 @@ class SmsController extends AppController
                 curl_close($ch);
 
             } catch (Exception $e) {
-                echo 'API injoignable ou trop longue a repondre ' . $e->getMessage();
+                $this->Flash->error('API injoignable ou trop longue a repondre ' . $e->getMessage());
+                return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
             }
 
             $response = json_decode($result, true);
@@ -328,9 +348,9 @@ class SmsController extends AppController
                 foreach ($contacts as $ct){
                     $sms_contact = $smscontactTable->newEntity();
                     $sms_contact->sms_id = $sms->id;
-                    $sms_contact->contact_id = $ct->id;
+                    $sms_contact->contact_id = $ct;
                     foreach ($response['smsIds'] as $re){
-                        if ($re['phoneNumber'] == $ct->telephone){
+                        if ($re['phoneNumber'] == $ct){
                             $sms_contact->smsId = $re['smsId'];
                         }
                     }
@@ -359,8 +379,8 @@ class SmsController extends AppController
         $contactTable = TableRegistry::get('Contacts');
         $apiTable = TableRegistry::get('api');
         $expediteurTable = TableRegistry::get('expediteurs');
-        $smsTable = TableRegistry::get('sms');
-        $smscontactTable = TableRegistry::get('contacts_smss');
+        $smsTable = TableRegistry::get('smss');
+        $smscontactTable = TableRegistry::get('contactsmss');
 
         $smsmodeleTable = TableRegistry::get('modelesmss_smss');
 

@@ -1,0 +1,19 @@
+22/08/2018 06:54:17 -- Mebodo Aristide -- Authentification de utilisateur 1
+22/08/2018 11:55:33 -- Mebodo Aristide -- Authentification de utilisateur 1
+22/08/2018 12:16:40 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+22/08/2018 12:19:12 -- Mebodo Aristide -- Authentification de utilisateur 1
+22/08/2018 01:01:12 -- Mebodo Aristide -- Authentification de utilisateur 1
+22/08/2018 01:43:05 -- Mebodo Aristide -- Envoi de sms pour la campagne 4
+22/08/2018 02:15:46 -- Mebodo Aristide -- Authentification de utilisateur 1
+22/08/2018 03:32:51 -- Mebodo Aristide -- Authentification de utilisateur 1
+22/08/2018 04:10:40 -- Mebodo Aristide -- Authentification de utilisateur 1
+22/08/2018 04:18:10 -- Mebodo Aristide -- création de utilisateur 3
+22/08/2018 04:19:06 --   -- confirmation de utilisateur 3
+22/08/2018 04:24:35 -- Boundamas Jeff -- Authentification de utilisateur 3
+22/08/2018 04:33:30 -- Boundamas Jeff -- Ajout de modèle sms 3
+22/08/2018 04:33:45 -- Boundamas Jeff -- Modification d'un modèle sms 3
+22/08/2018 04:34:45 -- Boundamas Jeff -- Envoi de sms pour la campagne 5
+22/08/2018 04:43:03 -- Boundamas Jeff -- Déconnexion de utilisateur 3
+22/08/2018 04:52:06 -- Boundamas Jeff -- Authentification de utilisateur 3
+22/08/2018 04:52:06 -- Boundamas Jeff -- Authentification de utilisateur 3
+22/08/2018 05:23:52 -- Mebodo Aristide -- Envoi rapide de sms 14

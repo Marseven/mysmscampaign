@@ -108,14 +108,28 @@ class AppController extends Controller
         $chaine_finale = '';
         $ensemble_entier = array("0","1","2","3","4","5","6","7","8","9");
 
+        $j = 0;
+
         for($i = 0, $n = count($chaine_brute); $i < $n; ++$i)
         {
             if(in_array($chaine_brute[$i], $ensemble_entier))
             {
                 $chaine_finale .= $chaine_brute[$i];
+                $j++;
             }
         }
-               return $chaine_finale;
+
+        if ($j == 7) {
+            $chaine_finale = '2410'.$chaine_finale;
+            return $chaine_finale;
+        }elseif ($j == 8) {
+            $chaine_finale = '241'.$chaine_finale;
+            return $chaine_finale;
+        }elseif($j == 11) {
+            return $chaine_finale;
+        }else{
+            return false;
+        }
         /*
          * ZONE DE TEST - FIN
          */
@@ -131,7 +145,7 @@ class AppController extends Controller
             }
         }
 
-        $dir = WWW_ROOT . 'files' . DS ."logs\\";
+        $dir = WWW_ROOT . 'files' . DS ."logs".DS;
         $rotate = date("Ymd");
         $filename = $dir."log".$rotate.".txt";
 

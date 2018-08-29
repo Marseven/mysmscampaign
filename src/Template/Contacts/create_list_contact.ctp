@@ -72,7 +72,7 @@
                             <h5>Nom & Prénom</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['lastName'] ?> <?= $allmysms['firstName'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['lastName'] ?> <?= $allmysms['firstName'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -80,7 +80,7 @@
                             <h5>Socité</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['society'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['society'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -88,7 +88,7 @@
                             <h5>Status</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['status'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['status'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -96,7 +96,7 @@
                             <h5>Nbre SMS</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['nbSms'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['nbSms'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -104,7 +104,7 @@
                             <h5>Crédit</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['credits'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['credits'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -112,7 +112,7 @@
                             <h5>Solde</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['balance'] ?> €</span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['balance']*650 ?> XAF</h5>
                         </div>
                     </div>
                 </div>
@@ -179,8 +179,15 @@
 <?= $this->Html->script('../plugins/datatables/responsive.bootstrap.min.js', ['block'=>true]) ?>
 
 
-<!-- Datatable init js -->
-<?= $this->Html->script('../pages/datatables.init.js', ['block'=>true]) ?>
+<?=$this->Html->scriptStart(['block' => true]) ?>
+$(document).ready(function() {
+$('#datatable').dataTable( {
+"language": {
+"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+}
+} );
+} );
+<?= $this->Html->scriptEnd()?>
 
 <?= $this->Html->script('../plugins/bootstrap-inputmask/bootstrap-inputmask.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/multiselect/js/jquery.multi-select.js', ['block'=>true]) ?>

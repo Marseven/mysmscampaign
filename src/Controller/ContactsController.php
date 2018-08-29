@@ -68,7 +68,13 @@ class ContactsController extends AppController
                         $this->redirect(['action' => 'index']);
                     }
                 }elseif($tel_existe == false && $nom_existe == false){
+                    $telephone = $this::format_telehone($this->request->getData());
+                    if ($telephone == false) {
+                            $this->Flash->error('Numéro de téléphone invalide.');
+                            return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
+                        }
                     $contact = $contactTable->newEntity($this->request->getData());
+                    $contact->telephone = $telephone;
                     if($contactTable->save($contact)){
                         $this->Flash->success('Contact ajouté avec succès.');
                         $this->_log('Création de contact '.$contact->id);

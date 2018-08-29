@@ -10,7 +10,7 @@
 
             <h4 class="header-title m-t-0 m-b-30">Listes des Campagnes</h4>
 
-            <table id="datatable-buttons" class="table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>#ID</th>
@@ -27,7 +27,7 @@
                     <tr>
                         <td><?php echo htmlentities($camp->id);?></td>
                         <td><?php echo htmlentities($camp->libelle);?></td>
-                        <td><?php echo htmlentities($camp->cout);?> €</td>
+                        <td><?php echo $camp->cout*650;?> XAF</td>
                         <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($camp->dateEnvoi));?></td>
                         <td>
                             <button class="btn btn-primary" id="btn-<?= $camp->id ?>" value="<?=$camp->id?>" onclick="showDiv(this)" ><i class="ti-eye"></i></button>
@@ -155,11 +155,11 @@
                                     </thead>
 
                                     <tbody>
-                                        <?php $i=0; $telephone = ""; foreach($contacts as $contact): ?>
-                                            <?php foreach($contact->Sms as $sms): ?>
+                                        <?php $i=0; $telephone = ""; foreach($contactsms as $contact): ?>
+                                            <?php foreach($contact->sms as $sms): ?>
                                                 <?php if ($sms->idcampagne == $cpg->id): ?>
                                             <tr>
-                                                <td><?php if($telephone == "" && $i == 0){echo htmlentities($contact->telephone); $i++; $telephone = $contact->telephone;}elseif($telephone == $contact->telephone && $i != 0){echo "";}elseif ($telephone != $contact->telephone && $i != 0){echo htmlentities($contact->telephone); $telephone = $contact->telephone;}?></td>
+                                                <td><?php if($telephone == "" && $i == 0){echo htmlentities($contact->contact_id); $i++; $telephone = $contact->contact_id;}elseif($telephone == $contact->contact_id && $i != 0){echo "";}elseif ($telephone != $contact->contact_id && $i != 0){echo htmlentities($contact->contact_id); $telephone = $contact->contact_id;}?></td>
                                                 <td><?php echo htmlentities($sms->contenu);?></td>
                                                 <td><?php if($sms->etat == 100){ echo '<span class="badge badge-success">Envoyé</span>';}elseif($sms->etat == 101){echo '<span class="badge badge-warning">Programmé</span>';}else{echo '<span class="badge badge-danger">Non Envoyé</span>';} ;?></td>
                                                 <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($sms->dateEnvoi));?></td>
@@ -205,6 +205,15 @@
 <?= $this->Html->script('jquery-knob/jquery.knob', ['block' => true]) ?>
 
 <!-- Datatables-->
+<?=$this->Html->scriptStart(['block' => true]) ?>
+$(document).ready(function() {
+$('#datatable').dataTable( {
+"language": {
+"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+}
+} );
+} );
+<?= $this->Html->scriptEnd()?>
 <?= $this->Html->script('../plugins/datatables/jquery.dataTables.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/dataTables.bootstrap.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/dataTables.buttons.min.js', ['block'=>true]) ?>
@@ -215,9 +224,6 @@
 <?= $this->Html->script('../plugins/datatables/buttons.html5.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/buttons.print.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/responsive.bootstrap.min.js', ['block'=>true]) ?>
-
-<!-- Datatable init js -->
-<?= $this->Html->script('../pages/datatables.init.js', ['block'=>true]) ?>
 
 <?= $this->Html->script('../plugins/jquery-circliful/js/jquery.circliful.min.js', ['block'=>true]) ?>
 
@@ -242,6 +248,6 @@ function showDiv(elem) {
 
         }
     <?php endforeach;?>
-}+
+}
 
 <?= $this->Html->scriptEnd()?>

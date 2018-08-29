@@ -90,6 +90,7 @@ class CampagnesController extends AppController
                 }
             }
             $this->set('campagne', $campagne);
+            $this->render('index');
         }
     }
 

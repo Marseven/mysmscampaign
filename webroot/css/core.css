@@ -24,7 +24,8 @@ File: Core
    Common
 ============= */
 body {
-  background: #ebeff2;
+  /*background: #ebeff2;*/
+  background: url(../images/big/bg2.png) center;
   font-family: 'Lato', sans-serif;
   margin: 0;
   padding-bottom: 60px;
@@ -34,7 +35,7 @@ body {
 html {
   position: relative;
   min-height: 100%;
-  background: #ebeff2;
+  background: transparent;
 }
 h1,
 h2,
@@ -843,24 +844,24 @@ textarea.form-control {
   margin-top: 10px;
 }
 .alert-success {
-  background-color: rgba(95, 190, 170, 0.3);
-  border-color: rgba(95, 190, 170, 0.4);
-  color: #5fbeaa;
+  background-color: rgb(95, 190, 170);
+    border-color: rgba(95, 190, 170, 0.4);
+    color: #f4f8fb;
 }
 .alert-info {
-  background-color: rgba(52, 211, 235, 0.2);
-  border-color: rgba(52, 211, 235, 0.3);
-  color: #35b8e0;
+  background-color: rgb(52, 211, 235);
+    border-color: rgba(52, 211, 235, 0.3);
+    color: #f4f8fb;
 }
 .alert-warning {
-  background-color: rgba(255, 189, 74, 0.2);
-  border-color: rgba(255, 189, 74, 0.3);
-  color: #f9c851;
+  background-color: rgb(255, 189, 74);
+    border-color: rgba(255, 189, 74, 0.3);
+    color: #f4f8fb;
 }
 .alert-danger {
-  background-color: rgba(240, 80, 80, 0.2);
-  border-color: rgba(240, 80, 80, 0.3);
-  color: #ff5b5b;
+  background-color: rgb(240, 80, 80);
+    border-color: rgba(240, 80, 80, 0.3);
+    color: #f4f8fb;
 }
 /* Modals */
 .modal .modal-dialog .modal-content {

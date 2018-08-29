@@ -1,0 +1,3 @@
+24/08/2018 11:40:37 -- Mebodo Aristide -- Authentification de utilisateur 1
+24/08/2018 11:41:50 -- Mebodo Aristide -- création de utilisateur 3
+24/08/2018 04:39:49 -- Boundamas Jeff -- confirmation de utilisateur 3

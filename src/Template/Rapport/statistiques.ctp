@@ -29,14 +29,15 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-md-6">
+    <!--div class="col-lg-3 col-md-6">
         <div class="card-box widget-user">
             <div class="text-center">
                 <h2 class="text-info" data-plugin="counterup"><?= $expediteurs->count() ?></h2>
                 <h4>Expéditeurs</h4>
             </div>
         </div>
-    </div>
+    </div-->
+
     <div class="col-lg-3 col-md-6">
         <div class="card-box widget-user">
             <div class="text-center">

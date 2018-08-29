@@ -25,6 +25,25 @@
 
     <div class="col-lg-3 col-md-6">
         <div class="card-box">
+            <h4 class="header-title m-t-0 m-b-30">Campagnes Programmées</h4>
+
+            <div class="widget-chart-1">
+                <div class="widget-chart-box-1">
+                    <input data-plugin="knob" data-width="80" data-height="80" data-fgColor="#ffbd4a"
+                           data-bgColor="#FFE6BA" value="<?= $pourcentage_camp_pr ?>"
+                           data-skin="tron" data-angleOffset="180" data-readOnly=true
+                           data-thickness=".15"/>
+                </div>
+                <div class="widget-detail-1">
+                    <h2 class="p-t-10 m-b-0"> <?= $campagnes_pr->count() ?> </h2>
+                    <p class="text-muted"></p>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col -->
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card-box">
             <h4 class="header-title m-t-0 m-b-30">Nombre de SMS envoyé cette semaine</h4>
 
             <div class="widget-box-2">
@@ -45,37 +64,18 @@
 
     <div class="col-lg-3 col-md-6">
         <div class="card-box">
-            <h4 class="header-title m-t-0 m-b-30">Campagnes Programmées</h4>
-
-            <div class="widget-chart-1">
-                <div class="widget-chart-box-1">
-                    <input data-plugin="knob" data-width="80" data-height="80" data-fgColor="#ffbd4a"
-                           data-bgColor="#FFE6BA" value="<?= $pourcentage_camp_pr ?>"
-                           data-skin="tron" data-angleOffset="180" data-readOnly=true
-                           data-thickness=".15"/>
-                </div>
-                <div class="widget-detail-1">
-                    <h2 class="p-t-10 m-b-0"> <?= $campagnes_pr->count() ?> </h2>
-                    <p class="text-muted"></p>
-                </div>
-            </div>
-        </div>
-    </div><!-- end col -->
-
-    <div class="col-lg-3 col-md-6">
-        <div class="card-box">
             <h4 class="header-title m-t-0 m-b-30">Coût Moyen d'une campagne</h4>
 
             <div class="widget-box-2">
                 <div class="widget-detail-2">
-                    <h2 class="m-b-0"> <?= $moyenne_cout ?> €</h2>
+                    <h2 class="m-b-0"> <?= $moyenne_cout*650 ?> XAF</h2>
                     <p class="text-muted m-b-25"></p>
                 </div>
                 <div class="progress progress-bar-inverse-alt progress-sm m-b-0">
                     <div class="progress-bar progress-bar-inverse" role="progressbar"
                          aria-valuenow="<?= $moyenne_cout ?>" aria-valuemin="0" aria-valuemax="1000"
                          style="width: <?= $moyenne_cout ?>%;">
-                        <span class="sr-only"><?= $moyenne_cout ?> €</span>
+                        <span class="sr-only"><?= $moyenne_cout*650 ?> XAF</span>
                     </div>
                 </div>
             </div>
@@ -136,8 +136,8 @@
                     <div class="inbox-item">
                         <div class="inbox-item-img"><i class="ti-comments"></i></div>
                         <p class="inbox-item-author"><?= $modele->contenu ?></p>
-                        <p class="inbox-item-text"><?= $modele->users['nom'] ?> <?= $modele->users['prenom'] ?></p>
-                        <p class="inbox-item-date"><?= \App\Controller\AppController::change_format_date($modele->dateCreation) ?></p>
+                        <p class="inbox-item-text"><?= $modele->users['nom'] ?> <?= $modele->users['prenom'] ?> | <?= \App\Controller\AppController::change_format_date($modele->dateCreation) ?></p>
+                        <p class="inbox-item-date"></p>
                     </div>
                 </a>
                 <?php } ?>
@@ -170,7 +170,7 @@
                             <td><?php echo htmlentities($camp->nbre_envoye);?></td>
                             <td><?php echo htmlentities($camp->nbre_contact);?></td>
                             <td><?php echo htmlentities($camp->nbre_echec);?></td>
-                            <td><?php echo htmlentities($camp->cout);?> €</td>
+                            <td><?php echo $camp->cout*650;?> XAF</td>
                             <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($camp->dateEnvoi));?></td>
                         </tr>
                     <?php } ?>

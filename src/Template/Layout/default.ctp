@@ -60,7 +60,7 @@
         <!-- LOGO -->
         <div class="topbar-left">
             <a href="/" class="logo">
-                <img src="http://mysmscampaign.test/img/logo-mysmscampaign-origin.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 92%; margin: 12% 5% 5% 5%;">
+                <img src="http://mysmscampaign.jobs-conseil.com/img/Logo-Setrag.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 75%; margin-left: 10%;">
             </a>
         </div>
 
@@ -137,7 +137,7 @@
                         <a href="javascript:void(0);" class="waves-effect <?= $title == 'Envoi de SMS' || $title == 'Gestion des Expéditeurs' || $title == 'Gestion de Modèles de SMS' ? 'active' : '' ?>"><i class="ti-comment"></i> <span> SMS </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li class="<?= $title == 'Envoi de SMS' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'sendSms']) ?>">Envoyer des SMS</a></li>
-                            <li class="<?= $title == 'Gestion des Expéditeurs' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>">Expéditeurs</a></li>
+                            <!--li class="<?= $title == 'Gestion des Expéditeurs' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>">Expéditeurs</a></li-->
                             <li class="<?= $title == 'Gestion de Modèles de SMS' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'model_sms']) ?>">Modèles</a></li>
                         </ul>
                     </li>

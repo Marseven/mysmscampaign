@@ -22,7 +22,7 @@
                         <label class="control-label" for="dateEnvoi">Date d'Envoi</label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="datetime-local" id="example-input1-group1" name="dateEnvoi" required class="form-control" placeholder="">
+                            <input type="datetime-local" id="example-input1-group1" name="dateEnvoi" required class="form-control" placeholder="<?= $campagne->dateEnvoi ?>" value="<?= $campagne->dateEnvoi ?>">
                         </div>
                     </div>
                     <?= $this->Form->control('iduser', array(
@@ -53,7 +53,7 @@
                             <h5>Nom & Prénom</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['lastName'] ?> <?= $allmysms['firstName'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['lastName'] ?> <?= $allmysms['firstName'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -61,7 +61,7 @@
                             <h5>Socité</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['society'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['society'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -69,7 +69,7 @@
                             <h5>Status</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['status'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['status'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -77,7 +77,7 @@
                             <h5>Nbre SMS</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['nbSms'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['nbSms'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -85,7 +85,7 @@
                             <h5>Crédit</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['credits'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['credits'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -93,7 +93,7 @@
                             <h5>Solde</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['balance'] ?> €</span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['balance']*650 ?> XAF</h5>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
 
             <h4 class="header-title m-t-0 m-b-30">Listes des Campagnes</h4>
 
-            <table id="datatable-buttons" class="table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>#ID</th>
@@ -136,11 +136,11 @@
                         <td><?php echo htmlentities($camp->nbre_envoye);?></td>
                         <td><?php echo htmlentities($camp->nbre_contact);?></td>
                         <td><?php echo htmlentities($camp->nbre_echec);?></td>
-                        <td><?php echo htmlentities($camp->cout);?> €</td>
+                        <td><?php echo $camp->cout*650;?> XAF</td>
                         <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($camp->dateEnvoi));?></td>
                         <td>
-                            <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Campagne', 'action' => 'edit', 'campagne' => $camp->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Campagne', 'action' => 'delete', 'campagne' => $camp->id]) ?>"><i class="ti-trash"></i></a>
+                            <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'edit', 'campagne' => $camp->id]) ?>"><i class="ti-pencil"></i></a>
+                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'delete', 'campagne' => $camp->id]) ?>"><i class="ti-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>
@@ -165,9 +165,15 @@
 <?= $this->Html->script('../plugins/datatables/responsive.bootstrap.min.js', ['block'=>true]) ?>
 
 
-<!-- Datatable init js -->
-<?= $this->Html->script('../pages/datatables.init.js', ['block'=>true]) ?>
-
+<?=$this->Html->scriptStart(['block' => true]) ?>
+$(document).ready(function() {
+$('#datatable').dataTable( {
+"language": {
+"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+}
+} );
+} );
+<?= $this->Html->scriptEnd()?>
 
 <?=$this->Html->scriptStart(['block' => true]) ?>
 $(document).ready(function() {

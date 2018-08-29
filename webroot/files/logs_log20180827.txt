@@ -1,0 +1,11 @@
+27/08/2018 07:57:50 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 08:01:35 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+27/08/2018 08:02:31 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 08:35:40 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 09:02:34 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 09:02:47 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 10:36:58 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 11:03:06 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 11:41:20 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 11:41:27 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 02:06:11 -- Mebodo Aristide -- Authentification de utilisateur 1

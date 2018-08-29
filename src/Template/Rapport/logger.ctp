@@ -31,7 +31,7 @@
                             <h5>Nom & Prénom</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['lastName'] ?> <?= $allmysms['firstName'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['lastName'] ?> <?= $allmysms['firstName'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -39,7 +39,7 @@
                             <h5>Socité</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['society'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['society'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -47,7 +47,7 @@
                             <h5>Status</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['status'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['status'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -55,7 +55,7 @@
                             <h5>Nbre SMS</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['nbSms'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['nbSms'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -63,7 +63,7 @@
                             <h5>Crédit</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['credits'] ?></span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['credits'] ?></h5>
                         </div>
                     </div>
                     <div class="row">
@@ -71,7 +71,7 @@
                             <h5>Solde</h5>
                         </div>
                         <div class="col-sm-8">
-                            <span style="font-weight: bold;"><?= $allmysms['balance'] ?> €</span>
+                            <h5 style="font-weight: bold;"><?= $allmysms['balance']*650 ?> XAF</h5>
                         </div>
                     </div>
                 </div>

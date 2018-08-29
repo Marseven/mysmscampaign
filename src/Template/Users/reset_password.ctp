@@ -38,7 +38,7 @@
 <div class="clearfix"></div>
 <div class="wrapper-page">
     <div class="text-center">
-        <a href="/" class="logo"><img src="http://mysmscampaign.test/img/logo-mysmscampaign-origin.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 92%; margin: 12% 5% 5% 5%;"></a>
+        <a href="/" class="logo"><img src="http://mysmscampaign.jobs-conseil.com/img/Logo-Setrag.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 92%; margin-left: 12%;"></a>
         <h5 class="text-muted m-t-0 font-600">Application de Campagne de SMS</h5>
     </div>
     <div class="m-t-40 card-box">

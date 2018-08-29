@@ -9,7 +9,7 @@ use Cake\ORM\TableRegistry;
 use Psr\Log\LogLevel;
 
 Configure::write('CakePdf', [
-    'engine' => 'CakePdf.mpdf',
+    'engine' => 'CakePdf.Mpdf',
     'margin' => [
         'bottom' => 15,
         'left' => 50,
@@ -49,11 +49,15 @@ class RapportController extends AppController
         $this->set('title', $title);
 
         $campagneTable = TableRegistry::get('campagnes');
-        $contactTable = TableRegistry::get('Contacts');
+        //$contactTable = TableRegistry::get('Contacts');
         $smsTable = TableRegistry::get('smss');
+        $contactsmsTable = TableRegistry::get('contactsmss');
 
         $campagnes = $campagneTable->find()->contain(['Users', 'Smss'])->all();
-        $contacts = $contactTable->find()->contain(['Users', 'Smss'])->all();
+        //$contacts = $contactTable->find()->contain(['Users', 'Smss'])->all();
+        $contactsms = $contactsmsTable->find()->contain('Smss')->all();
+        $this->set('contactsms', $contactsms);
+        //debug($contactsms);
         $pourcentage = array();
         foreach ($campagnes as $camp){
             $nbre_envoye = 0;
@@ -82,8 +86,6 @@ class RapportController extends AppController
         $this->set('camp_js', $campagnes);
         $this->set(compact('pourcentage'));
         $this->set(compact('campagnes'));
-        $this->set(compact('contacts'));
-
     }
 
     public function statistiques(){
@@ -98,7 +100,7 @@ class RapportController extends AppController
         $expediteurTable = TableRegistry::get('expediteurs');
         $campagneTable = TableRegistry::get('campagnes');
         $smsTable = TableRegistry::get('smss');
-        $smscontactTable = TableRegistry::get('contacts_smss');
+        $smscontactTable = TableRegistry::get('contactsmss');
         $smsmodeleTable = TableRegistry::get('modelesmss_smss');
         $modeleTable = TableRegistry::get('modelesmss');
         $contact_listeTable = TableRegistry::get('contacts_listecontacts');
@@ -112,7 +114,7 @@ class RapportController extends AppController
         $campagnes = $campagneTable->find()->contain(['Users', 'Smss'])->all();
         $this->set(compact('campagnes'));
 
-        $contacts = $contactTable->find()->contain(['Users', 'Smss', 'Listecontacts'])->all();
+        $contacts = $contactTable->find()->contain(['Users', 'Listecontacts'])->all();
         $this->set(compact('contacts'));
 
         $listecontacts = $listecontactTable->find()->contain(['Users', 'Contacts'])->all();
@@ -124,7 +126,7 @@ class RapportController extends AppController
         $expediteurs = $expediteurTable->find()->contain(['Users', 'Smss'])->all();
         $this->set(compact('expediteurs'));
 
-        $sms = $smsTable->find()->contain(['Users', 'Modelesmss', 'Contacts', 'Expediteurs', 'Campagnes'])->all();
+        $sms = $smsTable->find()->contain(['Users', 'Modelesmss', 'Expediteurs', 'Campagnes'])->all();
         $this->set(compact('sms'));
 
         $sms_contacts = $smscontactTable->find()->all();
@@ -245,7 +247,7 @@ class RapportController extends AppController
 
                 $titre = "Rapport de la campagne N° ".$campagne->id;
                 $date = date('YmdHis');
-                $this->viewBuilder()->options([
+                $this->viewBuilder()->setOptions([
                     'pdfConfig' => [
                         'orientation' => 'portrait',
                         'filename' => 'Rapport_Campagne'.$campagne->id.'_'.$date

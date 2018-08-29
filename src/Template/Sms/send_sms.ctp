@@ -1,3 +1,5 @@
+<?= $this->Html->css('../plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css', ['block' => true]) ?>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card-box">
@@ -7,21 +9,31 @@
             <?= $this->Form->create('Sms', ['url' => ['action' => 'sendSms'], 'type' => 'file', 'class' => 'form-horizontal']); ?>
                 <div class="row">
                     <div class="col-lg-6">
-                        <h5 style="color: #3287f1">1 - Message</h5>
+                        <h5 style="color: #181d6cff">1 - Message</h5>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Expéditeur</label>
-                            <div class="col-md-10">
-                                <?= $this->Form->control('idexpediteur', array(
-                                    'options' => $expediteurs,
+                            <label class="col-md-3 control-label">Expéditeur</label>
+                            <div class="col-md-9">
+                                <?= $this->Form->control('', array(
+                                    //'options' => $expediteurs,
+                                    'options' => ['4' => 'SETRAG'],
+                                    'placeholder' => 'SETRAG',
+                                    'disabled',
                                     'class' => 'form-control col-sm-3',
                                     'label' => '',
                                 )); ?>
-                                <a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>"> + Ajouter un nouvel expéditeur</a>
+                                <?= $this->Form->control('idexpediteur', array(
+                                    'value' => 4,
+                                    'placeholder' => 'SETRAG',
+                                    'type' => 'hidden',
+                                    'class' => 'form-control col-sm-3',
+                                    'label' => '',
+                                )); ?>
+                                <!--a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>"> + Ajouter un nouvel expéditeur</a-->
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Modèle de Message</label>
-                            <div class="col-md-10">
+                            <label class="col-md-3 control-label">Modèle de Message</label>
+                            <div class="col-md-9">
                                 <div class="btn-group">
                                     <button id="type" type="button" class="btn btn-default dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Sélectionner un modèle <span class="caret"></span></button>
                                     <ul class="dropdown-menu" role="menu">
@@ -40,35 +52,36 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Message</label>
-                            <div class="col-md-10">
+                            <label class="col-md-3 control-label">Message</label>
+                            <div class="col-md-9">
                                 <?= $this->Form->control('contenu', array(
                                     'class' => 'form-control',
                                     'id' => 'textarea',
                                     'placeholder' => 'Le message',
                                     'type' => 'textarea',
                                     'rows' => 2,
-                                    'maxlength' => 160,
+                                    'maxlength' => 480,
                                     'label' => '',
                                     'required'
                                 )); ?>
-                                <span class="font-13 text-muted">160 caractères maximum</span>
+                                <span class="font-13 text-muted">480 caractères maximum</span>
                             </div>
                         </div>
                     </div><!-- end col -->
                     <div class="col-lg-6">
-                        <h5 style="color: #3287f1">2 - Destinataire</h5>
+                        <h5 style="color: #181d6cff">2 - Destinataire</h5>
                         <div class="form-group">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="radio radio-info">
                                     <input type="radio" value="mobile" onchange="showDiv(this)" checked name="destinataire" />
                                     <label style="font-weight: 800;" for="destinataire">Mobile</label>
                                 </div>
                             </div>
-                            <div id="js_partie1" class="col-md-10">
+                            <div id="js_partie1" class="col-md-9">
                                 <?= $this->Form->control('contact', array(
                                     'class' => 'form-control',
                                     'data-mask' => '99999999999',
+                                    'data-role' => 'tagsinput',
                                     'type' => 'text',
                                     'placeholder' => 'Téléphone Mobile',
                                     'label' => '',
@@ -77,13 +90,13 @@
                             </div>
                             <br>
                             <br>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="radio radio-info">
                                     <input type="radio" value="contact" onchange="showDiv(this)" name="destinataire" />
                                     <label style="font-weight: 800;" for="destinataire">Liste de contacts</label>
                                 </div>
                             </div>
-                            <div id="js_partie2" style="display: none;" class="col-md-10">
+                            <div id="js_partie2" style="display: none;" class="col-md-9">
                                 <div class="col-md-5">
                                     <br>
                                     <?= $this->Form->control('listecontact', array(
@@ -109,10 +122,10 @@
                 <br>
                 <div class="row">
                     <div class="col-lg-6 col-lg-offset-3">
-                        <h5 style="color: #3287f1">3 - Option D'envoi</h5>
+                        <h5 style="color: #181d6cff">3 - Option D'envoi</h5>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Nom de la Campagne</label>
-                            <div class="col-md-10">
+                            <label class="col-md-3 control-label">Nom de la Campagne</label>
+                            <div class="col-md-9">
                                 <div class="col-md-6">
                                     <div class="radio radio-info">
                                         <input type="radio" value="unstore" onchange="showDiv(this)" checked  name="campagne" />
@@ -144,8 +157,8 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Type d'envoi</label>
-                            <div class="col-md-10">
+                            <label class="col-md-3 control-label">Type d'envoi</label>
+                            <div class="col-md-9">
                                 <div class="col-md-6">
                                     <div class="radio radio-info">
                                         <input type="radio" value="immediat" onchange="showDiv(this)" checked  name="typeenvoi" />
@@ -171,7 +184,8 @@
                             </div>
                         </div>
                         <?= $this->Form->control('Envoyer', array(
-                            'class' => 'btn btn-purple',
+                            'class' => 'btn',
+                            'style' => 'background-color:#181d6cff; color:#fff;',
                             'type'  => 'submit',
                             'label' => '',
                         )); ?>
@@ -183,6 +197,7 @@
 </div>
 <!-- end row -->
 
+<?= $this->Html->script('../plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/bootstrap-inputmask/bootstrap-inputmask.min.js', ['block'=>true]) ?>
 

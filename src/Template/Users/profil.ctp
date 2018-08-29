@@ -45,10 +45,20 @@
             <?= $this->Form->create('Sms', ['url' => ['controller' => 'Sms', 'action' => 'fastSendSms'], 'class' => 'form-horizontal']); ?>
                 <h4 class="header-title m-t-0 m-b-30"><i class="ti-comment m-r-5"></i> Envoi Rapide de SMS</h4>
                 <div class="form-group">
-                    <?= $this->Form->control('idexpediteur', array(
-                        'options' => $expediteurs,
+                    <?= $this->Form->control('', array(
+                        //'options' => $expediteurs,
+                        'options' => ['4' => 'SETRAG'],
+                        'placeholder' => 'SETRAG',
+                        'disabled',
                         'class' => 'form-control',
                         'label' => 'Expéditeur',
+                    )); ?>
+                    <?= $this->Form->control('idexpediteur', array(
+                        'value' => 4,
+                        'placeholder' => 'SETRAG',
+                        'type' => 'hidden',
+                        'class' => 'form-control col-sm-3',
+                        'label' => '',
                     )); ?>
                 </div>
                 <div class="form-group">
@@ -68,11 +78,11 @@
                             'placeholder' => 'Le message',
                             'type' => 'textarea',
                             'rows' => 2,
-                            'maxlength' => 160,
+                            'maxlength' => 480,
                             'label' => '',
                             'required'
                         )); ?>
-                        <span class="font-13 text-muted">160 caractères maximum</span>
+                        <span class="font-13 text-muted">480 caractères maximum</span>
                     </div>
                 </div>
                 <div class="p-t-10 pull-right">
@@ -121,7 +131,7 @@
                             </div>
                             <div class="user-desc">
                                 <span class="name"><?= $campagne->libelle ?></span>
-                                <span class="desc"><?= $campagne->cout ?> € - <?= \App\Controller\AppController::change_format_date($campagne->dateEnvoi) ?></span>
+                                <span class="desc"><?= $campagne->cout*650 ?> XAF - <?= \App\Controller\AppController::change_format_date($campagne->dateEnvoi) ?></span>
                             </div>
                         </a>
                     </li>

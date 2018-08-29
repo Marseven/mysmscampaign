@@ -9,7 +9,7 @@
 
             <h4 class="header-title m-t-0 m-b-30">Listes des Utilisateurs</h4>
 
-            <table id="datatable-buttons" class="table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>#ID</th>
@@ -29,7 +29,7 @@
                 <?php foreach($users as $user){	?>
                     <tr>
                         <td><?php echo htmlentities($user->id);?></td>
-                        <td><span class="text-uppercase"><?php echo htmlentities($user->nom);?></span><?php echo htmlentities($user->prenom);?></td>
+                        <td><span class="text-uppercase"><?php echo htmlentities($user->nom);?></span> <?php echo htmlentities($user->prenom);?></td>
                         <td><?php echo htmlentities($user->telephone);?></td>
                         <td><?php echo htmlentities($user->email);?></td>
                         <td><?php $age = new \App\Controller\AppController(); echo htmlentities($age->age($user->dateNaiss)).' ans'; ?></td>
@@ -52,6 +52,15 @@
 
 <!-- Datatables-->
 <?= $this->Html->script('../plugins/datatables/jquery.dataTables.min.js', ['block'=>true]) ?>
+<?=$this->Html->scriptStart(['block' => true]) ?>
+$(document).ready(function() {
+$('#datatable').dataTable( {
+"language": {
+"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+}
+} );
+} );
+<?= $this->Html->scriptEnd()?>
 <?= $this->Html->script('../plugins/datatables/dataTables.bootstrap.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/dataTables.buttons.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/buttons.bootstrap.min.js', ['block'=>true]) ?>
@@ -61,11 +70,6 @@
 <?= $this->Html->script('../plugins/datatables/buttons.html5.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/buttons.print.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/responsive.bootstrap.min.js', ['block'=>true]) ?>
-
-
-<!-- Datatable init js -->
-<?= $this->Html->script('../pages/datatables.init.js', ['block'=>true]) ?>
-
 
 <?=$this->Html->scriptStart(['block' => true]) ?>
     $(document).ready(function() {
