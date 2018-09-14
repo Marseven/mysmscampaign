@@ -38,7 +38,7 @@
                             'label' => '',
                         )); ?>
                     <br>
-                        <?= $this->Form->control('Terminer', array(
+                        <?= $this->Form->control(isset($expediteur->id) ? 'Modifier' : 'Ajouter', array(
                             'class' => 'btn btn-success',
                             'type'  => 'submit',
                             'label' => '',
@@ -138,7 +138,7 @@
                         <td><?php echo htmlentities($expe->defaut);?></td>
                         <td>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'edit', 'expediteur' => $expe->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'delete', 'expediteur' => $expe->id]) ?>"><i class="ti-trash"></i></a>
+                            <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet expéditeur !');" href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'delete', 'expediteur' => $expe->id]) ?>"><i class="ti-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>

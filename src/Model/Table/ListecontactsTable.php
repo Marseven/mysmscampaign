@@ -16,16 +16,21 @@ class ListecontactsTable extends Table
         $this->belongsTo('users')
             ->setForeignKey('iduser') // Avant la version CakePHP 3.4, utilisez foreignKey() au lieu de setForeignKey()
             ->setJoinType('INNER');
-        $this->belongsToMany('contacts', ['propertyName' => 'Contacts']);
+        $this->belongsToMany('contacts',[
+            'propertyName' => 'Contacts',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
     }
 
     static function nom_existe($nom){
         $result = false;
-
+        //$nom = str_replace(' ', '_', $nom);
+        //debug($nom);die;
         $contactTable = TableRegistry::get('Listecontacts');
         $contact = $contactTable->find()->where(
             [
-                'libelle' => $nom,
+                "libelle" => $nom,
             ]
         )->all();
 

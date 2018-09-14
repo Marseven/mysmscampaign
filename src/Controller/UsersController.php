@@ -30,13 +30,12 @@ class UsersController extends AppController {
         parent::initialize();
         $this->Auth->allow(['login', 'remember', 'confirm', 'resetPassword', 'logout']);
         $user = $this->Auth->user();
-        if($user){
+        if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);
             $user['reset_at'] = new FrozenTime($user['reset_at']);
             $usersTable = TableRegistry::get('Users');
             if(is_array($user)){
                 $user = $usersTable->newEntity($user);
-                $user->dateNaiss = $this->age($user->dateNaiss);
             }
             $this->set('user', $user);
         }
@@ -200,33 +199,51 @@ class UsersController extends AppController {
                 $this->Flash->error('Cette email existe déjà.');
                 return $this->render('signup');
             }
-            $user = $usersTable->newEntity($this->request->getData());
-            $user->role = "Utilisateur";
-
-           if ($usersTable->save($user)) {
-                $link =$user->id.'-'.md5($user->password);
-                $user->confirmed_token = md5($user->password);
-                $usersTable->save($user);
-                $mail = new Email();
-                $mail->setFrom('contact@jobs-conseil.com')
-                     ->setTo($user->email)
-                     ->setSubject('Confirmation d\'enregistrement')
-                     ->setEmailFormat('html')
-                     ->setTemplate('confirmation')
-                     ->setViewVars([
-                        'last_name' => $user->nom.' '.$user->prenom,
-                        'link' => $link
-                     ]);
-                $mail->send();
-                $this->Flash->success('Utilisateur enregistré avec succès, un email de confirmation a été envoyé à l\'utilisateur.');
-               $this->_log('création de utilisateur '.$user->id);
-                return $this->redirect(array(
-                    'controller' => 'users',
-                    'action' => 'signup',
-                ));
-           }else{
-                $this->Flash->error('Certains champs ont été mal saisis');
-           }
+            $now = date('Y-m-d');
+            $now = new \DateTime($now);
+            $now = $now->modify('-18 years');
+            $dateNaiss = new \DateTime($this->request->getData()['dateNaiss']);
+            if($dateNaiss < $now){
+                $user = $usersTable->newEntity($this->request->getData());
+                $user->role = "Utilisateur";
+                $filename = $this->request->getData()['picture']['name'];
+                $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $good_ext = in_array($extension, ['png', 'jpg', 'jpeg']);
+                if($good_ext && $filename != ''){
+                     $user->picture = $this->request->getData()["picture"]["name"];
+                    move_uploaded_file($this->request->getData()["picture"]["tmp_name"],"img/user/".$this->request->getData()["picture"]["name"]);
+                }else{
+                    $this->Flash->error('Mauvais type de fichier importé. Type correct : jpg, png, jpeg');
+                    $this->redirect(['action' => 'signup']);
+                }
+                if ($usersTable->save($user)) {
+                    $link =$user->id.'-'.md5($user->password);
+                    $user->confirmed_token = md5($user->password);
+                    $usersTable->save($user);
+                    $mail = new Email();
+                    $mail->setFrom('contact@jobs-conseil.com')
+                         ->setTo($user->email)
+                         ->setSubject('Confirmation d\'enregistrement')
+                         ->setEmailFormat('html')
+                         ->setTemplate('confirmation')
+                         ->setViewVars([
+                            'last_name' => $user->nom.' '.$user->prenom,
+                            'link' => $link
+                         ]);
+                    $mail->send();
+                    $this->Flash->success('Utilisateur enregistré avec succès, un email de confirmation a été envoyé à l\'utilisateur.');
+                   $this->_log('création de utilisateur '.$user->id);
+                    return $this->redirect(array(
+                        'controller' => 'users',
+                        'action' => 'signup',
+                    ));
+               }else{
+                    $this->Flash->error('Certains champs ont été mal saisis');
+               }
+            }else{
+                $this->Flash->error('Mauvaise Date, veuillez saisir des dates conformes et inférieur à'.$now->format('d-m-Y'));
+                return $this->render('signup');
+            }
         }
 
     }
@@ -246,20 +263,39 @@ class UsersController extends AppController {
             if(empty($this->request->getData()['password']) || $this->request->getData()['password'] != $this->request->getData()['password_verify']){
                 $this->Flash->error('Mots de passe différents !');
             }else{
-                $user = $usersTable->newEntity($this->request->getData());
-                if($id != null){
-                    $user->id = $id;
+                $now = date('Y-m-d');
+                $now = new \DateTime($now);
+                $now = $now->modify('-18 years');
+                $dateNaiss = new \DateTime($this->request->getData()['dateNaiss']);
+                if($dateNaiss < $now){
+                    $user = $usersTable->newEntity($this->request->getData());
+                    if($id != null){
+                        $user->id = $id;
+                    }else{
+                        $user->id = $user_edit->id;
+                    }
+                    $filename = $this->request->getData()['picture']['name'];
+                    $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                    $good_ext = in_array($extension, ['png', 'jpg', 'jpeg']);
+                    if($good_ext && $filename != ''){
+                         $user->picture = $this->request->getData()["picture"]["name"];
+                        move_uploaded_file($this->request->getData()["picture"]["tmp_name"],"img/user/".$this->request->getData()["picture"]["name"]);
+                    }else{
+                        $this->Flash->error('Mauvais type de fichier importé. Type correct : jpg, png, jpeg');
+                        $this->redirect(['action' => 'edit', 'user' => $user->id]);
+                    }
+                    
+                    if ($usersTable->save($user)) {
+                        $user = $usersTable->get($id);
+                        $this->Auth->setUser($user);
+                        $this->Flash->success('Votre profil a été mis à jour avec succès !');
+                        $this->_log('Modification de utilisateur '.$user->id);
+                        return $this->redirect(['action' => 'profil', 'user' => $user->id]);
+                    }else{
+                        $this->Flash->error('Certains champs ont été mal saisis');
+                    }
                 }else{
-                    $user->id = $user_edit->id;
-                }
-                if ($usersTable->save($user)) {
-                    $user = $usersTable->get($id);
-                    $this->Auth->setUser($user);
-                    $this->Flash->success('Votre profil a été mis à jour avec succès !');
-                    $this->_log('Modification de utilisateur '.$user->id);
-                    return $this->redirect($this->Auth->redirectUrl());
-                }else{
-                    $this->Flash->error('Certains champs ont été mal saisis');
+                    $this->Flash->error('Mauvaise Date, veuillez saisir des dates conformes et inférieur à'.$now->format('d-m-Y'));
                 }
             }
         }
@@ -377,8 +413,16 @@ class UsersController extends AppController {
                 ->limit(1)
                 ->all();
             $user = $user->first();
+            if (!$user) {
+                $this->Flash->error('Cette utilisateur n\'est pas valide.');
+                return $this->redirect(array(
+                    'controller' => 'users',
+                    'action' => 'login',
+                ));
+            }
             $user->reset_at = date('Y-m-d H:m:s');
             $user->reset_token = NULL;
+            $user->password = $user->_setPassword($this->request->getData()['password']);
             $usersTable->save($user);
             $this->Auth->setUser($user);
             $this->Flash->success('Mot de passe réinitialisé avec succès.');
@@ -421,10 +465,12 @@ class UsersController extends AppController {
     public function profil(){
         $usersTable = TableRegistry::get('Users');
         $user = $this->Auth->user();
-        if($user){
+        if(is_array($user)){
             $usersTable = TableRegistry::get('Users');
             $user = $usersTable->newEntity($user);
             $user->dateNaiss = $this->age($user->dateNaiss);
+        }elseif (!is_array($user) && !is_object($user)) {
+            $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }
         if($this->request->getQuery('user') != false){
             $id = (int)$this->request->getQuery('user');

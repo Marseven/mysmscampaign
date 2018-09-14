@@ -13,28 +13,29 @@ class ApiController extends AppController
         parent::initialize();
         $this->Auth->allow(['index']);
         $user = $this->Auth->user();
-        if(isset($user)){
+        if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);
             $user['reset_at'] = new FrozenTime($user['reset_at']);
             $usersTable = TableRegistry::get('Users');
             if(is_array($user)){
                 $user = $usersTable->newEntity($user);
             }
-
-            $apiTable = TableRegistry::get('api');
-            $apis = $apiTable->find()->all();
-
-            $campagneTable = TableRegistry::get('campagnes');
-            $campagne = $campagneTable->find()->all();
-            $camp_count = $campagne->count();
-            $this->set('camp_count', $camp_count);
-
-            $this->set(compact('apis'));
             $this->set('user', $user);
-
-            $title = 'Gestion des API de SMS';
-            $this->set('title', $title);
         }
+
+        $apiTable = TableRegistry::get('api');
+        $apis = $apiTable->find()->all();
+
+        $campagneTable = TableRegistry::get('campagnes');
+        $campagne = $campagneTable->find()->all();
+        $camp_count = $campagne->count();
+        $this->set('camp_count', $camp_count);
+
+        $this->set(compact('apis'));
+        $this->set('user', $user);
+
+        $title = 'Gestion des API de SMS';
+        $this->set('title', $title);
 
     }
 

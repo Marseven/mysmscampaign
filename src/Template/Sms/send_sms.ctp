@@ -33,7 +33,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Modèle de Message</label>
-                            <div class="col-md-9">
+                            <div class="col-md-9"> 
                                 <div class="btn-group">
                                     <button id="type" type="button" class="btn btn-default dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Sélectionner un modèle <span class="caret"></span></button>
                                     <ul class="dropdown-menu" role="menu">

@@ -1,0 +1,4 @@
+11/09/2018 10:41:30 -- Mebodo Aristide -- Authentification de utilisateur 1
+11/09/2018 05:52:39 -- Mebodo Aristide -- Authentification de utilisateur 1
+11/09/2018 05:54:21 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+11/09/2018 05:54:37 -- Boundamas Jeff -- Authentification de utilisateur 3

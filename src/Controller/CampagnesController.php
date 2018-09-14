@@ -13,7 +13,7 @@ class CampagnesController extends AppController
         parent::initialize();
         $this->Auth->allow(['index']);
         $user = $this->Auth->user();
-        if(isset($user)){
+        if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);
             $user['reset_at'] = new FrozenTime($user['reset_at']);
             $usersTable = TableRegistry::get('Users');
@@ -34,6 +34,7 @@ class CampagnesController extends AppController
 
     public function index()
     {
+
         $campagneTable = TableRegistry::get('campagnes');
         $campagne = $campagneTable->newEntity();
         $this->set(compact('campagne'));
@@ -52,17 +53,29 @@ class CampagnesController extends AppController
     }
 
     public function add(){
+        $campagneTable = TableRegistry::get('campagnes');
+        $campagne = $campagneTable->newEntity();
         if ($this->request->is('post')) {
-            $campagneTable = TableRegistry::get('campagnes');
-            $campagne = $campagneTable->newEntity($this->request->getData());
-            if ($campagneTable->save($campagne)) {
-                $this->Flash->set('Votre campagne a été créé avec succès.', ['element' => 'success']);
-                $this->_log('Création de la campagne '.$campagne->id);
-                $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+            $now = date('Y-m-d H:i:s');
+            $now = new \DateTime($now);
+            $dateEnvoi = new \DateTime($this->request->getData()['dateEnvoi']);
+            if($dateEnvoi >= $now){
+            	$campagne = $campagneTable->newEntity($this->request->getData());
+            	$campagne->dateEnvoi = $dateEnvoi->format('Y-m-d H:i:s');
+                if ($campagneTable->save($campagne)) {
+                    $this->Flash->set('Votre campagne a été créé avec succès.', ['element' => 'success']);
+	                $this->_log('Création de la campagne '.$campagne->id);
+	                $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+                }
+            }else{
+                $campagne->dateEnvoi = $dateEnvoi->format('Y-m-d H:i:s');
+        		$this->Flash->error('Mauvaises Dates, veuillez saisir des dates conformes et futures.');
             }
         }
+        $this->set('campagne', $campagne);
+        $this->render('index');
     }
 
     public function edit(){
@@ -78,13 +91,24 @@ class CampagnesController extends AppController
                 $this->redirect(['controller' => 'Users', 'action' => 'logout']);
             } else {
                 if ($this->request->is(array('post', 'put'))) {
-                    $campagne = $campagneTable->newEntity($this->request->getData());
-                    if ($campagneTable->save($campagne)) {
-                        $this->Flash->set('Votre campagne a été mise à jour avec succès.', ['element' => 'success']);
-                        $this->_log('Modification de la campagne '.$campagne->id);
-                        $this->redirect(['action' => 'index']);
-                    } else {
-                        $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+                    $now = date('Y-m-d H:i:s');
+                    $now = new \DateTime($now);
+                    $dateEnvoi = new \DateTime($this->request->getData()['dateEnvoi']);
+                    if($dateEnvoi >= $now){
+                    	$campagne = $campagneTable->newEntity($this->request->getData());
+                    	$campagne->id = $this->request->getQuery('campagne');
+                    	$campagne->dateEnvoi = $dateEnvoi->format('Y-m-d H:i:s');
+	                    if ($campagneTable->save($campagne)) {
+	                        $this->Flash->set('Votre campagne a été mise à jour avec succès.', ['element' => 'success']);
+	                        $this->_log('Modification de la campagne '.$campagne->id);
+	                        $this->redirect(['action' => 'index']);
+	                    } else {
+	                        $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+	                    }
+                    }else{
+                		$this->Flash->error('Mauvaises Dates, veuillez saisir des dates conformes et futures.');
+                		$this->set('campagne', $campagne);
+            			$this->render('index');
                     }
 
                 }

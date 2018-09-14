@@ -12,7 +12,7 @@ File: Menu
   z-index: 999;
 }
 .topbar .topbar-left {
-  background: rgba(255, 255, 255, 0);
+  background: #fee50252;
   border-top: 3px solid #181d6cff;
   float: left;
   text-align: center;
@@ -25,13 +25,19 @@ File: Menu
   line-height: 70px;
 }
 .navbar-default {
-  /*background-color: #ebeff2;*/
-  background: #ffffffab;
-  border-radius: 0px;
-  border: none;
-  border-top: 3px solid #181d6cff;
-  margin-bottom: 10px;
-  padding: 0px 20px;
+    background: #fee502e8;/*#fffffffa*/
+    border-radius: 0px;
+    border: none;
+    border-top: 3px solid #181d6cff;
+    margin-bottom: 10px;
+    padding: 0px 20px;
+    width: 100%;
+    margin-left: 250px;
+}
+@media (max-width: 1024px){
+  .navbar-default {
+    margin-left:0px;
+  }
 }
 .navbar-default .navbar-left {
   padding-left: 10px;
@@ -187,7 +193,7 @@ File: Menu
   top: 70px;
   width: 250px;
   z-index: 10;
-  background: #ffffffab;
+  background: #fee50252;
   bottom: 50px;
   height: 100%;
   margin-bottom: -70px;
@@ -233,6 +239,7 @@ File: Menu
   padding: 0;
   position: relative;
   text-decoration: none;
+  color: rgba(28, 28, 28, 0.97);
 }
 #sidebar-menu {
   padding-bottom: 30px;
@@ -275,10 +282,10 @@ File: Menu
   border-top: 0;
 }
 #sidebar-menu ul ul li.active a {
-  color: #181d6cff;
+  color: #035eb5;
 }
 #sidebar-menu ul ul a {
-  color: #63747c;
+  color: rgba(28, 28, 28, 0.97);
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
@@ -289,7 +296,7 @@ File: Menu
   padding: 10px 20px 10px 65px;
 }
 #sidebar-menu ul ul a:hover {
-  color: #181d6cff;
+  color: #035eb5;
 }
 #sidebar-menu ul ul a i {
   margin-right: 5px;
@@ -301,11 +308,11 @@ File: Menu
   margin-top: 2px;
 }
 #sidebar-menu .subdrop {
-  border-left: 3px solid #181d6cff;
-  color: #181d6cff !important;
+  border-left: 3px solid #035eb5;
+  color: #035eb5 !important;
 }
 #sidebar-menu > ul > li > a {
-  color: #435966;
+  color: rgba(28, 28, 28, 0.97);;
   display: block;
   padding: 12px 20px;
   margin: 4px 0px;
@@ -313,7 +320,7 @@ File: Menu
   border-left: 3px solid transparent;
 }
 #sidebar-menu > ul > li > a:hover {
-  color: #181d6cff;
+  color: #035eb5;
   text-decoration: none;
 }
 #sidebar-menu > ul > li > a > span {
@@ -339,9 +346,9 @@ File: Menu
   margin-right: 0px;
 }
 #sidebar-menu > ul > li > a.active {
-  border-left: 3px solid #181d6cff;
-  color: #181d6cff !important;
-  background: #181d6c24;
+  border-left: 3px solid #035eb5;
+  color: #035eb5 !important;
+  background: rgba(3, 78, 175, 0.21);
 }
 .menu-title {
   padding: 12px 20px !important;
@@ -404,8 +411,8 @@ File: Menu
   position: relative;
   width: 260px;
   background: #f4f8fb;
-  color: #181d6cff;
-  border-color: #181d6cff;
+  color: #035eb5;
+  border-color: #035eb5;
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu ul > li:hover > ul {
   display: block;
@@ -422,7 +429,7 @@ File: Menu
   z-index: 6;
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu ul > li:hover > ul a:hover {
-  color: #181d6cff;
+  color: #035eb5;
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu ul > li:hover a span {
   display: inline;
@@ -442,10 +449,10 @@ File: Menu
   z-index: 6;
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu li .show-menu + ul a:hover {
-  color: #181d6cff;
+  color: #035eb5;
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu a.subdrop {
-  color: #181d6cff !important;
+  color: #035eb5 !important;
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu ul > li > ul {
   display: none;
@@ -466,7 +473,7 @@ File: Menu
   transform: rotate(270deg);
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu ul ul li.active a {
-  color: #181d6cff;
+  color: #035eb5;
 }
 #wrapper.enlarged .left.side-menu #sidebar-menu ul > li > a span {
   display: none;
@@ -598,7 +605,7 @@ File: Menu
 }
 .user-list .user-list-item .user-desc span.time {
   font-size: 11px;
-  color: #181d6cff;
+  color: #035eb5;
   font-style: italic;
 }
 /* Seach */
@@ -619,7 +626,7 @@ File: Menu
   border: 1px solid #98a6ad;
     font-size: 13px;
     height: 34px;
-    color: #181d6c;
+    color: #035eb5;
     font-weight: 600;
     padding-left: 20px;
     padding-right: 40px;

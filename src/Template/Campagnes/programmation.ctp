@@ -6,16 +6,16 @@
     <div class="col-sm-12">
         <div class="card-box table-responsive">
 
-            <h4 class="header-title m-t-0 m-b-30">Listes des Campagnes Programmées</h4>
+            <h4 class="header-title m-t-0 m-b-30">Listes des Campagnes Programmées <a class="btn btn-sm btn-primary" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'index']) ?>">Ajouter</a></h4>
 
             <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>#ID</th>
                     <th>Nom de la campagne</th>
-                    <th>Nbre envoyé</th>
-                    <th>Nbre contact</th>
-                    <th>Nbre échoué</th>
+                    <th>Nombre envoyé</th>
+                    <th>Nombre de contact</th>
+                    <th>Nombre échoué</th>
                     <th>Date d'envoi</th>
                     <th>Action</th>
                 </tr>
@@ -32,8 +32,8 @@
                         <td><?php echo htmlentities($camp->nbre_echec);?></td>
                         <td><strong><?php echo htmlentities(\App\Controller\AppController::change_format_date($camp->dateEnvoi));?></strong></td>
                         <td>
-                            <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Campagne', 'action' => 'edit', 'campagne' => $camp->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Campagne', 'action' => 'delete', 'campagne' => $camp->id]) ?>"><i class="ti-trash"></i></a>
+                            <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'edit', 'campagne' => $camp->id]) ?>"><i class="ti-pencil"></i></a>
+                            <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette campagne !');" href="<?= $this->Url->build(['controller' => 'Campagne', 'action' => 'delete', 'campagne' => $camp->id]) ?>"><i class="ti-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>

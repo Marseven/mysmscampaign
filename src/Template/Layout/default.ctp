@@ -81,7 +81,7 @@
                 </ul>
 
                 <!-- Right(Notification and Searchbox -->
-                <ul class="nav navbar-nav navbar-right">
+                <!--ul class="nav navbar-nav navbar-right">
                     <li class="hidden-xs">
                         <form role="search" class="app-search">
                             <input type="text" placeholder="Recherche..."
@@ -89,7 +89,7 @@
                             <a href=""><i class="fa fa-search"></i></a>
                         </form>
                     </li>
-                </ul>
+                </ul-->
 
             </div><!-- end container -->
         </div><!-- end navbar -->
@@ -104,20 +104,20 @@
             <!-- User -->
             <div class="user-box">
                 <div class="user-img">
-                    <?= $this->Html->image("default-avatar.png", ['class' => 'img-circle img-thumbnail img-responsive', 'alt'=>'user-image', 'title'=>'user']); ?>
+                    <?= $this->Html->image($user->picture != '' ? 'user/'.$user->picture : 'default-avatar.png', ['class' => 'img-circle img-thumbnail img-responsive', 'alt'=>'user-image', 'title'=>'user']); ?>
                     <div class="user-status online"><i class="zmdi zmdi-dot-circle"></i></div>
                 </div>
-                <h5><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>"> <span class="text-uppercase"><?= $user->nom ?></span> <?= $user->prenom ?> </a> </h5>
+                <h5><a style="color: #025eb5;" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>"> <span class="text-uppercase"><?= $user->nom ?></span> <?= $user->prenom ?> </a> </h5>
                 <ul class="list-inline">
-                    <li>
+                    <!--li>
                         <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>" >
                             <i class="zmdi zmdi-settings"></i>
                         </a>
-                    </li>
+                    </li-->
 
                     <li>
-                        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>" class="text-custom">
-                            <i class="zmdi zmdi-power"></i>
+                        <a class="btn btn-sm btn-danger" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>" class="text-custom">
+                            <i class="zmdi zmdi-power"></i> Deconnexion
                         </a>
                     </li>
                 </ul>
@@ -127,7 +127,7 @@
             <!--- Sidemenu -->
             <div id="sidebar-menu">
                 <ul>
-                    <li class="text-muted menu-title">Navigation</li>
+                    <li class="text-inverse menu-title">Navigation</li>
 
                     <li>
                         <a href="/" class="waves-effect <?= $title == 'Tableau de Bord' ? 'active' : '' ?>"><i class="ti-dashboard"></i> <span> Tableau de Bord </span> </a>

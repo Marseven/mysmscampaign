@@ -10,7 +10,7 @@
             <div class="widget-chart-1">
                 <div class="widget-chart-box-1">
                     <input data-plugin="knob" data-width="80" data-height="80" data-fgColor="#181d6cff "
-                           data-bgColor="#181d6c8f" value="<?= $pourcentage_contact; ?>"
+                           data-bgColor="#181d6c8f" value="<?= round($pourcentage_contact, 2) ?>"
                            data-skin="tron" data-angleOffset="180" data-readOnly=true
                            data-thickness=".15"/>
                 </div>
@@ -30,7 +30,7 @@
             <div class="widget-chart-1">
                 <div class="widget-chart-box-1">
                     <input data-plugin="knob" data-width="80" data-height="80" data-fgColor="#ffbd4a"
-                           data-bgColor="#FFE6BA" value="<?= $pourcentage_camp_pr ?>"
+                           data-bgColor="#FFE6BA" value="<?= round($pourcentage_camp_pr,2) ?>"
                            data-skin="tron" data-angleOffset="180" data-readOnly=true
                            data-thickness=".15"/>
                 </div>
@@ -68,14 +68,14 @@
 
             <div class="widget-box-2">
                 <div class="widget-detail-2">
-                    <h2 class="m-b-0"> <?= $moyenne_cout*650 ?> XAF</h2>
+                    <h2 class="m-b-0"> <?= round($moyenne_cout*650, 2) ?> XAF</h2>
                     <p class="text-muted m-b-25"></p>
                 </div>
                 <div class="progress progress-bar-inverse-alt progress-sm m-b-0">
                     <div class="progress-bar progress-bar-inverse" role="progressbar"
                          aria-valuenow="<?= $moyenne_cout ?>" aria-valuemin="0" aria-valuemax="1000"
                          style="width: <?= $moyenne_cout ?>%;">
-                        <span class="sr-only"><?= $moyenne_cout*650 ?> XAF</span>
+                        <span class="sr-only"><?= round($moyenne_cout*650, 2) ?> XAF</span>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                         <h5 style="color: #0ec043;"><i class="fa fa-circle m-r-5"></i>Envoyé</h5>
                     </li>
                     <li>
-                        <h5 style="color: #bcad0f;"><i class="fa fa-circle m-r-5"></i>Programmé</h5>
+                        <h5 style="color: #fee82e;"><i class="fa fa-circle m-r-5"></i>Programmé</h5>
                     </li>
                     <li>
                         <h5 style="color: #c41b1a;"><i class="fa fa-circle m-r-5"></i>Echoué</h5>
@@ -135,8 +135,8 @@
                 <a href="#">
                     <div class="inbox-item">
                         <div class="inbox-item-img"><i class="ti-comments"></i></div>
-                        <p class="inbox-item-author"><?= $modele->contenu ?></p>
-                        <p class="inbox-item-text"><?= $modele->users['nom'] ?> <?= $modele->users['prenom'] ?> | <?= \App\Controller\AppController::change_format_date($modele->dateCreation) ?></p>
+                        <p class="inbox-item-author"><?= htmlentities($modele->contenu) ?></p>
+                        <p class="inbox-item-text"><?= htmlentities($modele->users['nom']) ?> <?= htmlentities($modele->users['prenom']) ?> | <?= \App\Controller\AppController::change_format_date($modele->dateCreation) ?></p>
                         <p class="inbox-item-date"></p>
                     </div>
                 </a>
@@ -155,9 +155,9 @@
                     <tr>
                         <th>#ID</th>
                         <th>Nom de la campagne</th>
-                        <th>Nbre envoyé</th>
-                        <th>Nbre contact</th>
-                        <th>Nbre échoué</th>
+                        <th>Nombre envoyé</th>
+                        <th>Nombre de contacts</th>
+                        <th>Nombre échoué</th>
                         <th>Coût de la campagne</th>
                         <th>Date d'envoi</th>
                     </tr>
@@ -279,7 +279,7 @@
     {label: "SMS Programmés", value: <?= $nbre_programme ?>},
     {label: "SMS Non Envoyés", value: <?= $nbre_echec ?>}
     ];
-    this.createDonutChart('morris-donut-example', $donutData, ['#0ec043', '#bcad0f', "#c41b1a"]);
+    this.createDonutChart('morris-donut-example', $donutData, ['#0ec043', '#fee82e', "#c41b1a"]);
     },
     //init
     $.Dashboard1 = new Dashboard1, $.Dashboard1.Constructor = Dashboard1

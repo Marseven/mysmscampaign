@@ -1,0 +1,6 @@
+12/09/2018 09:25:12 -- Mebodo Aristide -- Authentification de utilisateur 1
+12/09/2018 11:02:20 -- Mebodo Aristide -- Authentification de utilisateur 1
+12/09/2018 11:03:09 -- Mebodo Aristide -- Envoi rapide de sms 20
+12/09/2018 11:14:34 -- Mebodo Aristide -- Envoi rapide de sms 21
+12/09/2018 11:15:58 -- Mebodo Aristide -- Envoi de sms pour la campagne 11
+12/09/2018 02:41:12 -- Mebodo Aristide -- Authentification de utilisateur 1

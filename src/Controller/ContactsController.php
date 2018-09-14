@@ -15,7 +15,7 @@ class ContactsController extends AppController
         parent::initialize();
         $this->loadComponent('Cewi/Excel.Import');
         $user = $this->Auth->user();
-        if(isset($user)){
+        if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);
             $user['reset_at'] = new FrozenTime($user['reset_at']);
             $usersTable = TableRegistry::get('Users');
@@ -68,10 +68,10 @@ class ContactsController extends AppController
                         $this->redirect(['action' => 'index']);
                     }
                 }elseif($tel_existe == false && $nom_existe == false){
-                    $telephone = $this::format_telehone($this->request->getData());
+                    $telephone = $this::format_telehone($this->request->getData()['telephone']);
                     if ($telephone == false) {
                             $this->Flash->error('Numéro de téléphone invalide.');
-                            return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
+                            return $this->redirect(['action' => 'index']);
                         }
                     $contact = $contactTable->newEntity($this->request->getData());
                     $contact->telephone = $telephone;
@@ -125,7 +125,7 @@ class ContactsController extends AppController
                                 $this->redirect(['action' => 'index']);
                             }
                         }elseif($tel_existe == false && $nom_existe == false){
-                            $contact = $contactTable->newEntity($this->request->getData());
+                            $contact = $contactTable->newEntity($this->request->getData()['telephone']);
                             if($contactTable->save($contact)){
                                 $this->Flash->success('Contact ajouté avec succès.');
                                 $this->_log('Mise à jour de contact '.$contact->id);
@@ -147,14 +147,14 @@ class ContactsController extends AppController
     public function deleteContact(){
         if($this->request->getQuery('contact') == false){
             $this->Flash->error('Informations manquantes.');
-            $this->redirect(['Controller' => 'Users','action' => 'logout']);
+            $this->redirect(['controller' => 'Users','action' => 'logout']);
         }else{
             $id = (int)$this->request->getQuery('contact');
             $contactTable = TableRegistry::get('contacts');
             $contact = $contactTable->get($id);
             if (!$contact) {
                 $this->Flash->error('Ce contact n\'existe pas.');
-                $this->redirect(['Controller' => 'Users','action' => 'logout']);
+                $this->redirect(['controller' => 'Users','action' => 'logout']);
             }else{
                 $contactTable->delete($contact);
                 $this->Flash->set('Votre contact a été supprimé avec succès.', ['element' => 'success']);
@@ -199,7 +199,7 @@ class ContactsController extends AppController
         }else{
             $id_contact = (int)$this->request->getQuery('contact');
             $id_liste = (int)$this->request->getQuery('listecontact');
-            $listcontactTable = TableRegistry::get('contact');
+            $listcontactTable = TableRegistry::get('contacts_listecontacts');
             $listcontact = $listcontactTable->find()->where(
                 [
                     'contact_id' => $id_contact,
@@ -212,14 +212,14 @@ class ContactsController extends AppController
             }else{
                 $listcontactTable->delete($listcontact->first());
                 $this->Flash->set('Le contact a été retiré avec succès.', ['element' => 'success']);
-                $this->_log('Retrait de la liste de contact du contact '.$listcontact->id);
+                $this->_log('Retrait de la liste de contact '.$id_liste.' du contact '.$id_contact);
                 $this->redirect(['action' => 'viewList', 'listecontact' => $id_liste]);
             }
         }
     }
 
     public function ajouterContact(){
-        if($this->request->getQuery('contact') == false || $this->request->getQuery('listecontact') == false){
+        if($this->request->getData()['contacts'] == false || $this->request->getQuery('listecontact') == false){
             $this->Flash->error('Informations manquantes.');
             $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }else{
@@ -265,9 +265,11 @@ class ContactsController extends AppController
         $liste_contactTable = TableRegistry::get('contacts_listecontacts');
         $contactTable = TableRegistry::get('Contacts');
         $user = $this->Auth->user();
-        if($user){
+        if(is_array($user)){
             $usersTable = TableRegistry::get('Users');
             $user = $usersTable->newEntity($user);
+        }elseif (!is_array($user) && !is_object($user)) {
+            $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }
         if ($this->request->is('post')) {
             if(isset($this->request->getData()['listecontact']['name'])){
@@ -278,98 +280,112 @@ class ContactsController extends AppController
                     $liste_nom_existe = ListecontactsTable::nom_existe($filename);
                     if ($liste_nom_existe){
                         $this->Flash->error('Cette liste de contact existe déjà. Veuillez choisir un autre nom pour cette liste');
-                        $this->redirect(['action' => 'createListContact']);
+                        return $this->redirect(['action' => 'createListContact']);
                     }
-                    move_uploaded_file($this->request->getData()['listecontact']['tmp_name'], "files/listecontact/".$filename);
                     $data = $this->Import->prepareEntityData("files/listecontact/".$filename, ['worksheet'=> 0]);
-                    //debug($data);
-                    $contacts = array();
-                    $i=0;
-                    $listecontact = $listecontactTable->newEntity();
-                    $listecontact->libelle = $filename;
-                    $listecontact->iduser = $user->id;
-                    $listecontactTable->save($listecontact);
-                    $this->_log('Création de la liste de contact '.$listecontact->id);
-                    foreach($data as $d){
-                        $d['TELEPHONE1'] = $this::format_telehone($d['TELEPHONE1']);
-                        $d['TELEPHONE1'] = "241".$d['TELEPHONE1'];
-                        $nom_tel_existe = ContactsTable::nom_tel_existe($d['CLIENT'], $d['TELEPHONE1']);
-                        $nom_existe = ContactsTable::nom_existe($d['CLIENT']);
-                        $tel_existe = ContactsTable::tel_existe($d['TELEPHONE1']);
-                        if ($nom_tel_existe == false){
-                            if ($tel_existe == false && $nom_existe != false){
-                                $nom_existe->telephone = $d['TELEPHONE1'];
-                                if ($contactTable->save($nom_existe)){
-                                    $contacts[$i] = $nom_existe;
-                                    $this->_log('Mise à jour de contact '.$nom_existe->id);
-                                    $i++;
+                    if(key_exists(0, $data) && key_exists('TELEPHONE1', $data[0]) && key_exists('CLIENT', $data[0])){
+                        move_uploaded_file($this->request->getData()['listecontact']['tmp_name'], "files/listecontact/".$filename);
+                        $contacts = array();
+                        $i=0;
+                        $listecontact = $listecontactTable->newEntity();
+                        $listecontact->libelle = $filename;
+                        $listecontact->iduser = $user->id;
+                        $listecontactTable->save($listecontact);
+                        $this->_log('Création de la liste de contact '.$listecontact->id);
+                        foreach($data as $d){
+                            $d['TELEPHONE1'] = $this::format_telehone($d['TELEPHONE1']);
+                            $nom_tel_existe = ContactsTable::nom_tel_existe($d['CLIENT'], $d['TELEPHONE1']);
+                            $nom_existe = ContactsTable::nom_existe($d['CLIENT']);
+                            $tel_existe = ContactsTable::tel_existe($d['TELEPHONE1']);
+                            if ($nom_tel_existe == false){
+                                if ($tel_existe == false && $nom_existe != false){
+                                    $nom_existe->telephone = $d['TELEPHONE1'];
+                                    if ($contactTable->save($nom_existe)){
+                                        $contacts[$i] = $nom_existe;
+                                        $this->_log('Mise à jour de contact '.$nom_existe->id);
+                                        $i++;
+                                    }
+                                }elseif($tel_existe != false && $nom_existe == false){
+                                    $tel_existe->nom = $d['CLIENT'];
+                                    if ($contactTable->save($tel_existe)){
+                                        $contacts[$i] = $tel_existe;
+                                        $this->_log('Mise à jour de contact '.$tel_existe->id);
+                                        $i++;
+                                    }
+                                }elseif($tel_existe == false && $nom_existe == false){
+                                    $contact = $contactTable->newEntity();
+                                    $contact->nom = $d['CLIENT'];
+                                    $contact->telephone = $d['TELEPHONE1'];
+                                    $contact->iduser = $user->id;
+                                    if ($contactTable->save($contact)){
+                                        $contacts[$i] = $contact;
+                                        $this->_log('Création de contact '.$contact->id);
+                                        $i++;
+                                    }
                                 }
-                            }elseif($tel_existe != false && $nom_existe == false){
-                                $tel_existe->nom = $d['CLIENT'];
-                                if ($contactTable->save($tel_existe)){
-                                    $contacts[$i] = $tel_existe;
-                                    $this->_log('Mise à jour de contact '.$tel_existe->id);
-                                    $i++;
-                                }
-                            }elseif($tel_existe == false && $nom_existe == false){
-                                $contact = $contactTable->newEntity();
-                                $contact->nom = $d['CLIENT'];
-                                $contact->telephone = $d['TELEPHONE1'];
-                                $contact->iduser = $user->id;
-                                if ($contactTable->save($contact)){
-                                    $contacts[$i] = $contact;
-                                    $this->_log('Création de contact '.$contact->id);
+                            }else{
+                                $contacts[$i] = $nom_tel_existe;
+                                $i++;
+                            }
+                        }
+                        $listecontact->contacts = $i;
+
+                        if($listecontactTable->save($listecontact)){
+                            foreach ($contacts as $ct){
+                                $liste_contact = $liste_contactTable->newEntity();
+                                $liste_contact->contact_id = $ct->id;
+                                $liste_contact->listecontact_id = $listecontact->id;
+                                if ($liste_contactTable->save($liste_contact)){
+                                    $this->_log('ajout à la liste de contact '.$liste_contact->id);
                                     $i++;
                                 }
                             }
-                        }else{
-                            $contacts[$i] = $nom_tel_existe;
-                            $i++;
+                            $this->Flash->success('Liste de contact ajouté avec succès.');
+                            $this->_log('Mise à jour de la liste de contact '.$listecontact->id);
+                            $this->redirect(['action' => 'viewList', 'listecontact' => $listecontact->id]);
                         }
-                    }
-                    $listecontact->contacts = $i;
-
-                    if($listecontactTable->save($listecontact)){
-                        $this->Flash->success('Liste de contact ajouté avec succès.');
-                        $this->_log('Mise à jour de la liste de contact '.$listecontact->id);
-                        $this->redirect(['action' => 'viewList', 'listecontact' => $listecontact->id]);
+                    }else{
+                        $this->Flash->error('Champs manquants dans le fichier. Champs obligatoires : TELEPHONE1, CLIENT');
+                        return $this->redirect(['action' => 'createListContact']);
                     }
                 }else{
                     $this->Flash->error('Mauvais type de fichier importé. Type correct : xlsx, csv');
-                    $this->redirect(['action' => 'createListContact']);
+                    return $this->redirect(['action' => 'createListContact']);
                 }
             }else{
                 $liste_nom_existe = ListecontactsTable::nom_existe($this->request->getData()['libelle']);
                 if ($liste_nom_existe){
                     $this->Flash->error('Cette liste de contact existe déjà. Veuillez choisir un autre nom pour cette liste');
                     $this->redirect(['action' => 'createListContact']);
-                }
-                $listecontact = $listecontactTable->newEntity();
-                $listecontact->libelle = $this->request->getData()['libelle'];
-                $listecontact->iduser = $user->id;
-                $listecontactTable->save($listecontact);
-                $i=0;
-                foreach ($this->request->getData()['contacts'] as $ct){
-                    $liste_contact = $liste_contactTable->newEntity();
-                    $liste_contact->contact_id = $ct;
-                    $liste_contact->listecontact_id = $listecontact->id;
-                    if ($listecontactTable->save($liste_contact)){
-                        $this->_log('ajout à la liste de contact '.$liste_contact->id);
-                        $i++;
+                }else{
+                    $listecontact = $listecontactTable->newEntity();
+                    $listecontact->libelle = $this->request->getData()['libelle'];
+                    $listecontact->iduser = $user->id;
+                    $listecontactTable->save($listecontact);
+                    $i=0;
+                    foreach ($this->request->getData()['contacts'] as $ct){
+                        $liste_contact = $liste_contactTable->newEntity();
+                        $liste_contact->contact_id = $ct;
+                        $liste_contact->listecontact_id = $listecontact->id;
+                        if ($liste_contactTable->save($liste_contact)){
+                            $this->_log('ajout à la liste de contact '.$liste_contact->id);
+                            $i++;
+                        }
                     }
-                }
-                $listecontact->contacts = $i;
-                if($listecontactTable->save($listecontact)){
-                    $this->Flash->success('Liste de contact créé avec succès.');
-                    $this->_log('Mise à jour de la liste de contact '.$listecontact->id);
-                    $this->redirect(['action' => 'viewList', 'listecontact' => $listecontact->id]);
+                    $listecontact->contacts = $i;
+                    if($listecontactTable->save($listecontact)){
+                        $this->Flash->success('Liste de contact créé avec succès.');
+                        $this->_log('Mise à jour de la liste de contact '.$listecontact->id);
+                        $this->redirect(['action' => 'viewList', 'listecontact' => $listecontact->id]);
+                    }
                 }
             }
         }
 
         $listecontact = $listecontactTable->newEntity();
         $this->set(compact('listecontact'));
-        $listecontacts = $listecontactTable->find()->all();
+        $listecontacts = $listecontactTable->find()->contain('contacts')->all();
+        //debug($listecontacts);die;
         $this->set(compact('listecontacts'));
         $contact_add = ContactsTable::contact();
         $this->set('contact_add', $contact_add);
@@ -379,14 +395,14 @@ class ContactsController extends AppController
     public function deleteListContact(){
         if($this->request->getQuery('listecontact') == false){
             $this->Flash->error('Informations manquantes.');
-            $this->redirect(['Controller' => 'Users','action' => 'logout']);
+            $this->redirect(['controller' => 'Users','action' => 'logout']);
         }else{
             $id = (int)$this->request->getQuery('listecontact');
-            $listcontactTable = TableRegistry::get('contact');
+            $listcontactTable = TableRegistry::get('listecontacts');
             $listcontact = $listcontactTable->get($id);
             if (!$listcontact) {
                 $this->Flash->error('Cette liste de contact n\'existe pas.');
-                $this->redirect(['Controller' => 'Users','action' => 'logout']);
+                $this->redirect(['controller' => 'Users','action' => 'logout']);
             }else{
                 $listcontactTable->delete($listcontact);
                 $this->Flash->set('La liste de contact a été supprimée avec succès.', ['element' => 'success']);

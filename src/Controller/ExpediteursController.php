@@ -13,7 +13,7 @@ class ExpediteursController extends AppController
     {
         parent::initialize();
         $user = $this->Auth->user();
-        if(isset($user)){
+        if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);
             $user['reset_at'] = new FrozenTime($user['reset_at']);
             $usersTable = TableRegistry::get('Users');

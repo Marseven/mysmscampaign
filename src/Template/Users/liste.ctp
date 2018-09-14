@@ -38,7 +38,7 @@
                         <td><?php echo htmlentities($user->last_login);?></td>
                         <td>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'edit', 'user' => $user->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'delete', 'user' => $user->id]) ?>"><i class="ti-trash"></i></a>
+                            <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette utilisateur !');" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'delete', 'user' => $user->id]) ?>"><i class="ti-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>

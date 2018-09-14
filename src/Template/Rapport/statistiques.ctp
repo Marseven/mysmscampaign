@@ -79,7 +79,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card-box">
-            <h4 class="header-title m-t-0">Statistics</h4>
+            <h4 class="header-title m-t-0">Statistiques</h4>
             <div id="morris-bar-example" style="height: 400px;"></div>
         </div>
     </div><!-- end col-->

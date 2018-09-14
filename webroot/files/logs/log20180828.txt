@@ -1,0 +1,24 @@
+28/08/2018 03:25:01 --   -- Envoi de mail de réinitialisation à utilisateur 1
+28/08/2018 03:26:46 -- Mebodo Aristide -- Authentification de utilisateur 1
+28/08/2018 03:28:54 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+28/08/2018 03:29:07 -- Mebodo Aristide -- Authentification de utilisateur 1
+28/08/2018 03:45:16 -- Mebodo Aristide -- Envoi de sms pour la campagne 6
+28/08/2018 03:46:21 -- Mebodo Aristide -- Modification d'un modèle sms 1
+28/08/2018 04:07:53 -- Mebodo Aristide -- Suppression du modèle sms 2
+28/08/2018 04:10:17 -- Mebodo Aristide -- Ajout de modèle sms 3
+28/08/2018 04:11:38 -- Mebodo Aristide -- Création de la campagne 7
+28/08/2018 04:15:05 -- Mebodo Aristide -- Ajout de modèle sms 4
+28/08/2018 04:15:26 -- Mebodo Aristide -- Modification d'un modèle sms 4
+28/08/2018 04:19:50 -- Mebodo Aristide -- Envoi de sms pour la campagne 7
+28/08/2018 04:25:37 -- Mebodo Aristide -- Création de contact 15
+28/08/2018 04:31:14 -- Mebodo Aristide -- ajout à la liste de contact du contact 15
+28/08/2018 04:32:49 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+28/08/2018 04:33:49 -- Mebodo Aristide -- Authentification de utilisateur 1
+28/08/2018 04:35:11 -- Mebodo Aristide -- Modification d'un modèle sms 4
+28/08/2018 04:36:12 -- Mebodo Aristide -- Modification d'un modèle sms 4
+28/08/2018 12:38:19 --   -- Envoi de mail de réinitialisation à utilisateur 1
+28/08/2018 12:50:47 -- Mebodo Aristide -- Mot de passe réinitialisé pour utilisateur 1
+28/08/2018 12:55:27 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+28/08/2018 01:06:42 -- Mebodo Aristide -- Authentification de utilisateur 1
+28/08/2018 01:17:27 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+28/08/2018 01:17:38 -- Mebodo Aristide -- Authentification de utilisateur 1

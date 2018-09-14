@@ -43,6 +43,8 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
+        
+        date_default_timezone_set('Africa/Libreville');
 
         $this->loadComponent('RequestHandler', ['viewClassMap' => ['xlsx' => 'Cewi/Excel.Excel'], 'enableBeforeRedirect' => false]);
         $this->loadComponent('Flash');
@@ -119,6 +121,7 @@ class AppController extends Controller
             }
         }
 
+        //debug($chaine_finale);die;
         if ($j == 7) {
             $chaine_finale = '2410'.$chaine_finale;
             return $chaine_finale;
@@ -143,18 +146,17 @@ class AppController extends Controller
             if(is_array($user)){
                 $user = $usersTable->newEntity($user);
             }
+            $dir = WWW_ROOT . 'files' . DS ."logs".DS;
+            $rotate = date("Ymd");
+            $filename = $dir."log".$rotate.".txt";
+
+            $log = date("d/m/Y h:i:s") . " -- ";
+            $log .= $user->nom.' '.$user->prenom . " -- " . $action;
+
+            $stream = @fopen($filename, "a");
+            fputs($stream, $log . "\n");
+            fclose($stream);
         }
-
-        $dir = WWW_ROOT . 'files' . DS ."logs".DS;
-        $rotate = date("Ymd");
-        $filename = $dir."log".$rotate.".txt";
-
-        $log = date("d/m/Y h:i:s") . " -- ";
-        $log .= $user->nom.' '.$user->prenom . " -- " . $action;
-
-        $stream = @fopen($filename, "a");
-        fputs($stream, $log . "\n");
-        fclose($stream);
     }
 
     public function getInfoApi(){
@@ -222,9 +224,9 @@ class AppController extends Controller
         $date = date('Y-m-d H:i:s');
         $date = new \DateTime($date);
 
-        $formatter_semaine = new \IntlDateFormatter("fr_FR", \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, 'Europe/Paris', \IntlDateFormatter::GREGORIAN, "EEEE");
+        $formatter_semaine = new \IntlDateFormatter("fr_FR", \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, 'Africa/Libreville', \IntlDateFormatter::GREGORIAN, "EEEE");
         $formatter_semaine->setPattern("EEEE");
-        $formatter_mois = new \IntlDateFormatter("fr_FR", \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Europe/Paris', \IntlDateFormatter::GREGORIAN, "MMMM");
+        $formatter_mois = new \IntlDateFormatter("fr_FR", \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Africa/Libreville', \IntlDateFormatter::GREGORIAN, "MMMM");
         $formatter_mois->setPattern("MMMM");
 
         $firstDay = new \DateTime("first day of this month");
@@ -233,7 +235,7 @@ class AppController extends Controller
 
         $offset_depart = $date->format('Y-m-d H:i:s');
         $offset_fin = $firstDay->format('Y-m-d H:i:s');
-
+        
         while ($i <= 12){
             $campagnes = $campagnesTable->find()
                 ->where(
@@ -253,7 +255,7 @@ class AppController extends Controller
             $fin = $firstDay->modify('-1 month');
             $offset_fin = $fin->format('Y-m-d H:i:s');
         }
-        asort($data);
+        $data = array_reverse($data, true);
         return $data;
     }
 
@@ -291,6 +293,10 @@ class AppController extends Controller
     public function isAuthorized($user)
     {
         // Par défaut n'autorise pas
-        return true;
+        if($user == null){
+            
+        }else{
+            return true;
+        }
     }
 }

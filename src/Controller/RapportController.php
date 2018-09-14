@@ -28,7 +28,7 @@ class RapportController extends AppController
         parent::initialize();
         $this->Auth->allow(['index']);
         $user = $this->Auth->user();
-        if(isset($user)){
+        if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);
             $user['reset_at'] = new FrozenTime($user['reset_at']);
             $usersTable = TableRegistry::get('Users');
@@ -56,8 +56,32 @@ class RapportController extends AppController
         $campagnes = $campagneTable->find()->contain(['Users', 'Smss'])->all();
         //$contacts = $contactTable->find()->contain(['Users', 'Smss'])->all();
         $contactsms = $contactsmsTable->find()->contain('Smss')->all();
-        $this->set('contactsms', $contactsms);
-        //debug($contactsms);
+        $contacts = array();
+        $i=0; $telephone = ""; $j=0;
+        foreach($campagnes as $cpg){
+            foreach($contactsms as $contact){
+                if ($contact->sms->idcampagne == $cpg->id){
+                    if($telephone == "" && $i == 0){
+                        //echo htmlentities($contact->contact_id); $i++; $telephone = $contact->contact_id;
+                        $contacts[$j]['telephone'] = $contact->contact_id;
+                        $contacts[$j]['contenu'] = $contact->sms->contenu;
+                        $contacts[$j]['etat'] = $contact->sms->etat;
+                        $contacts[$j]['dateEnvoi'] = $contact->sms->dateEnvoi;
+                        $contacts[$j]['idcampagne'] = $cpg->id;
+                        $j++;
+                    }elseif ($telephone != $contact->contact_id && $i != 0){
+                        //echo htmlentities($contact->contact_id); $telephone = $contact->contact_id;
+                        $contacts[$j]['telephone'] = $contact->contact_id;
+                        $contacts[$j]['contenu'] = $contact->sms->contenu;
+                        $contacts[$j]['etat'] = $contact->sms->etat;
+                        $contacts[$j]['dateEnvoi'] = $contact->sms->dateEnvoi;
+                        $contacts[$j]['idcampagne'] = $cpg->id;
+                        $j++;
+                    }
+                }  
+            }
+        }
+                                                            
         $pourcentage = array();
         foreach ($campagnes as $camp){
             $nbre_envoye = 0;
@@ -74,16 +98,23 @@ class RapportController extends AppController
                 }
                 $i++;
             }
-            $nbre_envoye = ($nbre_envoye/$i)*100;
-            $nbre_programme = ($nbre_programme/$i)*100;
-            $nbre_echec = ($nbre_echec/$i)*100;
+            if ($i!=0) {
+                $nbre_envoye = ($nbre_envoye/$i)*100;
+                $nbre_programme = ($nbre_programme/$i)*100;
+                $nbre_echec = ($nbre_echec/$i)*100;
+                $pourcentage[$camp->id]['envoye'] = $nbre_envoye;
+                $pourcentage[$camp->id]['programme'] = $nbre_programme;
+                $pourcentage[$camp->id]['echec'] = $nbre_echec;
+            }else{
+                $pourcentage[$camp->id]['envoye'] = $nbre_envoye;
+                $pourcentage[$camp->id]['programme'] = $nbre_programme;
+                $pourcentage[$camp->id]['echec'] = $nbre_echec;
+            }
 
-            $pourcentage[$camp->id]['envoye'] = $nbre_envoye;
-            $pourcentage[$camp->id]['programme'] = $nbre_programme;
-            $pourcentage[$camp->id]['echec'] = $nbre_echec;
         }
 
         $this->set('camp_js', $campagnes);
+        $this->set(compact('contacts'));
         $this->set(compact('pourcentage'));
         $this->set(compact('campagnes'));
     }
@@ -225,7 +256,7 @@ class RapportController extends AppController
                 $nbre_echec = 0;
                 $i=0;
                 $pourcentage = array();
-                //debug($campagne);die;
+                
                 foreach ($campagne->smss as $ms){
                     if ($ms->etat == 100){
                         $nbre_envoye++;
@@ -236,10 +267,17 @@ class RapportController extends AppController
                     }
                     $i++;
                 }
-                $p_nbre_envoye = ($nbre_envoye/$i)*100;
-                $p_nbre_programme = ($nbre_programme/$i)*100;
-                $p_nbre_echec = ($nbre_echec/$i)*100;
-                $nbre_sms = $i;
+                if ($i != 0) {
+                    $p_nbre_envoye = ($nbre_envoye/$i)*100;
+                    $p_nbre_programme = ($nbre_programme/$i)*100;
+                    $p_nbre_echec = ($nbre_echec/$i)*100;
+                    $nbre_sms = $i;   
+                }else{
+                    $p_nbre_envoye = 0;
+                    $p_nbre_programme = 0;
+                    $p_nbre_echec = 0;
+                    $nbre_sms = $i;   
+                }
 
                 $pourcentage[$campagne->id]['envoye'] = $p_nbre_envoye;
                 $pourcentage[$campagne->id]['programme'] = $p_nbre_programme;

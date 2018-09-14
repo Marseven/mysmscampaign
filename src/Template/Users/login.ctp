@@ -32,7 +32,7 @@
     <?= $this->Html->script('modernizr.min') ?>
 
 </head>
-<body>
+<body> 
 
 <div class="account-pages"></div>
 <div class="clearfix"></div>
@@ -44,9 +44,9 @@
     <div class="m-t-40 card-box">
         <div class="text-center">
             <h4 class="text-uppercase font-bold m-b-0">Connexion</h4>
-            <?= $this->Flash->render() ?>
         </div>
         <div class="panel-body">
+            <?= $this->Flash->render() ?>
             <?= $this->Form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'login']]); ?>
 
                 <div class="form-group ">
@@ -97,7 +97,7 @@
 
     <div class="row">
         <div class="col-sm-12 text-center">
-            <p class="text-muted">Vous n'avez pas de compte? <a href="#" class="text-primary m-l-5"><b>contactez le support</b></a></p>
+            <p class="text-muted">Vous n'avez pas de compte? <a href="#" class="text-primary m-l-5" data-container="body" title="SETRAG" data-toggle="popover" data-placement="top" data-content="Notre mail est support@setrag.ga et notre téléphone est +241 04228306." data-original-title="[SETRAG] Support"><b>contactez le support</b></a></p>
         </div>
     </div>
 

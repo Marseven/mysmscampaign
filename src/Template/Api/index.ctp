@@ -59,7 +59,7 @@
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->Form->control('Terminer', array(
+                    <?= $this->Form->control(isset($api->id) ? 'Modifier' : 'Ajouter', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
@@ -140,7 +140,7 @@
 
             <h4 class="header-title m-t-0 m-b-30">Listes des API</h4>
 
-            <table id="datatable-buttons" class="table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>#ID</th>
@@ -165,7 +165,7 @@
                         <td><?php echo htmlentities($ap->etat);?></td>
                         <td>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Api', 'action' => 'edit', 'api' => $ap->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Api', 'action' => 'delete', 'api' => $ap->id]) ?>"><i class="ti-trash"></i></a>
+                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Api', 'action' => 'delete', 'api' => $ap->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer cette API !');"><i class="ti-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>
@@ -189,10 +189,15 @@
 <?= $this->Html->script('../plugins/datatables/buttons.print.min.js', ['block'=>true]) ?>
 <?= $this->Html->script('../plugins/datatables/responsive.bootstrap.min.js', ['block'=>true]) ?>
 
-
-<!-- Datatable init js -->
-<?= $this->Html->script('../pages/datatables.init.js', ['block'=>true]) ?>
-
+<?=$this->Html->scriptStart(['block' => true]) ?>
+$(document).ready(function() {
+$('#datatable').dataTable( {
+"language": {
+"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+}
+} );
+} );
+<?= $this->Html->scriptEnd()?>
 
 <?=$this->Html->scriptStart(['block' => true]) ?>
 $(document).ready(function() {

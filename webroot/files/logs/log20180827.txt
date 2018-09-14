@@ -9,3 +9,9 @@
 27/08/2018 11:41:20 -- Mebodo Aristide -- Authentification de utilisateur 1
 27/08/2018 11:41:27 -- Mebodo Aristide -- Authentification de utilisateur 1
 27/08/2018 02:06:11 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 02:53:24 -- Mebodo Aristide -- Authentification de utilisateur 1
+27/08/2018 03:25:17 -- Mebodo Aristide -- Création de contact 14
+27/08/2018 03:27:25 -- Mebodo Aristide -- Mise à jour de la liste de contact 2
+27/08/2018 03:40:11 -- Mebodo Aristide -- ajout à la liste de contact du contact 14
+27/08/2018 03:50:23 -- Mebodo Aristide -- Envoi rapide de sms 13
+27/08/2018 03:52:09 -- Mebodo Aristide -- Envoi de sms pour la campagne 5

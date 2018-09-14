@@ -5,11 +5,11 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card-box">
-            <h4 class="m-t-0 header-title"><b><?= isset($api->id) ? 'Modifier' : 'Créer' ?> une campagne</b></h4>
+            <h4 class="m-t-0 header-title"><b><?= isset($campagne->id) ? 'Modifier' : 'Créer' ?> une campagne</b></h4>
             <br>
             <div class="row m-b-30">
                 <div class="col-sm-8">
-                    <?= isset($api->id) ? $this->Form->create($campagne, ['url' => ['action' => 'edit', 'api' => $campagne->id], 'class' => 'form-horizontale']) : $this->Form->create($campagne, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
+                    <?= isset($campagne->id) ? $this->Form->create($campagne, ['url' => ['action' => 'edit', 'campagne' => $campagne->id], 'class' => 'form-horizontale']) : $this->Form->create($campagne, ['url' => ['action' => 'add'], 'class' => 'form-horizontale']) ?>
                     <div class="form-group">
                         <?= $this->Form->control('libelle', array(
                             'class' => 'form-control',
@@ -32,7 +32,7 @@
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->Form->control('Terminer', array(
+                    <?= $this->Form->control(isset($campagne->id) ? 'Modifier' : 'Ajouter', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
@@ -118,9 +118,9 @@
                 <tr>
                     <th>#ID</th>
                     <th>Nom de la campagne</th>
-                    <th>Nbre envoyé</th>
-                    <th>Nbre contact</th>
-                    <th>Nbre échoué</th>
+                    <th>Nombre envoyé</th>
+                    <th>Nombre de contact</th>
+                    <th>Nombre échoué</th>
                     <th>Coût de la campagne</th>
                     <th>Date d'envoi</th>
                     <th>Action</th>
@@ -140,7 +140,7 @@
                         <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($camp->dateEnvoi));?></td>
                         <td>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'edit', 'campagne' => $camp->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'delete', 'campagne' => $camp->id]) ?>"><i class="ti-trash"></i></a>
+                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'delete', 'campagne' => $camp->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer cette campagne !');"><i class="ti-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>

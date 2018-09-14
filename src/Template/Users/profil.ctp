@@ -10,7 +10,7 @@
     <div class="col-sm-8">
         <div class="bg-picture card-box">
             <div class="profile-info-name">
-                <?= $this->Html->image("default-avatar.png", ['class' => 'img-thumbnail', 'alt'=>'profil-image', 'title'=>'user']); ?>
+                <?= $this->Html->image($user->picture != '' ? 'user/'.$user->picture : 'default-avatar.png', ['class' => 'img-thumbnail', 'alt'=>'profil-image', 'title'=>'user']); ?>
 
                 <div class="profile-info-detail">
                     <h3 class="m-t-0 m-b-0"><span class="text-uppercase"><?php echo htmlentities($user->nom);?></span> <?php echo htmlentities($user->prenom);?></h3>
@@ -22,7 +22,7 @@
                         <h5><i class="ti-email"></i> <?php echo htmlentities($user->email);?></h5>
                     </div>
                     <div class="col-sm-6">
-                        <h5><i class="ti-calendar"></i> <?php echo htmlentities($user->dateNaiss); ?> ans</h5>
+                        <h5><i class="ti-calendar"></i> <?php $age = new \App\Controller\AppController(); echo htmlentities($age->age($user->dateNaiss)).' ans'; ?></h5>
                     </div>
                     <div class="col-sm-6">
                         <h5><i class="ti-location-pin"></i> <?php echo htmlentities($user->codeZip);?> , <?php echo htmlentities($user->adresse);?> - <?php echo htmlentities($user->ville);?></h5>
@@ -32,6 +32,10 @@
                     </div>
                     <div class="col-sm-6">
                         <h5><i class="ti-shift-left"></i> <?php echo htmlentities(\App\Controller\AppController::change_format_date($user->last_login));?></h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <br></br>
+                        <a class="btn btn-sm btn-primary" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'edit', 'user' => $user->id]) ?>">Modifier</a>
                     </div>
                 </div>
 
@@ -85,7 +89,7 @@
                         <span class="font-13 text-muted">480 caractères maximum</span>
                     </div>
                 </div>
-                <div class="p-t-10 pull-right">
+                <div class="p-t-10 pull-right" style="margin-top: -30px;">
                     <?= $this->Form->control('Envoyer', array(
                         'class' => 'btn btn-purple',
                         'type'  => 'submit',

@@ -1,0 +1,7 @@
+30/08/2018 08:24:54 -- Mebodo Aristide -- Authentification de utilisateur 1
+30/08/2018 08:46:11 -- Mebodo Aristide -- Authentification de utilisateur 1
+30/08/2018 09:05:15 -- Mebodo Aristide -- Modification de la campagne 7
+30/08/2018 09:18:41 -- Mebodo Aristide -- Suppression de la campagne 6
+30/08/2018 09:44:06 -- Mebodo Aristide -- Suppression du contact 15
+30/08/2018 09:50:54 -- Mebodo Aristide -- Retrait de la liste de contact du contact 
+30/08/2018 09:53:01 -- Mebodo Aristide -- ajout à la liste de contact du contact 14

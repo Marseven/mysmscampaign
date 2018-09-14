@@ -155,17 +155,15 @@
                                     </thead>
 
                                     <tbody>
-                                        <?php $i=0; $telephone = ""; foreach($contactsms as $contact): ?>
-                                            <?php foreach($contact->sms as $sms): ?>
-                                                <?php if ($sms->idcampagne == $cpg->id): ?>
-                                            <tr>
-                                                <td><?php if($telephone == "" && $i == 0){echo htmlentities($contact->contact_id); $i++; $telephone = $contact->contact_id;}elseif($telephone == $contact->contact_id && $i != 0){echo "";}elseif ($telephone != $contact->contact_id && $i != 0){echo htmlentities($contact->contact_id); $telephone = $contact->contact_id;}?></td>
-                                                <td><?php echo htmlentities($sms->contenu);?></td>
-                                                <td><?php if($sms->etat == 100){ echo '<span class="badge badge-success">Envoyé</span>';}elseif($sms->etat == 101){echo '<span class="badge badge-warning">Programmé</span>';}else{echo '<span class="badge badge-danger">Non Envoyé</span>';} ;?></td>
-                                                <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($sms->dateEnvoi));?></td>
-                                            </tr>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
+                                        <?php foreach($contacts as $contact): ?>
+                                            <?php if ($contact['idcampagne'] == $cpg->id): ?>
+                                                <tr>
+                                                    <td><?= $contact['telephone'] ?></td>
+                                                    <td><?php echo htmlentities($contact['contenu']);?></td>
+                                                    <td><?php if($contact['etat'] == 100){ echo '<span class="badge badge-success">Envoyé</span>';}elseif($contact['etat'] == 101){echo '<span class="badge badge-warning">Programmé</span>';}else{echo '<span class="badge badge-danger">Non Envoyé</span>';} ;?></td>
+                                                    <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($contact['dateEnvoi']));?></td>
+                                                </tr>
+                                            <?php endif; ?>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>

@@ -16,7 +16,7 @@ class ContactsTable extends Table
         $this->belongsTo('users')
             ->setForeignKey('iduser') // Avant la version CakePHP 3.4, utilisez foreignKey() au lieu de setForeignKey()
             ->setJoinType('INNER');
-        $this->belongsToMany('smss', ['propertyName' => 'Sms']);
+        //$this->belongsToMany('smss', ['propertyName' => 'Sms']);
         $this->belongsToMany('listecontacts', ['propertyName' => 'ListeContacts']);
 
     }

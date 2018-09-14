@@ -13,7 +13,10 @@ class SmssTable extends Table
     public function initialize(array $config)
     {
         $this->setTable('smss');
-        $this->hasMany('sontactsmss')
+        $this->hasMany('contactsmss',[
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+            ])
              ->setForeignKey('sms_id')
              ->setDependent(true);
         $this->belongsTo('users')

@@ -17,9 +17,10 @@ class SmsController extends AppController
     public function initialize()
     {
         parent::initialize();
+        $this->Auth->allow(['receivedSms']);
         $this->loadComponent('Cewi/Excel.Import');
         $user = $this->Auth->user();
-        if(isset($user)){
+        if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);
             $user['reset_at'] = new FrozenTime($user['reset_at']);
             $usersTable = TableRegistry::get('Users');
@@ -65,9 +66,11 @@ class SmsController extends AppController
         $smsmodeleTable = TableRegistry::get('modelesmss_smss');
 
         $user = $this->Auth->user();
-        if($user){
+        if(is_array($user)){
             $usersTable = TableRegistry::get('Users');
             $user = $usersTable->newEntity($user);
+        }elseif (!is_array($user) && !is_object($user)) {
+            $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }
 
         if($this->request->is('post')){
@@ -105,69 +108,74 @@ class SmsController extends AppController
                 $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
                 $good_ext = in_array($extension, ['xlsx', 'csv']);
                 if($good_ext){
-                    $liste_nom_existe = ListecontactsTable::nom_existe($filename);
-                    if ($liste_nom_existe == false){
-                        move_uploaded_file($this->request->getData()['listecontact_import']['tmp_name'], "files/listecontact/".$filename);
-                        $listecontact = $listecontactTable->newEntity();
-                        $listecontact->libelle = $filename;
-                        $listecontact->iduser = $user->id;
-                        $listecontactTable->save($listecontact);
-                    }else {
-                        $listecontact = $liste_nom_existe;
-                    }
-
                     $data = $this->Import->prepareEntityData("files/listecontact/".$filename, ['worksheet'=> 0]);
                     //debug($data);
                     $contacts = array();
                     $i=0;
-
-                    foreach($data as $d){
-                        $d['TELEPHONE1'] = $this::format_telehone($d['TELEPHONE1']);
-                        if ($d['TELEPHONE1'] == false) {
-                            $this->Flash->error('Numéro de téléphone invalide.');
-                            return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
+                    if(key_exists(0, $data) && key_exists('TELEPHONE1', $data[0]) && key_exists('CLIENT', $data[0])){
+                        $liste_nom_existe = ListecontactsTable::nom_existe($filename);
+                        if ($liste_nom_existe == false){
+                            move_uploaded_file($this->request->getData()['listecontact_import']['tmp_name'], "files/listecontact/".$filename);
+                            $listecontact = $listecontactTable->newEntity();
+                            $listecontact->libelle = $filename;
+                            $listecontact->iduser = $user->id;
+                            $listecontactTable->save($listecontact);
+                        }else {
+                            $listecontact = $liste_nom_existe;
                         }
-                        $contacts[$i] = $d['TELEPHONE1'];
-                        $i++;
-                        ////Code Recyclé - pour sauvegarde de contact automatique
-                        /*$nom_tel_existe = ContactsTable::nom_tel_existe($d['CLIENT'], $d['TELEPHONE1']);
-                        $nom_existe = ContactsTable::nom_existe($d['CLIENT']);
-                        $tel_existe = ContactsTable::tel_existe($d['TELEPHONE1']);
-                        if ($nom_tel_existe == false){
-                            if ($nom_existe != false && $tel_existe == false){
-                                $nom_existe->telephone = $d['TELEPHONE1'];
-                                if ($contactTable->save($nom_existe)){
-                                    $contacts[$i] = $nom_existe;
-                                    $i++;
-                                }
-                            }elseif($tel_existe != false && $nom_existe == false){
-                                $tel_existe->nom = $d['CLIENT'];
-                                if ($contactTable->save($tel_existe)){
-                                    $contacts[$i] = $tel_existe;
-                                    $i++;
-                                }
-                            }elseif($tel_existe == false && $nom_existe == false){
-                                $contact = $contactTable->newEntity();
-                                $contact->nom = $d['CLIENT'];
-                                $contact->telephone = $d['TELEPHONE1'];
-                                $contact->iduser = $user->id;
-                                if ($contactTable->save($contact)){
-                                    $contacts[$i] = $contact;
-                                    $i++;
-                                }
+                        foreach ($data as $d) {
+                            $d['TELEPHONE1'] = $this::format_telehone($d['TELEPHONE1']);
+                            if ($d['TELEPHONE1'] == false) {
+                                $this->Flash->error('Numéro de téléphone invalide.');
+                                return $this->redirect(['controller' => 'Sms', 'action' => 'sendSms']);
                             }
-                        }else{
-                            $contacts[$i] = $nom_tel_existe;
+                            $contact = $contactTable->newEntity();
+                            $contact->nom = $d['CLIENT'];
+                            $contact->telephone = $d['TELEPHONE1'];
+                            $contacts[$i] = $contact;
                             $i++;
-                        }*/
+                            ////Code Recyclé - pour sauvegarde de contact automatique
+                            /*$nom_tel_existe = ContactsTable::nom_tel_existe($d['CLIENT'], $d['TELEPHONE1']);
+                            $nom_existe = ContactsTable::nom_existe($d['CLIENT']);
+                            $tel_existe = ContactsTable::tel_existe($d['TELEPHONE1']);
+                            if ($nom_tel_existe == false){
+                                if ($nom_existe != false && $tel_existe == false){
+                                    $nom_existe->telephone = $d['TELEPHONE1'];
+                                    if ($contactTable->save($nom_existe)){
+                                        $contacts[$i] = $nom_existe;
+                                        $i++;
+                                    }
+                                }elseif($tel_existe != false && $nom_existe == false){
+                                    $tel_existe->nom = $d['CLIENT'];
+                                    if ($contactTable->save($tel_existe)){
+                                        $contacts[$i] = $tel_existe;
+                                        $i++;
+                                    }
+                                }elseif($tel_existe == false && $nom_existe == false){
+                                    $contact = $contactTable->newEntity();
+                                    $contact->nom = $d['CLIENT'];
+                                    $contact->telephone = $d['TELEPHONE1'];
+                                    $contact->iduser = $user->id;
+                                    if ($contactTable->save($contact)){
+                                        $contacts[$i] = $contact;
+                                        $i++;
+                                    }
+                                }
+                            }else{
+                                $contacts[$i] = $nom_tel_existe;
+                                $i++;
+                            }*/
+                        }
+
+                        $listecontact->contacts = $i;
+                        $listecontactTable->save($listecontact);
+                    }else{
+                        $this->Flash->error('Champs manquants dans le fichier. Champs obligatoires : TELEPHONE1, CLIENT');
+                        return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
                     }
-
-                    $listecontact->contacts = $i;
-                    $listecontactTable->save($listecontact);
-
                 }else{
                     $this->Flash->error('Mauvais type de fichier importé. Type correct : xlsx, csv');
-                    $this->redirect(['action' => 'createListContact']);
+                    return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
                 }
             }else{
                 $listecontact = $listecontactTable->find()->where(
@@ -348,7 +356,7 @@ class SmsController extends AppController
                 foreach ($contacts as $ct){
                     $sms_contact = $smscontactTable->newEntity();
                     $sms_contact->sms_id = $sms->id;
-                    $sms_contact->contact_id = $ct;
+                    $sms_contact->contact_id = $ct->telephone;
                     foreach ($response['smsIds'] as $re){
                         if ($re['phoneNumber'] == $ct){
                             $sms_contact->smsId = $re['smsId'];
@@ -477,7 +485,7 @@ class SmsController extends AppController
             if ($smsTable->save($sms)) {
                 $sms_contact = $smscontactTable->newEntity();
                 $sms_contact->sms_id = $sms->id;
-                $sms_contact->contact_id = $contact->id;
+                $sms_contact->contact_id = $contact->telephone;
                 foreach ($response['smsIds'] as $re) {
                     if ($re['phoneNumber'] == $contact->telephone) {
                         $sms_contact->smsId = $re['smsId'];
@@ -505,9 +513,10 @@ class SmsController extends AppController
     }
 
     public function receivedSms(){
-        $smscontactTable = TableRegistry::get('contacts_smss');
+        $smscontactTable = TableRegistry::get('contactsmss');
+        $reponse = "OK";
         if ($this->request->is('get')) {
-            $data = $this->request->params['?'];
+            $data = $this->request->getQuery();
             $sms_contact = $smscontactTable->find()
                 ->where(
                     [
@@ -519,17 +528,25 @@ class SmsController extends AppController
             $sms_contact->receptionDate = $data['receptionDate'];
             $sms_contact->status = $data['status'];
             $sms_contact->campaignId = $data['campaignId'];
-            $smscontactTable->save($sms_contact);
-            $this->_log('Réception de l\'accusé de réception '.$sms_contact->id);
+            if ($smscontactTable->save($sms_contact)){
+                $this->_log('Réception de l\'accusé de réception '.$sms_contact->id);
+                $reponse = "OK";
+                echo $reponse;
+                exit();
+            }
         }
+        echo $reponse;
+        exit();
     }
 
     public function modelSms(){
         $modelesmsTable = TableRegistry::get('modelesmss');
         $user = $this->Auth->user();
-        if($user){
+        if(is_array($user)){
             $usersTable = TableRegistry::get('Users');
             $user = $usersTable->newEntity($user);
+        }elseif (!is_array($user) && !is_object($user)) {
+            $this->redirect(['Controller' => 'Users','action' => 'logout']);
         }
 
         $modelSms = $modelesmsTable->find()->all();

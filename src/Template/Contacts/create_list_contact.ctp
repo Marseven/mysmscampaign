@@ -40,7 +40,7 @@
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->Form->control('Terminer', array(
+                    <?= $this->Form->control(isset($listecontact->id) ? 'Modifier' : 'Créer', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
@@ -153,8 +153,7 @@
                         <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($ct->dateCreation));?></td>
                         <td>
                             <a class="btn btn-success" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'viewList', 'listecontact' => $ct->id]) ?>"><i class="ti-eye"></i></a>
-                            <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'editContact', 'listecontact' => $ct->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'deleteContact', 'listecontact' => $ct->id]) ?>"><i class="ti-trash"></i></a>
+                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'deleteListContact', 'listecontact' => $ct->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer cette Liste de contact !');"><i class="ti-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>

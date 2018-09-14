@@ -46,6 +46,7 @@
             <h4 class="text-uppercase font-bold m-b-0">Réinitialisation du mot de passe.</h4>
         </div>
         <div class="panel-body">
+            <?= $this->Flash->render() ?> 
             <?= $this->Form->create('User', ['class' => 'form-horizontal m-t-20', 'url' => ['Controller' => 'Users','action' => 'resetPassword']]); ?>
 
             <div class="form-group">
@@ -72,6 +73,13 @@
                 </div>
             </div>
 
+            <?= $this->Form->control('email', array(
+                'class' => 'form-control',
+                'placeholder' => 'Confirmer Le Mot de passe',
+                'type' => 'hidden',
+                'value' => $email,
+            )); ?>
+
             <div class="form-group text-center m-t-30">
                 <div class="col-xs-12">
                     <?= $this->Form->control('Valider', array(
@@ -96,7 +104,7 @@
 
     <div class="row">
         <div class="col-sm-12 text-center">
-            <p class="text-muted">Vous n'avez pas de compte? <a href="#" class="text-primary m-l-5"><b>contactez le support</b></a></p>
+            <p class="text-muted">Vous n'avez pas de compte? <a href="#" class="text-primary m-l-5" data-container="body" title="SETRAG" data-toggle="popover" data-placement="top" data-content="notre mail est support@setrag.ga et notre téléphone est +241 04228306." data-original-title="[SETRAG] Support"><b>contactez le support</b></a></p>
         </div>
     </div>
 

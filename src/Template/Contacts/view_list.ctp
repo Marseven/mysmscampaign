@@ -34,7 +34,7 @@
                         'label' => '',
                     )); ?>
                     <br>
-                    <?= $this->Form->control('Terminer', array(
+                    <?= $this->Form->control('Ajouter', array(
                         'class' => 'btn btn-success',
                         'type'  => 'submit',
                         'label' => '',
@@ -135,7 +135,7 @@
                         <td><?php echo htmlentities($contact->nom);?></td>
                         <td><?php echo htmlentities($contact->telephone);?></td>
                         <td>
-                            <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'retirerContact', 'contact' => $contact->id, 'listecontact' => $listecontact->id]) ?>"><i class="ti-minus"></i></a>
+                            <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment retirer ce contact de cette liste !');" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'retirerContact', 'contact' => $contact->id, 'listecontact' => $listecontact->id]) ?>"><i class="ti-minus"></i></a>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'editContact', 'contact' => $contact->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'deleteContact', 'contact' => $contact->id]) ?>"><i class="ti-trash"></i></a>
                         </td>

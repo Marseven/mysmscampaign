@@ -16,7 +16,10 @@ class CampagnesTable extends Table
         $this->belongsTo('users')
             ->setForeignKey('iduser') // Avant la version CakePHP 3.4, utilisez foreignKey() au lieu de setForeignKey()
             ->setJoinType('INNER');
-        $this->hasMany('smss')
+        $this->hasMany('smss',[
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+            ])
             ->setForeignKey('idcampagne')
             ->setDependent(true);
 
