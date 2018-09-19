@@ -26,6 +26,10 @@ class RapportController extends AppController
     public function initialize()
     {
         parent::initialize();
+        if (!$this->isAdministrator() && !$this->isSuperAdministrator()){
+            $this->Flash->error("Vous n'etes pas Administrateur, Espace reserve aux Administrateurs.");
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
+        }
         $this->Auth->allow(['index']);
         $user = $this->Auth->user();
         if(isset($user) && $user != null){

@@ -148,8 +148,10 @@
                         <td><?php echo htmlentities($ms->libelle);?></td>
                         <td><?php echo htmlentities($ms->contenu);?></td>
                         <td>
+                        <?php if($user->id == $ms->iduser || $user->role == "Administrateur"){ ?>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'editModelSms', 'modelsms' => $ms->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'deleteModelSms', 'modelsms' => $ms->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce modèle de SMS !');"><i class="ti-trash"></i></a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>

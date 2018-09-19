@@ -49,6 +49,10 @@ class UsersController extends AppController {
 
 
 	public function index(){
+        if (!$this->isAdministrator() && !$this->isSuperAdministrator()){
+            $this->Flash->error("Vous n'etes pas Administrateur, Espace reserve aux Administrateurs.");
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
+        }
         $title = 'Tableau de Bord';
         $this->set('title', $title);
 
@@ -153,7 +157,12 @@ class UsersController extends AppController {
                 $this->Auth->setUser($user);
                 $this->Flash->success('Content de vous revoir '.$this->Auth->user('nom').' '.$this->Auth->user('prenom'));
                 $this->_log('Authentification de utilisateur '.$this->Auth->user('id'));
-                return $this->redirect($this->Auth->redirectUrl());
+                if($this->Auth->user('role') == "Administrateur" || $this->Auth->user('role') == "SuperAdministrateur"){
+                    return $this->redirect($this->Auth->redirectUrl());
+                }else{
+                    return $this->redirect(['controller' => 'Sms', 'action' => 'sendSms']);
+                }
+
             }
             $this->Flash->error('Votre email ou mot de passe est incorrect.');
         }
@@ -179,9 +188,13 @@ class UsersController extends AppController {
     }
 
     function signup(){
+        if (!$this->isAdministrator() && !$this->isSuperAdministrator()){
+            $this->Flash->error("Vous n'etes pas Administrateur, Espace reserve aux Administrateurs.");
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
+        }
         $usersTable = TableRegistry::get('Users');
-        $user = $usersTable->newEntity();
-        $this->set(compact('user'));
+        $new_user = $usersTable->newEntity();
+        $this->set(compact('new_user'));
         if($this->request->is('post')){
             if(empty($this->request->getData()['password']) || $this->request->getData()['password'] != $this->request->getData()['password_verify']){
                 $this->Flash->set('Mots de passe différents !', ['element' => 'error']);
@@ -205,7 +218,6 @@ class UsersController extends AppController {
             $dateNaiss = new \DateTime($this->request->getData()['dateNaiss']);
             if($dateNaiss < $now){
                 $user = $usersTable->newEntity($this->request->getData());
-                $user->role = "Utilisateur";
                 $filename = $this->request->getData()['picture']['name'];
                 $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
                 $good_ext = in_array($extension, ['png', 'jpg', 'jpeg']);
@@ -438,6 +450,10 @@ class UsersController extends AppController {
     }
 
     public function delete(){
+        if (!$this->isAdministrator() && !$this->isSuperAdministrator()){
+            $this->Flash->error("Vous n'etes pas Administrateur, Espace reserve aux Administrateurs.");
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
+        }
         if($this->request->getQuery('user') == false){
             $this->Flash->error('Information manquante.');
             return $this->redirect(['action' => 'logout']);
@@ -450,15 +466,47 @@ class UsersController extends AppController {
             $this->Flash->error('Ce profil n\'exite pas');
             return $this->redirect(['action' => 'logout']);
         }else{
-            if($user->role == 'Utilisateur'){
-                $usersTable->delete($user);
-                $this->Flash->set('L\'utilisateur a été supprimé avec succès.', ['element' => 'success']);
-                $this->_log('Suppression de utilisateur '.$user->id);
-                $this->redirect(['controller' => 'Users','action' => 'index']);
-            }else{
-                $this->Flash->set('L\'utilisateur que vous essayer de supprimer est un administrateur ', ['element' => 'error']);
-                $this->redirect(['controller' => 'Users','action' => 'index']);
+            $user = $this->Auth->user();
+            if(isset($user) && $user != null) {
+                if (is_array($user)) {
+                    $user = $usersTable->newEntity($user);
+                }
+                if($user->role == 'Administrateur'){
+                    if($user->role == 'Utilisateur'){
+                        $usersTable->delete($user);
+                        $this->Flash->set('L\'utilisateur a été supprimé avec succès.', ['element' => 'success']);
+                        $this->_log('Suppression de utilisateur '.$user->id);
+                        $this->redirect(['controller' => 'Users','action' => 'index']);
+                    }else{
+                        $this->Flash->set('L\'utilisateur que vous essayer de supprimer est un administrateur ', ['element' => 'error']);
+                        $this->redirect(['controller' => 'Users','action' => 'index']);
+                    }
+                }elseif($user->role == 'SuperAdministrateur'){
+                    $usersTable->delete($user);
+                    $this->Flash->set('L\'utilisateur a été supprimé avec succès.', ['element' => 'success']);
+                    $this->_log('Suppression de utilisateur '.$user->id);
+                    $this->redirect(['controller' => 'Users','action' => 'index']);
+                }
             }
+
+        }
+    }
+
+    public function becomeAdministrator(){
+        $usersTable = TableRegistry::get('Users');
+        if($this->request->getQuery('user')){
+            $id = (int)$this->request->getQuery('user');
+            $user_edit = $usersTable->get($id);
+            if (!$user_edit) {
+                $this->Flash->error('Ce profil n\'exite pas');
+                $this->redirect(['action' => 'logout']);
+            }
+            $user_edit->role = 'Administrateur';
+            if ($usersTable->save($user_edit)){
+                $this->Flash->success($user_edit->nom.' '.$user_edit->prenom .' est desormais un administrateur de MySMSCampaign.');
+                return $this->redirect(['action' => 'liste']);
+            }
+
         }
     }
 
@@ -510,18 +558,38 @@ class UsersController extends AppController {
     }
 
     public function liste(){
+        if (!$this->isAdministrator() && !$this->isSuperAdministrator()){
+            $this->Flash->error("Vous n'etes pas Administrateur, Espace reserve aux Administrateurs.");
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
+        }
         $usersTable = TableRegistry::get('Users');
-        $users = $usersTable->find()
-            ->where(
-                [
-                    'role' => 'Utilisateur',
-                ]
-            )
-            ->all();
-        $this->set('users', $users);
+        $user = $this->Auth->user();
+        if(isset($user) && $user != null){
+            if(is_array($user)){
+                $user = $usersTable->newEntity($user);
+            }
+
+            if ($user->role == "Administrateur" || $user->role == "SuperAdministrateur"){
+                $users = $usersTable->find()
+                    ->where(
+                        [
+                            'OR' => [['role' => 'Administrateur'], ['role' => 'Utilisateur']],
+                        ]
+                    )
+                    ->all();
+            }
+
+            $this->set('users', $users);
+        }
+
     }
 
     public function propos(){
 
+    }
+
+    public function aide(){
+        $title = 'Aide ?';
+        $this->set('title', $title);
     }
 }

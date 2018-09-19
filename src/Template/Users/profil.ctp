@@ -105,7 +105,7 @@
 
             <h4 class="header-title m-t-0 m-b-30"><i class="ti-bookmark m-r-5"></i> Mes Contacts</h4>
 
-            <ul class="list-group m-b-0 user-list">
+            <ul class="list-group m-b-0 user-list" style="max-height: 500px; overflow: auto;">
                 <?php foreach($contacts as $contact){	?>
                     <li class="list-group-item">
                         <a href="#" class="user-list-item">
@@ -126,7 +126,7 @@
 
             <h4 class="header-title m-t-0 m-b-30"><i class="ti-list m-r-5"></i> Mes Campagnes</h4>
 
-            <ul class="list-group m-b-0 user-list">
+            <ul class="list-group m-b-0 user-list" style="max-height: 500px; overflow: auto;">
                 <?php foreach($campagnes as $campagne){	?>
                     <li class="list-group-item">
                         <a href="#" class="user-list-item">

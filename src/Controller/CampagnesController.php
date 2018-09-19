@@ -90,27 +90,37 @@ class CampagnesController extends AppController
                 $this->Flash->error('cette campagne n\'existe pas.');
                 $this->redirect(['controller' => 'Users', 'action' => 'logout']);
             } else {
-                if ($this->request->is(array('post', 'put'))) {
-                    $now = date('Y-m-d H:i:s');
-                    $now = new \DateTime($now);
-                    $dateEnvoi = new \DateTime($this->request->getData()['dateEnvoi']);
-                    if($dateEnvoi >= $now){
-                    	$campagne = $campagneTable->newEntity($this->request->getData());
-                    	$campagne->id = $this->request->getQuery('campagne');
-                    	$campagne->dateEnvoi = $dateEnvoi->format('Y-m-d H:i:s');
-	                    if ($campagneTable->save($campagne)) {
-	                        $this->Flash->set('Votre campagne a été mise à jour avec succès.', ['element' => 'success']);
-	                        $this->_log('Modification de la campagne '.$campagne->id);
-	                        $this->redirect(['action' => 'index']);
-	                    } else {
-	                        $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
-	                    }
-                    }else{
-                		$this->Flash->error('Mauvaises Dates, veuillez saisir des dates conformes et futures.');
-                		$this->set('campagne', $campagne);
-            			$this->render('index');
-                    }
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()) {
+                    if ($this->request->is(array('post', 'put'))) {
+                        $now = date('Y-m-d H:i:s');
+                        $now = new \DateTime($now);
+                        $dateEnvoi = new \DateTime($this->request->getData()['dateEnvoi']);
+                        if($dateEnvoi >= $now){
+                            $campagne = $campagneTable->newEntity($this->request->getData());
+                            $campagne->id = $this->request->getQuery('campagne');
+                            $campagne->dateEnvoi = $dateEnvoi->format('Y-m-d H:i:s');
+                            if ($campagneTable->save($campagne)) {
+                                $this->Flash->set('Votre campagne a été mise à jour avec succès.', ['element' => 'success']);
+                                $this->_log('Modification de la campagne '.$campagne->id);
+                                $this->redirect(['action' => 'index']);
+                            } else {
+                                $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+                            }
+                        }else{
+                            $this->Flash->error('Mauvaises Dates, veuillez saisir des dates conformes et futures.');
+                            $this->set('campagne', $campagne);
+                            $this->render('index');
+                        }
 
+                    }
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de modifier cette campagne.");
+                    $this->redirect(['action' => 'index']);
                 }
             }
             $this->set('campagne', $campagne);
@@ -130,10 +140,20 @@ class CampagnesController extends AppController
                 $this->Flash->error('Cette campagne n\'existe pas.');
                 $this->redirect(['Controller' => 'Users','action' => 'logout']);
             }else{
-                $campagneTable->delete($campagne);
-                $this->Flash->set('Votre campagne a été supprimé avec succès.', ['element' => 'success']);
-                $this->_log('Suppression de la campagne '.$campagne->id);
-                $this->redirect(['action' => 'index']);
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()){
+                    $campagneTable->delete($campagne);
+                    $this->Flash->set('Votre campagne a été supprimé avec succès.', ['element' => 'success']);
+                    $this->_log('Suppression de la campagne '.$campagne->id);
+                    $this->redirect(['action' => 'index']);
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de supprimer cette campagne.");
+                    $this->redirect(['action' => 'index']);
+                }
             }
         }
     }

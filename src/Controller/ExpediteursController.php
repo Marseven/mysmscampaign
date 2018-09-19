@@ -12,6 +12,10 @@ class ExpediteursController extends AppController
     public function initialize()
     {
         parent::initialize();
+        if (!$this->isAdministrator() && !$this->isSuperAdministrator()){
+            $this->Flash->error("Vous n'etes pas Administrateur, Espace reserve aux Administrateurs.");
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
+        }
         $user = $this->Auth->user();
         if(isset($user) && $user != null){
             $user['confirmed_at'] = new FrozenTime($user['confirmed_at']);

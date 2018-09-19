@@ -667,8 +667,13 @@ textarea.form-control {
 .label-success {
   background-color: #10c469;
 }
-.label-info {
+.label-info, .btn-setrag {
+  background-color: #fee82e;
+  color: #035eb5;
+}
+.btn-setrag:hover{
   background-color: #035eb5;
+  color: #fee82e;
 }
 .label-warning {
   background-color: #f9c851;
@@ -849,22 +854,22 @@ textarea.form-control {
   margin-top: 10px;
 }
 .alert-success {
-  background-color: rgb(95, 190, 170);
+  background-color: rgba(95, 190, 170, 0.51);
     border-color: rgba(95, 190, 170, 0.4);
     color: #f4f8fb;
 }
 .alert-info {
-  background-color: rgb(52, 211, 235);
+  background-color: rgba(52, 211, 235, 0.51);
     border-color: rgba(52, 211, 235, 0.3);
     color: #f4f8fb;
 }
 .alert-warning {
-  background-color: rgb(255, 189, 74);
+  background-color: rgba(255, 189, 74, 0.51);
     border-color: rgba(255, 189, 74, 0.3);
     color: #f4f8fb;
 }
 .alert-danger {
-  background-color: rgb(240, 80, 80);
+  background-color: rgba(240, 80, 80, 0.51);
     border-color: rgba(240, 80, 80, 0.3);
     color: #f4f8fb;
 }

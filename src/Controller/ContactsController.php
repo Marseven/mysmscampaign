@@ -102,39 +102,49 @@ class ContactsController extends AppController
                 $this->Flash->error('Ce contact n\'existe pas.');
                 $this->redirect(['controller' => 'Users', 'action' => 'logout']);
             } else {
-                if ($this->request->is(array('post', 'put'))) {
-                    $nom_tel_existe = ContactsTable::nom_tel_existe($this->request->getData()['nom'], $this->request->getData()['telephone']);
-                    $nom_existe = ContactsTable::nom_existe($this->request->getData()['nom']);
-                    $tel_existe = ContactsTable::tel_existe($this->request->getData()['telephone']);
-                    if ($nom_tel_existe != false){
-                        $this->Flash->error('Le contact existe déjà.');
-                        $this->redirect(['action' => 'index']);
-                    }else{
-                        if ($tel_existe == false && $nom_existe != false){
-                            $nom_existe->telephone = $this->request->getData()['telephone'];
-                            if($contactTable->save($nom_existe)){
-                                $this->Flash->success('Contact mis à jour avec succès.');
-                                $this->_log('Mise à jour de contact '.$nom_existe->id);
-                                $this->redirect(['action' => 'index']);
-                            }
-                        }elseif($tel_existe != false && $nom_existe == false){
-                            $tel_existe->nom = $this->request->getData()['nom'];
-                            if($contactTable->save($tel_existe)){
-                                $this->Flash->success('Contact mis à jour avec succès.');
-                                $this->_log('Mise à jour de contact '.$tel_existe->id);
-                                $this->redirect(['action' => 'index']);
-                            }
-                        }elseif($tel_existe == false && $nom_existe == false){
-                            $contact = $contactTable->newEntity($this->request->getData()['telephone']);
-                            if($contactTable->save($contact)){
-                                $this->Flash->success('Contact ajouté avec succès.');
-                                $this->_log('Mise à jour de contact '.$contact->id);
-                                $this->redirect(['action' => 'index']);
-                            }else{
-                                $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()) {
+                    if ($this->request->is(array('post', 'put'))) {
+                        $nom_tel_existe = ContactsTable::nom_tel_existe($this->request->getData()['nom'], $this->request->getData()['telephone']);
+                        $nom_existe = ContactsTable::nom_existe($this->request->getData()['nom']);
+                        $tel_existe = ContactsTable::tel_existe($this->request->getData()['telephone']);
+                        if ($nom_tel_existe != false) {
+                            $this->Flash->error('Le contact existe déjà.');
+                            $this->redirect(['action' => 'index']);
+                        } else {
+                            if ($tel_existe == false && $nom_existe != false) {
+                                $nom_existe->telephone = $this->request->getData()['telephone'];
+                                if ($contactTable->save($nom_existe)) {
+                                    $this->Flash->success('Contact mis à jour avec succès.');
+                                    $this->_log('Mise à jour de contact ' . $nom_existe->id);
+                                    $this->redirect(['action' => 'index']);
+                                }
+                            } elseif ($tel_existe != false && $nom_existe == false) {
+                                $tel_existe->nom = $this->request->getData()['nom'];
+                                if ($contactTable->save($tel_existe)) {
+                                    $this->Flash->success('Contact mis à jour avec succès.');
+                                    $this->_log('Mise à jour de contact ' . $tel_existe->id);
+                                    $this->redirect(['action' => 'index']);
+                                }
+                            } elseif ($tel_existe == false && $nom_existe == false) {
+                                $contact = $contactTable->newEntity($this->request->getData()['telephone']);
+                                if ($contactTable->save($contact)) {
+                                    $this->Flash->success('Contact ajouté avec succès.');
+                                    $this->_log('Mise à jour de contact ' . $contact->id);
+                                    $this->redirect(['action' => 'index']);
+                                } else {
+                                    $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+                                }
                             }
                         }
                     }
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de modifier ce contact.");
+                    $this->redirect(['action' => 'index']);
                 }
             }
             $contacts = $contactTable->find()->all();
@@ -156,10 +166,20 @@ class ContactsController extends AppController
                 $this->Flash->error('Ce contact n\'existe pas.');
                 $this->redirect(['controller' => 'Users','action' => 'logout']);
             }else{
-                $contactTable->delete($contact);
-                $this->Flash->set('Votre contact a été supprimé avec succès.', ['element' => 'success']);
-                $this->_log('Suppression du contact '.$contact->id);
-                $this->redirect(['action' => 'index']);
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()){
+                    $contactTable->delete($contact);
+                    $this->Flash->set('Votre contact a été supprimé avec succès.', ['element' => 'success']);
+                    $this->_log('Suppression du contact '.$contact->id);
+                    $this->redirect(['action' => 'index']);
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de supprimer ce contact.");
+                    $this->redirect(['action' => 'index']);
+                }
             }
         }
     }
@@ -210,10 +230,20 @@ class ContactsController extends AppController
                 $this->Flash->error('Ce contact n\'appartient pas à cette liste de contact.');
                 $this->redirect(['action' => 'viewList', 'listecontact' => $id_liste]);
             }else{
-                $listcontactTable->delete($listcontact->first());
-                $this->Flash->set('Le contact a été retiré avec succès.', ['element' => 'success']);
-                $this->_log('Retrait de la liste de contact '.$id_liste.' du contact '.$id_contact);
-                $this->redirect(['action' => 'viewList', 'listecontact' => $id_liste]);
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()){
+                    $listcontactTable->delete($listcontact->first());
+                    $this->Flash->set('Le contact a été retiré avec succès.', ['element' => 'success']);
+                    $this->_log('Retrait de la liste de contact '.$id_liste.' du contact '.$id_contact);
+                    $this->redirect(['action' => 'viewList', 'listecontact' => $id_liste]);
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de modifier cette liste de contact.");
+                    $this->redirect(['action' => 'viewList', 'listecontact' => $id_liste]);
+                }
             }
         }
     }
@@ -404,10 +434,20 @@ class ContactsController extends AppController
                 $this->Flash->error('Cette liste de contact n\'existe pas.');
                 $this->redirect(['controller' => 'Users','action' => 'logout']);
             }else{
-                $listcontactTable->delete($listcontact);
-                $this->Flash->set('La liste de contact a été supprimée avec succès.', ['element' => 'success']);
-                $this->_log('Suppression de la liste de contact '.$listcontact->id);
-                $this->redirect(['action' => 'createListContact']);
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()){
+                    $listcontactTable->delete($listcontact);
+                    $this->Flash->set('La liste de contact a été supprimée avec succès.', ['element' => 'success']);
+                    $this->_log('Suppression de la liste de contact '.$listcontact->id);
+                    $this->redirect(['action' => 'createListContact']);
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de supprimer cette liste de contact.");
+                    $this->redirect(['action' => 'createListContact']);
+                }
             }
         }
     }

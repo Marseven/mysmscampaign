@@ -269,7 +269,6 @@ class AppController extends Controller
     }
 
     public function telephone($telephone){
-
         return $telephone;
     }
 
@@ -288,6 +287,66 @@ class AppController extends Controller
 
         $total = $val * $amount;
         return number_format($total, 2, '.', '');
+    }
+
+    public function isAdministrator(){
+        $isAdministrator = true;
+        $user = $this->Auth->user();
+        if(isset($user) && $user != null){
+            $usersTable = TableRegistry::get('Users');
+            if(is_array($user)){
+                $user = $usersTable->newEntity($user);
+            }
+            if($user->role != "Administrateur"){
+                $isAdministrator = false;
+                return $isAdministrator;
+            }else{
+                return $isAdministrator;
+            }
+        }else{
+            $isAdministrator = false;
+            return $isAdministrator;
+        }
+    }
+
+    public function isSuperAdministrator(){
+        $isSuperAdministrator = true;
+        $user = $this->Auth->user();
+        if(isset($user) && $user != null){
+            $usersTable = TableRegistry::get('Users');
+            if(is_array($user)){
+                $user = $usersTable->newEntity($user);
+            }
+            if($user->role != "SuperAdministrateur"){
+                $isSuperAdministrator = false;
+                return $isSuperAdministrator;
+            }else{
+                return $isSuperAdministrator;
+            }
+        }else{
+            $isSuperAdministrator = false;
+            return $isSuperAdministrator;
+        }
+    }
+
+    public function isAuthor($id){
+        $isAuthor = true;
+        $user = $this->Auth->user();
+        if(isset($user) && $user != null){
+            $usersTable = TableRegistry::get('Users');
+            if(is_array($user)){
+                $user = $usersTable->newEntity($user);
+            }
+            if($user->id != $id){
+                $isAuthor = false;
+                return $isAuthor;
+            }else{
+                return $isAuthor;
+            }
+        }else{
+            $isAuthor = false;
+            return $isAuthor;
+        }
     }
 
     public function isAuthorized($user)

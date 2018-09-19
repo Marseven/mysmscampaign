@@ -12,7 +12,7 @@ File: Menu
   z-index: 999;
 }
 .topbar .topbar-left {
-  background: #fee50252;
+  background: #035eb587;
   border-top: 3px solid #181d6cff;
   float: left;
   text-align: center;
@@ -193,7 +193,8 @@ File: Menu
   top: 70px;
   width: 250px;
   z-index: 10;
-  background: #fee50252;
+  /*background: #fee50252;*/
+  background: #035eb587;
   bottom: 50px;
   height: 100%;
   margin-bottom: -70px;
@@ -282,10 +283,10 @@ File: Menu
   border-top: 0;
 }
 #sidebar-menu ul ul li.active a {
-  color: #035eb5;
+  color: #fee82e;
 }
 #sidebar-menu ul ul a {
-  color: rgba(28, 28, 28, 0.97);
+  color: rgb(255, 255, 255);
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
@@ -296,7 +297,7 @@ File: Menu
   padding: 10px 20px 10px 65px;
 }
 #sidebar-menu ul ul a:hover {
-  color: #035eb5;
+  color: #fee82e;
 }
 #sidebar-menu ul ul a i {
   margin-right: 5px;
@@ -308,11 +309,11 @@ File: Menu
   margin-top: 2px;
 }
 #sidebar-menu .subdrop {
-  border-left: 3px solid #035eb5;
-  color: #035eb5 !important;
+  border-left: 3px solid #fee82e;
+  color: #fee82e !important;
 }
 #sidebar-menu > ul > li > a {
-  color: rgba(28, 28, 28, 0.97);;
+  color: rgb(255, 255, 255);
   display: block;
   padding: 12px 20px;
   margin: 4px 0px;
@@ -320,7 +321,7 @@ File: Menu
   border-left: 3px solid transparent;
 }
 #sidebar-menu > ul > li > a:hover {
-  color: #035eb5;
+  color: #fee82e;
   text-decoration: none;
 }
 #sidebar-menu > ul > li > a > span {
@@ -346,9 +347,9 @@ File: Menu
   margin-right: 0px;
 }
 #sidebar-menu > ul > li > a.active {
-  border-left: 3px solid #035eb5;
-  color: #035eb5 !important;
-  background: rgba(3, 78, 175, 0.21);
+  border-left: 3px solid #fee82e;
+  color: #fee82e !important;
+  background: rgba(254, 232, 46, 0.21);
 }
 .menu-title {
   padding: 12px 20px !important;

@@ -60,7 +60,7 @@
         <!-- LOGO -->
         <div class="topbar-left">
             <a href="/" class="logo">
-                <img src="http://mysmscampaign.jobs-conseil.com/img/Logo-Setrag.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 75%; margin-left: 10%;">
+                <img src="http://mysmscampaign.jobs-conseil.com/img/Logo-Setrag.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 55%; margin-left: 23%; margin-top: 0;">
             </a>
         </div>
 
@@ -107,7 +107,7 @@
                     <?= $this->Html->image($user->picture != '' ? 'user/'.$user->picture : 'default-avatar.png', ['class' => 'img-circle img-thumbnail img-responsive', 'alt'=>'user-image', 'title'=>'user']); ?>
                     <div class="user-status online"><i class="zmdi zmdi-dot-circle"></i></div>
                 </div>
-                <h5><a style="color: #025eb5;" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>"> <span class="text-uppercase"><?= $user->nom ?></span> <?= $user->prenom ?> </a> </h5>
+                <h5><a style="color: #fee82e;" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>"> <span class="text-uppercase"><?= $user->nom ?></span> <?= $user->prenom ?> </a> </h5>
                 <ul class="list-inline">
                     <!--li>
                         <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>" >
@@ -127,11 +127,13 @@
             <!--- Sidemenu -->
             <div id="sidebar-menu">
                 <ul>
-                    <li class="text-inverse menu-title">Navigation</li>
+                    <li class="text-white menu-title">Navigation</li>
 
-                    <li>
-                        <a href="/" class="waves-effect <?= $title == 'Tableau de Bord' ? 'active' : '' ?>"><i class="ti-dashboard"></i> <span> Tableau de Bord </span> </a>
-                    </li>
+                    <?php if ($user->role == "Administrateur" || $user->role == "SuperAdministrateur") { ?>
+	                    <li>
+	                        <a href="/" class="waves-effect <?= $title == 'Tableau de Bord' ? 'active' : '' ?>"><i class="ti-dashboard"></i> <span> Tableau de Bord </span> </a>
+	                    </li>
+					<?php } ?>
 
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect <?= $title == 'Envoi de SMS' || $title == 'Gestion des Expéditeurs' || $title == 'Gestion de Modèles de SMS' ? 'active' : '' ?>"><i class="ti-comment"></i> <span> SMS </span> <span class="menu-arrow"></span></a>
@@ -157,28 +159,34 @@
                             <li><a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'createListContact']) ?>">Gestion de liste de diffusion</a></li>
                         </ul>
                     </li>
-
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect <?= $title == 'Statistiques des Campagnes' || $title == 'Statistiques' || $title == 'Logger' ? 'active' : '' ?>"><i class="ti-book"></i><span> Rapports </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li class="<?= $title == 'Statistiques des Campagnes' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'index']) ?>">Campagnes</a></li>
-                            <li class="<?= $title == 'Statistiques' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'statistiques']) ?>">Statistiques</a></li>
-                            <li class="<?= $title == 'Logger' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'logger']) ?>">Log</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="waves-effect <?= $title == 'Gestion des API de SMS' ? 'active' : '' ?>">
-                        <a href="<?= $this->Url->build(['controller' => 'Api', 'action' => 'index']) ?>" class="waves-effect"><i class="ti-link"></i><span> API </span></a>
-                    </li>
-
+                	<?php if ($user->role == "Administrateur" || $user->role == "SuperAdministrateur") { ?>
+	                    <li class="has_sub">
+	                        <a href="javascript:void(0);" class="waves-effect <?= $title == 'Statistiques des Campagnes' || $title == 'Statistiques' || $title == 'Logger' ? 'active' : '' ?>"><i class="ti-book"></i><span> Rapports </span> <span class="menu-arrow"></span></a>
+	                        <ul class="list-unstyled">
+	                            <li class="<?= $title == 'Statistiques des Campagnes' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'index']) ?>">Campagnes</a></li>
+	                            <li class="<?= $title == 'Statistiques' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'statistiques']) ?>">Statistiques</a></li>
+	                            <li class="<?= $title == 'Logger' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'logger']) ?>">Log</a></li>
+	                        </ul>
+	                    </li>
+                    <?php } ?>
+                    <?php if ($user->role == "Administrateur" || $user->role == "SuperAdministrateur") { ?>
+	                    <li class="waves-effect <?= $title == 'Gestion des API de SMS' ? 'active' : '' ?>">
+	                        <a href="<?= $this->Url->build(['controller' => 'Api', 'action' => 'index']) ?>" class="waves-effect"><i class="ti-link"></i><span> API </span></a>
+	                    </li>
+                    <?php } ?>
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect <?= $title == 'Gestion des Utilisateurs' ? 'active' : '' ?>"><i class="ti-user"></i><span> Utilisateurs </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
-                            <li><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'signup']) ?>">Créer</a></li>
-                            <li><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'liste']) ?>">Modifier</a></li>
+                        	<?php if ($user->role == "Administrateur" || $user->role == "SuperAdministrateur") { ?>
+	                            <li><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'signup']) ?>">Créer</a></li>
+	                            <li><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'liste']) ?>">Modifier</a></li>
+                            <?php } ?>
                             <li><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>">Mon Compte</a></li>
                             <li><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'propos']) ?>">À Propos</a></li>
                         </ul>
+                    </li>
+                    <li class="waves-effect <?= $title == 'Aide ?' ? 'active' : '' ?>">
+                        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'aide']) ?>" class="waves-effect"><i class="ti-help-alt"></i><span> Aide ? </span></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -208,7 +216,7 @@
 
         </div> <!-- content -->
 
-        <footer class="footer text-right">
+        <footer class="footer text-right text-white">
             2018 © MySMSCampaign By Setrag - Tous Droits Reservés.
         </footer>
 

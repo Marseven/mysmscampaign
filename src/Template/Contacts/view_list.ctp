@@ -135,9 +135,11 @@
                         <td><?php echo htmlentities($contact->nom);?></td>
                         <td><?php echo htmlentities($contact->telephone);?></td>
                         <td>
+                        <?php if($user->id == $contact->iduser || $user->role == "Administrateur"){ ?>
                             <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment retirer ce contact de cette liste !');" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'retirerContact', 'contact' => $contact->id, 'listecontact' => $listecontact->id]) ?>"><i class="ti-minus"></i></a>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'editContact', 'contact' => $contact->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'deleteContact', 'contact' => $contact->id]) ?>"><i class="ti-trash"></i></a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>

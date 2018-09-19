@@ -17,8 +17,7 @@
                     <th>Téléphone</th>
                     <th>Email</th>
                     <th>Age</th>
-                    <th>Adresse</th>
-                    <th>Ville</th>
+                    <th>Role</th>
                     <th>Dernière Connexion</th>
                     <th>Action</th>
                 </tr>
@@ -26,19 +25,23 @@
 
                 <tbody>
 
-                <?php foreach($users as $user){	?>
+                <?php foreach($users as $us){	?>
                     <tr>
-                        <td><?php echo htmlentities($user->id);?></td>
-                        <td><span class="text-uppercase"><?php echo htmlentities($user->nom);?></span> <?php echo htmlentities($user->prenom);?></td>
-                        <td><?php echo htmlentities($user->telephone);?></td>
-                        <td><?php echo htmlentities($user->email);?></td>
-                        <td><?php $age = new \App\Controller\AppController(); echo htmlentities($age->age($user->dateNaiss)).' ans'; ?></td>
-                        <td><?php echo htmlentities($user->adresse);?></td>
-                        <td><?php echo htmlentities($user->ville);?></td>
-                        <td><?php echo htmlentities($user->last_login);?></td>
+                        <td><?php echo htmlentities($us->id);?></td>
+                        <td><span class="text-uppercase"><?php echo htmlentities($us->nom);?></span> <?php echo htmlentities($us->prenom);?></td>
+                        <td><?php echo htmlentities($us->telephone);?></td>
+                        <td><?php echo htmlentities($us->email);?></td>
+                        <td><?php $age = new \App\Controller\AppController(); echo htmlentities($age->age($us->dateNaiss)).' ans'; ?></td>
+                        <td><?php echo htmlentities($us->role);?></td>
+                        <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($us->last_login));?></td>
                         <td>
-                            <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'edit', 'user' => $user->id]) ?>"><i class="ti-pencil"></i></a>
-                            <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette utilisateur !');" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'delete', 'user' => $user->id]) ?>"><i class="ti-trash"></i></a>
+                            <?php if(($us->role == 'Utilisateur' && $user->role == 'SuperAdministrateur') || ($us->role == 'Administrateur' && $user->role == 'SuperAdministrateur') || ($us->role == 'Utilisateur' && $user->role == 'Administrateur')){ ?>
+                                <?php if($us->role == 'Utilisateur'){ ?>
+                                    <a class="btn btn-success" title="Rendre Administrateur" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'becomeAdministrator', 'user' => $us->id]) ?>"><i class="ti-headphone-alt"></i></a>
+                                <?php } ?> 
+                                <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'edit', 'user' => $us->id]) ?>"><i class="ti-pencil"></i></a>
+                                <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette utilisateur !');" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'delete', 'user' => $us->id]) ?>"><i class="ti-trash"></i></a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>

@@ -4,7 +4,7 @@
 
             <h4 class="header-title m-t-0 m-b-30">Créer un utilisateur</h4>
 
-            <?= $this->Form->create($user, ['type' => 'file']); ?>
+            <?= $this->Form->create($new_user, ['type' => 'file']); ?>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -128,6 +128,24 @@
                                 <div class="col-sm-6">
                                     <div class="input file">
                                         <button style="margin-top: 15px" class="btn btn-danger" type="button">Annuler</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="form-group">
+                            <label class="control-label">Administrateur ?</label>
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="radio radio-info">
+                                        <input type="radio" value="Administrateur" name="role" />
+                                        <label style="font-weight: 800;" for="campagne">Oui</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="radio radio-info">
+                                        <input type="radio" value="Utilisateur" checked name="role" />
+                                        <label style="font-weight: 800;" for="campagne">Non</label>
                                     </div>
                                 </div>
                             </div>

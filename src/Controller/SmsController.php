@@ -585,17 +585,27 @@ class SmsController extends AppController
                 $this->Flash->error('ce modèle sms n\'existe pas.');
                 $this->redirect(['controller' => 'Users', 'action' => 'logout']);
             } else {
-                if ($this->request->is(array('post', 'put'))) {
-                    $modelsms = $modelesmsTable->newEntity($this->request->getData());
-                    $modelsms->id = $id;
-                    if ($modelesmsTable->save($modelsms)) {
-                        $this->Flash->set('Votre modèle sms a été mise à jour avec succès.', ['element' => 'success']);
-                        $this->_log('Modification d\'un modèle sms '.$modelsms->id);
-                        $this->redirect(['action' => 'modelSms']);
-                    } else {
-                        $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
-                    }
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()) {
+                    if ($this->request->is(array('post', 'put'))) {
+                        $modelsms = $modelesmsTable->newEntity($this->request->getData());
+                        $modelsms->id = $id;
+                        if ($modelesmsTable->save($modelsms)) {
+                            $this->Flash->set('Votre modèle sms a été mise à jour avec succès.', ['element' => 'success']);
+                            $this->_log('Modification d\'un modèle sms '.$modelsms->id);
+                            $this->redirect(['action' => 'modelSms']);
+                        } else {
+                            $this->Flash->set('Certains champs ont été mal saisis', ['element' => 'error']);
+                        }
 
+                    }
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de modifier ce modele de SMS.");
+                    $this->redirect(['action' => 'modelSms']);
                 }
             }
             $modelSms = $modelesmsTable->find()->all();
@@ -616,10 +626,21 @@ class SmsController extends AppController
                 $this->Flash->error('Ce modèle sms n\'existe pas.');
                 $this->redirect(['Controller' => 'Users','action' => 'logout']);
             }else{
-                $modelesmsTable->delete($modelesms);
-                $this->Flash->set('Votre modèle sms a été supprimé avec succès.', ['element' => 'success']);
+                $user = $this->Auth->user();
+                $usersTable = TableRegistry::get('Users');
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+                if($this->isAdministrator() || $this->isAuthor($user->id) || $this->isSuperAdministrator()){
+                    $modelesmsTable->delete($modelesms);
+                    $this->Flash->set('Votre modèle sms a été supprimé avec succès.', ['element' => 'success']);
                     $this->_log('Suppression du modèle sms '.$modelesms->id);
-                $this->redirect(['action' => 'modelSms']);
+                    $this->redirect(['action' => 'modelSms']);
+                }else{
+                    $this->Flash->error("Vous n'avez pas le droit de supprimer ce modele de SMS.");
+                    $this->redirect(['action' => 'modelSms']);
+                }
+
             }
         }
     }

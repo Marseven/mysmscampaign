@@ -1,0 +1,16 @@
+14/09/2018 03:01:20 -- Boundamas Jeff -- Authentification de utilisateur 3
+14/09/2018 03:09:43 -- Boundamas Jeff -- Déconnexion de utilisateur 3
+14/09/2018 04:32:56 -- Mebodo Aristide -- Authentification de utilisateur 1
+14/09/2018 04:42:13 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+14/09/2018 04:42:25 -- Boundamas Jeff -- Authentification de utilisateur 3
+14/09/2018 04:47:04 -- Boundamas Jeff -- Déconnexion de utilisateur 3
+14/09/2018 04:47:10 -- Mebodo Aristide -- Authentification de utilisateur 1
+14/09/2018 04:51:59 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+14/09/2018 04:52:13 -- Boundamas Jeff -- Authentification de utilisateur 3
+14/09/2018 04:54:39 -- Boundamas Jeff -- Déconnexion de utilisateur 3
+14/09/2018 04:54:44 -- Mebodo Aristide -- Authentification de utilisateur 1
+14/09/2018 04:55:06 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+14/09/2018 04:55:19 -- Boundamas Jeff -- Authentification de utilisateur 3
+14/09/2018 05:09:05 -- Boundamas Jeff -- Déconnexion de utilisateur 3
+14/09/2018 07:37:22 -- Boundamas Jeff -- Authentification de utilisateur 3
+14/09/2018 07:37:36 -- Boundamas Jeff -- Déconnexion de utilisateur 3

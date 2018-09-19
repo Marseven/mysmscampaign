@@ -134,8 +134,10 @@
                         <td><?php echo htmlentities($ct->nom);?></td>
                         <td><?php echo htmlentities($ct->telephone);?></td>
                         <td>
+                        <?php if($user->id == $ct->iduser || $user->role == "Administrateur"){ ?>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'editContact', 'contact' => $ct->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'deleteContact', 'contact' => $ct->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce contact !');"><i class="ti-trash"></i></a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>

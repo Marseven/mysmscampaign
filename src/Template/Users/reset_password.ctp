@@ -39,9 +39,9 @@
 <div class="wrapper-page">
     <div class="text-center">
         <a href="/" class="logo"><img src="http://mysmscampaign.jobs-conseil.com/img/Logo-Setrag.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 92%; margin-left: 12%;"></a>
-        <h5 class="text-muted m-t-0 font-600">Application de Campagne de SMS</h5>
+        <h5 class="text-white m-t-0 font-600">Application de Campagne de SMS</h5>
     </div>
-    <div class="m-t-40 card-box">
+    <div class="m-t-40 card-box" style="background: #ffffff85">
         <div class="text-center">
             <h4 class="text-uppercase font-bold m-b-0">Réinitialisation du mot de passe.</h4>
         </div>
@@ -83,7 +83,7 @@
             <div class="form-group text-center m-t-30">
                 <div class="col-xs-12">
                     <?= $this->Form->control('Valider', array(
-                        'class' => 'btn btn-success',
+                        'class' => 'btn btn-setrag',
                         'id'    => 'connexion',
                         'type'  => 'submit',
                         'label' => ''
@@ -93,7 +93,7 @@
 
             <div class="form-group m-t-30 m-b-0">
                 <div class="col-sm-12">
-                    <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>" class="text-muted"><i class="fa fa-lock m-r-5"></i> Connexion</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>" style="color: #035eb5"><i class="fa fa-lock m-r-5"></i> Connexion</a>
                 </div>
             </div>
             <?= $this->Form->end(); ?>
@@ -104,7 +104,7 @@
 
     <div class="row">
         <div class="col-sm-12 text-center">
-            <p class="text-muted">Vous n'avez pas de compte? <a href="#" class="text-primary m-l-5" data-container="body" title="SETRAG" data-toggle="popover" data-placement="top" data-content="notre mail est support@setrag.ga et notre téléphone est +241 04228306." data-original-title="[SETRAG] Support"><b>contactez le support</b></a></p>
+            <p style="color: #fff">Vous n'avez pas de compte? <a href="#" class="text-primary m-l-5" data-container="body" title="SETRAG" data-toggle="popover" data-placement="top" data-content="notre mail est support@setrag.ga et notre téléphone est +241 04228306." data-original-title="[SETRAG] Support"><b>contactez le support</b></a></p>
         </div>
     </div>
 
