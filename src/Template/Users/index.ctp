@@ -97,10 +97,10 @@
                         <h5 style="color: #0ec043;"><i class="fa fa-circle m-r-5"></i>Envoyé</h5>
                     </li>
                     <li>
-                        <h5 style="color: #fee82e;"><i class="fa fa-circle m-r-5"></i>Programmé</h5>
+                        <h5 style="color: #fee82e;"><i class="fa fa-circle m-r-5"></i>Non Envoyé</h5>
                     </li>
                     <li>
-                        <h5 style="color: #c41b1a;"><i class="fa fa-circle m-r-5"></i>Echoué</h5>
+                        <h5 style="color: #c41b1a;"><i class="fa fa-circle m-r-5"></i>NPAI</h5>
                     </li>
                 </ul>
             </div>
@@ -276,8 +276,8 @@
     //creating donut chart
     var $donutData = [
     {label: "SMS Envoyés", value: <?= $nbre_envoye ?>},
-    {label: "SMS Programmés", value: <?= $nbre_programme ?>},
-    {label: "SMS Non Envoyés", value: <?= $nbre_echec ?>}
+    {label: "SMS Non Envoyés", value: <?= $nbre_non_envoye ?>},
+    {label: "NPAI", value: <?= $nbre_echec ?>}
     ];
     this.createDonutChart('morris-donut-example', $donutData, ['#0ec043', '#fee82e', "#c41b1a"]);
     },

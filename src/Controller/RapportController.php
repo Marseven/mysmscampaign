@@ -53,12 +53,9 @@ class RapportController extends AppController
         $this->set('title', $title);
 
         $campagneTable = TableRegistry::get('campagnes');
-        //$contactTable = TableRegistry::get('Contacts');
-        $smsTable = TableRegistry::get('smss');
         $contactsmsTable = TableRegistry::get('contactsmss');
 
         $campagnes = $campagneTable->find()->contain(['Users', 'Smss'])->all();
-        //$contacts = $contactTable->find()->contain(['Users', 'Smss'])->all();
         $contactsms = $contactsmsTable->find()->contain('Smss')->all();
         $contacts = array();
         $i=0; $telephone = ""; $j=0;
@@ -88,31 +85,55 @@ class RapportController extends AppController
                                                             
         $pourcentage = array();
         foreach ($campagnes as $camp){
+            $reponse_sms = $contactsmsTable->find()->contain(['Smss'])
+                ->where(
+                    [
+                        'campaignId' => $camp->campaignId ,
+                    ]
+                )
+                ->all();
+
             $nbre_envoye = 0;
-            $nbre_programme = 0;
+            $nbre_non_envoye = 0;
             $nbre_echec = 0;
             $i=0;
             foreach ($camp->smss as $ms){
-                if ($ms->etat == 100){
-                    $nbre_envoye++;
-                }elseif ($ms->etat == 101){
-                    $nbre_programme++;
-                }else{
-                    $nbre_echec++;
+                foreach ($reponse_sms as $rs){
+
+                    if ($ms->id == $rs->sms_id){
+
+                        $smsId = $rs->smsId;
+
+                        if ($rs->status == 1){
+                            $nbre_envoye++;
+                        }elseif ($rs->status == 2 || $rs->status == 3){
+                            $nbre_non_envoye++;
+                        }elseif ($rs->status == 4 || $rs->status == 5){
+                            $nbre_echec++;
+                        }else{
+                            $nbre_non_envoye++;
+                        }
+                        $i++;
+                    }
                 }
-                $i++;
-            }
-            if ($i!=0) {
-                $nbre_envoye = ($nbre_envoye/$i)*100;
-                $nbre_programme = ($nbre_programme/$i)*100;
-                $nbre_echec = ($nbre_echec/$i)*100;
-                $pourcentage[$camp->id]['envoye'] = $nbre_envoye;
-                $pourcentage[$camp->id]['programme'] = $nbre_programme;
-                $pourcentage[$camp->id]['echec'] = $nbre_echec;
-            }else{
-                $pourcentage[$camp->id]['envoye'] = $nbre_envoye;
-                $pourcentage[$camp->id]['programme'] = $nbre_programme;
-                $pourcentage[$camp->id]['echec'] = $nbre_echec;
+
+                if ($i != 0) {
+                    $p_nbre_envoye = ($nbre_envoye/$i)*100;
+                    $p_nbre_non_envoye = ($nbre_non_envoye/$i)*100;
+                    $p_nbre_echec = ($nbre_echec/$i)*100;
+                    $nbre_message_emis = $i;
+                }else{
+                    $p_nbre_envoye = 0;
+                    $p_nbre_non_envoye = 0;
+                    $p_nbre_echec = 0;
+                    $nbre_message_emis = $i;
+                }
+
+                $pourcentage[$camp->id]['envoye'] += $p_nbre_envoye;
+                $pourcentage[$camp->id]['non_envoye'] += $p_nbre_non_envoye;
+                $pourcentage[$camp->id]['echec'] += $p_nbre_echec;
+                $pourcentage[$camp->id]['message_emis'] += $nbre_message_emis;
+
             }
 
         }
@@ -242,6 +263,8 @@ class RapportController extends AppController
             $this->redirect(['controller' => 'Users','action' => 'logout']);
         }else{
             $campagneTable = TableRegistry::get('campagnes');
+            $smscontactTable = TableRegistry::get('contactsmss');
+
             $campagne = $campagneTable->find()->contain(['Smss'])
                 ->where(
                     [
@@ -251,41 +274,92 @@ class RapportController extends AppController
                 ->all();
 
             if (!$campagne->first()) {
-                $this->Flash->error('Cette reservation n\'existe pas.');
+                $this->Flash->error('Cette campagne n\'existe pas.');
                 $this->redirect(['controller' => 'Users', 'action' => 'logout']);
             } else {
+
                 $campagne = $campagne->first();
+
+                $reponse_sms = $smscontactTable->find()->contain(['Smss'])
+                    ->where(
+                        [
+                            'campaignId' => $campagne->campaignId ,
+                        ]
+                    )
+                    ->all();
+
                 $nbre_envoye = 0;
-                $nbre_programme = 0;
+                $nbre_non_envoye = 0;
                 $nbre_echec = 0;
                 $i=0;
+                $j=0;
+
                 $pourcentage = array();
-                
+                $statistiques_SMS = array();
+                $data_SMS = array();
+                $data_SMS['sms_envoye'] = $campagne->nbre_envoye;
+                $data_SMS['sms_recu'] = 0;
+                $data_SMS['sms_non_delivre'] = 0;
+                $data_SMS['sms_sans_accuse'] = 0;
+                $data_SMS['npai'] = $campagne->nbre_echec;
+
                 foreach ($campagne->smss as $ms){
-                    if ($ms->etat == 100){
-                        $nbre_envoye++;
-                    }elseif ($ms->etat == 101){
-                        $nbre_programme++;
-                    }else{
-                        $nbre_echec++;
+                    foreach ($reponse_sms as $rs){
+
+                        if ($ms->id == $rs->sms_id){
+
+                            $smsId = $rs->smsId;
+
+                            if ($rs->status == 1){
+                                $nbre_envoye++;
+                            }elseif ($rs->status == 2 || $rs->status == 3){
+                                $nbre_non_envoye++;
+                            }elseif ($rs->status == 4 || $rs->status == 5){
+                                $nbre_echec++;
+                            }else{
+                                $nbre_non_envoye++;
+                            }
+
+                            if ($rs->status == 1){
+                                $data_SMS['sms_recu']++;
+                            }elseif ($rs->status == 2){
+                                $data_SMS['sms_non_delivre']++;
+                            }else{
+                                $data_SMS['sms_sans_accuse']++;
+                            }
+
+                            $i++;
+                        }
                     }
-                    $i++;
-                }
-                if ($i != 0) {
-                    $p_nbre_envoye = ($nbre_envoye/$i)*100;
-                    $p_nbre_programme = ($nbre_programme/$i)*100;
-                    $p_nbre_echec = ($nbre_echec/$i)*100;
-                    $nbre_sms = $i;   
-                }else{
-                    $p_nbre_envoye = 0;
-                    $p_nbre_programme = 0;
-                    $p_nbre_echec = 0;
-                    $nbre_sms = $i;   
+                    $j++;
+
+                    if ($i != 0) {
+                        $p_nbre_envoye = ($nbre_envoye/$i)*100;
+                        $p_nbre_non_envoye = ($nbre_non_envoye/$i)*100;
+                        $p_nbre_echec = ($nbre_echec/$i)*100;
+                        $nbre_message_emis = $i;
+                    }else{
+                        $p_nbre_envoye = 0;
+                        $p_nbre_non_envoye = 0;
+                        $p_nbre_echec = 0;
+                        $nbre_message_emis = $i;
+                    }
+
+                    $pourcentage[$campagne->id][$j]['envoye'] = $p_nbre_envoye;
+                    $pourcentage[$campagne->id][$j]['non_envoye'] = $p_nbre_non_envoye;
+                    $pourcentage[$campagne->id][$j]['echec'] = $p_nbre_echec;
+                    $pourcentage[$campagne->id][$j]['message_emis'] = $nbre_message_emis;
+
+
+                    $statistiques_SMS[$j]['id'] = $smsId;
+                    $statistiques_SMS[$j]['nbre_caratere'] = strlen($ms->contenu);
+                    $statistiques_SMS[$j]['mot'] = str_word_count($ms->contenu);
+                    $statistiques_SMS[$j]['paragraphe'] = substr_count($ms->contenu, '\r');
+                    $statistiques_SMS[$j]['ligne'] = substr_count($ms->contenu, '\n');
+
+
                 }
 
-                $pourcentage[$campagne->id]['envoye'] = $p_nbre_envoye;
-                $pourcentage[$campagne->id]['programme'] = $p_nbre_programme;
-                $pourcentage[$campagne->id]['echec'] = $p_nbre_echec;
 
                 $titre = "Rapport de la campagne N° ".$campagne->id;
                 $date = date('YmdHis');
@@ -295,22 +369,24 @@ class RapportController extends AppController
                         'filename' => 'Rapport_Campagne'.$campagne->id.'_'.$date
                     ]
                 ]);
+
                 $this->set([
                     'campagne' => $campagne,
+                    'reponse_sms' => $reponse_sms,
                     'pourcentage' => $pourcentage,
-                    'nbre_sms' => $nbre_sms,
-                    'nbre_programme' => $nbre_programme,
-                    'nbre_echec' => $nbre_echec,
-                    'nbre_envoye' => $nbre_envoye,
+                    'statistiques_SMS' => $statistiques_SMS,
+                    'data_SMS' => $data_SMS,
                 ]);
+
                 $this->set('titre', $titre);
                 $CakePdf = new \CakePdf\Pdf\CakePdf();
                 $CakePdf->template('printed', 'default');
                 $CakePdf->viewVars($this->viewVars);
+
                 // Get the PDF string returned
                 $pdf = $CakePdf->output();
                 $pdf = $CakePdf->write(WWW_ROOT . 'files' . DS . 'Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
-                $this->redirect('http://mysmscampaign.jobs-conseil.com/files/Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
+                $this->redirect('http://localhost/mysmscampaign/files/Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
             }
         }
     }

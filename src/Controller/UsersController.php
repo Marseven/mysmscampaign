@@ -121,26 +121,27 @@ class UsersController extends AppController {
         )->all();
         $this->set(compact('sms'));
 
-        //debug($nbre_campagne);die;
+        $contactsmsTable = TableRegistry::get('contactsmss');
+        $reponse_sms = $contactsmsTable->find()->contain(['Smss'])->all();
         $nbre_envoye = 0;
-        $nbre_programme = 0;
+        $nbre_non_envoye = 0;
         $nbre_echec = 0;
-        foreach ($nbre_campagne as $camp){
-            foreach ($camp->smss as $ms){
-                if ($ms->etat == 100){
-                    $nbre_envoye++;
-                }elseif ($ms->etat == 101){
-                    $nbre_programme++;
-                }else{
-                    $nbre_echec++;
-                }
+        foreach ($reponse_sms as $rs) {
+            if ($rs->status == 1) {
+                $nbre_envoye++;
+            } elseif ($rs->status == 2 || $rs->status == 3) {
+                $nbre_non_envoye++;
+            } elseif ($rs->status == 4 || $rs->status == 5) {
+                $nbre_echec++;
+            } else {
+                $nbre_non_envoye++;
             }
         }
 
         $data = $this->statSms();
 
         $this->set([
-            'nbre_programme' => $nbre_programme,
+            'nbre_non_envoye' => $nbre_non_envoye,
             'nbre_echec' => $nbre_echec,
             'nbre_envoye' => $nbre_envoye,
             'data' => $data,

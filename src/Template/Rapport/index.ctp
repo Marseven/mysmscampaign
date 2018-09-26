@@ -125,8 +125,8 @@
                                         </div>
                                         <div class="col-sm-6 col-lg-4">
                                             <div data-plugin="circliful" class="circliful-chart m-b-30" data-dimension="180"
-                                                 data-text="<?= $pct['programme']?>%" data-info="SMS Programmé" data-width="20" data-fontsize="24"
-                                                 data-percent="<?= $pct['programme']?>" data-fgcolor="#c47816" data-bgcolor="#ebeff2"
+                                                 data-text="<?= $pct['non_envoye']?>%" data-info="SMS Programmé" data-width="20" data-fontsize="24"
+                                                 data-percent="<?= $pct['non_envoye']?>" data-fgcolor="#c47816" data-bgcolor="#ebeff2"
                                                  data-fill="#f4f8fb"></div>
                                         </div>
                                         <div class="col-sm-6 col-lg-4">

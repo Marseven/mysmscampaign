@@ -335,7 +335,8 @@ class SmsController extends AppController
                 if ($response['invalidNumbers'] == ''){
                     $campagne->nbre_echec += 0;
                 }else{
-                    $campagne->nbre_echec += 1;
+                    $nombre = explode('|', $response['invalidNumbers']);
+                    $campagne->nbre_echec += count($nombre) - 1;
                 }
             }else{
                 $campagne->nbre_contact = $response['nbContacts'];
@@ -344,7 +345,8 @@ class SmsController extends AppController
                 if ($response['invalidNumbers'] == ''){
                     $campagne->nbre_echec = 0;
                 }else{
-                    $campagne->nbre_echec = 1;
+                    $nombre = explode('|', $response['invalidNumbers']);
+                    $campagne->nbre_echec = count($nombre) - 1;
                 }
             }
 

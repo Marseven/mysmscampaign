@@ -1,14 +1,20 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
     <head>
-        <style>
-            table {border-collapse: collapse;}
-            table td {padding: 0px}
-        </style>
+        <meta charset="utf-8">
         <title><?=$titre?></title>
-    </head>
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <style>
+            th{
+                border: 1px solid black;
+            }
 
-    <body>
+            td{
+                border: 1px dashed black;
+            }
+        </style>
+    </head>
+    <body style="font-family: 'Raleway', sans-serif;">
         <?= $this->fetch('content') ?>
     </body>
 </html>
