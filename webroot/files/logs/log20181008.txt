@@ -1,0 +1,11 @@
+08/10/2018 08:53:32 -- Mebodo Aristide -- Authentification de utilisateur 1
+08/10/2018 09:16:05 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+08/10/2018 09:22:48 -- Mebodo Aristide -- Mot de passe réinitialisé pour utilisateur 1
+08/10/2018 09:30:47 -- Mebodo Aristide -- Envoi de mail de réinitialisation à utilisateur 1
+08/10/2018 09:45:16 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+08/10/2018 09:50:24 -- Mebodo Aristide -- Mot de passe réinitialisé pour utilisateur 1
+08/10/2018 09:56:00 -- Mebodo Aristide -- Déconnexion de utilisateur 1
+08/10/2018 10:17:35 -- Mebodo Aristide -- Mot de passe réinitialisé pour utilisateur 1
+08/10/2018 10:29:24 -- Boundamas Jeff -- Authentification de utilisateur 3
+08/10/2018 10:31:47 -- Boundamas Jeff -- Déconnexion de utilisateur 3
+08/10/2018 08:49:40 -- Mebodo Aristide -- Authentification de utilisateur 1

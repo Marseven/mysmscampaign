@@ -1,0 +1,8 @@
+03/10/2018 12:08:43 -- Mebodo Aristide -- Authentification de utilisateur 1
+03/10/2018 12:10:48 -- Mebodo Aristide -- Envoi de mail de réinitialisation à utilisateur 2
+03/10/2018 10:02:32 -- kenback stéphane -- Authentification de utilisateur 2
+03/10/2018 10:34:28 -- kenback stéphane -- Ajout de modèle sms 7
+03/10/2018 10:35:04 -- kenback stéphane -- Création de la campagne 15
+03/10/2018 10:36:27 -- kenback stéphane -- ajout à la liste de contact 27
+03/10/2018 10:36:27 -- kenback stéphane -- Mise à jour de la liste de contact 26
+03/10/2018 10:37:09 -- kenback stéphane -- Suppression du contact 21

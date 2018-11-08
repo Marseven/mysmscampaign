@@ -1,3 +1,6 @@
-26/09/2018 11:46:04 -- Mebodo Aristide -- Authentification de utilisateur 1
-26/09/2018 01:04:01 -- Mebodo Aristide -- Authentification de utilisateur 1
-26/09/2018 01:49:42 -- Mebodo Aristide -- Authentification de utilisateur 1
+26/09/2018 01:02:45 -- Mebodo Aristide -- Authentification de utilisateur 1
+26/09/2018 03:55:44 -- Mebodo Aristide -- Authentification de utilisateur 1
+26/09/2018 06:11:15 -- Mebodo Aristide -- Authentification de utilisateur 1
+26/09/2018 07:35:55 -- Mebodo Aristide -- Authentification de utilisateur 1
+26/09/2018 07:53:36 -- Mebodo Aristide -- Envoi de sms pour la campagne 14
+26/09/2018 07:54:32 -- Mebodo Aristide -- Envoi de sms pour la campagne 14
