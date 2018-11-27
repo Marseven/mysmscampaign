@@ -79,7 +79,7 @@ endif;
         <div class="text-error">500</div>
         <h3 class="text-uppercase font-600">Erreur Serveur Interne</h3>
         <p class="text-muted">
-            <?= h($message) ?>. Merci de contater le <a href="" class="text-primary">support</a>
+            <?= h($message) ?>. Merci de contater le <a href="#" class="text-primary m-l-5" data-container="body" title="SETRAG" data-toggle="popover" data-placement="top" data-content="Notre mail est support@setrag.ga et notre téléphone est +241 04228306." data-original-title="[SETRAG] Support">support</a>
         </p>
         <br>
         <span class="btn btn-rounded btn-success"><?= $this->Html->link(__('Retour'), 'javascript:history.back()') ?></span>

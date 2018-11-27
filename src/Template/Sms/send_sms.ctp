@@ -14,26 +14,16 @@
                             <label class="col-md-3 control-label">Expéditeur</label>
                             <div class="col-md-9">
                                 <?= $this->Form->control('', array(
-                                    //'options' => $expediteurs,
-                                    'options' => ['4' => 'SETRAG'],
-                                    'placeholder' => 'SETRAG',
-                                    'disabled',
+                                    'options' => $expediteurs,
                                     'class' => 'form-control col-sm-3',
                                     'label' => '',
                                 )); ?>
-                                <?= $this->Form->control('idexpediteur', array(
-                                    'value' => 4,
-                                    'placeholder' => 'SETRAG',
-                                    'type' => 'hidden',
-                                    'class' => 'form-control col-sm-3',
-                                    'label' => '',
-                                )); ?>
-                                <!--a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>"> + Ajouter un nouvel expéditeur</a-->
+                                <a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>"> + Ajouter un nouvel expéditeur</a>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Modèle de Message</label>
-                            <div class="col-md-9"> 
+                            <div class="col-md-9">
                                 <div class="btn-group">
                                     <button id="type" type="button" class="btn btn-default dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Sélectionner un modèle <span class="caret"></span></button>
                                     <ul class="dropdown-menu" role="menu">

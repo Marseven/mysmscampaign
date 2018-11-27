@@ -100,7 +100,7 @@
                         <h5 style="color: #fee82e;"><i class="fa fa-circle m-r-5"></i>Non Envoyé</h5>
                     </li>
                     <li>
-                        <h5 style="color: #c41b1a;"><i class="fa fa-circle m-r-5"></i>NPAI</h5>
+                        <a href="#" data-container="body" title="NPAI" data-toggle="popover" data-placement="top" data-content="NPAI (N'habite Plus à l'Adresse Indiquée) correspondent aux numéros de mobiles invalides." data-original-title="NPAI"><h5 style="color: #c41b1a;"><i class="fa fa-circle m-r-5"></i>NPAI</h5></a>
                     </li>
                 </ul>
             </div>
@@ -132,14 +132,12 @@
 
             <div class="inbox-widget nicescroll" style="height: 315px;">
                 <?php foreach($modeles as $modele){	?>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><i class="ti-comments"></i></div>
-                        <p class="inbox-item-author"><?= htmlentities($modele->contenu) ?></p>
-                        <p class="inbox-item-text"><?= htmlentities($modele->users['nom']) ?> <?= htmlentities($modele->users['prenom']) ?> | <?= \App\Controller\AppController::change_format_date($modele->dateCreation) ?></p>
-                        <p class="inbox-item-date"></p>
-                    </div>
-                </a>
+                <div class="inbox-item">
+                    <div class="inbox-item-img"><i class="ti-comments"></i></div>
+                    <p class="inbox-item-author"><?= htmlentities($modele->contenu) ?></p>
+                    <p class="inbox-item-text"><?= htmlentities($modele->users['nom']) ?> <?= htmlentities($modele->users['prenom']) ?> | <?= \App\Controller\AppController::change_format_date($modele->dateCreation) ?></p>
+                    <p class="inbox-item-date"></p>
+                </div>    
                 <?php } ?>
             </div>
         </div>
@@ -153,7 +151,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>#ID</th>
+                        <th>ID</th>
                         <th>Nom de la campagne</th>
                         <th>Nombre envoyé</th>
                         <th>Nombre de contacts</th>

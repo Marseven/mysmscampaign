@@ -108,7 +108,7 @@ class SmsController extends AppController
                 $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
                 $good_ext = in_array($extension, ['xlsx', 'csv']);
                 if($good_ext){
-                    $data = $this->Import->prepareEntityData("files/listecontact/".$filename, ['worksheet'=> 0]);
+                    $data = $this->Import->prepareEntityData($this->request->getData()['listecontact_import']['tmp_name'], ['worksheet'=> 0]);
                     //debug($data);
                     $contacts = array();
                     $i=0;
@@ -170,7 +170,8 @@ class SmsController extends AppController
                         $listecontact->contacts = $i;
                         $listecontactTable->save($listecontact);
                     }else{
-                        $this->Flash->error('Champs manquants dans le fichier. Champs obligatoires : TELEPHONE1, CLIENT');
+                        $this->Flash->error("Champs manquants dans le fichier. Champs obligatoires : TELEPHONE1, CLIENT
+                            . Referez vous a ce fichier modele : <a href='http://mysmscampaign.jobs-conseil.com/files/listecontact/ListPassagerTrainDim733trainLun132.xlsx' target='_blank' style='color:white;'>Liste de Contacts</a>.");
                         return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
                     }
                 }else{
@@ -326,6 +327,11 @@ class SmsController extends AppController
             }
 
             $response = json_decode($result, true);
+            if (!isset($response['campaignId'])){
+                $this->Flash->error($response['statusText']);
+                return $this->redirect(['controller' => 'Sms','action' => 'sendSms']);
+            }
+            
 
             $campagne->campaignId = $response['campaignId'];
             if ($camp_store){
@@ -358,7 +364,13 @@ class SmsController extends AppController
                 foreach ($contacts as $ct){
                     $sms_contact = $smscontactTable->newEntity();
                     $sms_contact->sms_id = $sms->id;
-                    $sms_contact->contact_id = $ct->telephone;
+                    if ($verif == 1 && is_object($contact)){
+                        $sms_contact->contact_id = $ct->telephone;
+                     }elseif(is_object($contact)){
+                        $sms_contact->contact_id = $ct->telephone;
+                     }else{
+                        $sms_contact->contact_id = $ct;
+                     }
                     foreach ($response['smsIds'] as $re){
                         if ($re['phoneNumber'] == $ct){
                             $sms_contact->smsId = $re['smsId'];
@@ -372,6 +384,7 @@ class SmsController extends AppController
                     $smsmodele->sms_id = $sms->id;
                     $smsmodeleTable->save($smsmodele);
                 }
+
                 if ( $response['status'] == 100){
                     $this->Flash->success('Votre Messagé été envoyé avec succès.');
                 }elseif($response['status'] == 101){

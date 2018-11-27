@@ -164,7 +164,7 @@
                         <td><?php echo htmlentities($ap->apikey);?></td>
                         <td><?php echo htmlentities($ap->etat);?></td>
                         <td>
-                            <?php if($user->id == $api->iduser){ ?>
+                            <?php if($user->id == $api->iduser|| $user->role == "SuperAdministrateur"){ ?>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Api', 'action' => 'edit', 'api' => $ap->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Api', 'action' => 'delete', 'api' => $ap->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer cette API !');"><i class="ti-trash"></i></a>
                             <?php } ?>

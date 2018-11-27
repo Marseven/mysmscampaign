@@ -153,7 +153,7 @@
                         <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($ct->dateCreation));?></td>
                         <td>
                             <a class="btn btn-success" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'viewList', 'listecontact' => $ct->id]) ?>"><i class="ti-eye"></i></a>
-                        <?php if($user->id == $ct->iduser || $user->role == "Administrateur"){ ?>
+                        <?php if($user->id == $ct->iduser || $user->role == "Administrateur" || $user->role == "SuperAdministrateur"){ ?>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'deleteListContact', 'listecontact' => $ct->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer cette Liste de contact !');"><i class="ti-trash"></i></a>
                             <?php } ?>
                         </td>

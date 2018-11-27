@@ -36,6 +36,7 @@
                     <div class="col-sm-6">
                         <br></br>
                         <a class="btn btn-sm btn-primary" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'edit', 'user' => $user->id]) ?>">Modifier</a>
+                        <a class="btn btn-sm btn-primary" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'password', 'user' => $user->id]) ?>">Réinitialisation du Mot de passe</a>
                     </div>
                 </div>
 
@@ -50,19 +51,9 @@
                 <h4 class="header-title m-t-0 m-b-30"><i class="ti-comment m-r-5"></i> Envoi Rapide de SMS</h4>
                 <div class="form-group">
                     <?= $this->Form->control('', array(
-                        //'options' => $expediteurs,
-                        'options' => ['4' => 'SETRAG'],
-                        'placeholder' => 'SETRAG',
-                        'disabled',
+                        'options' => $expediteurs,
                         'class' => 'form-control',
                         'label' => 'Expéditeur',
-                    )); ?>
-                    <?= $this->Form->control('idexpediteur', array(
-                        'value' => 4,
-                        'placeholder' => 'SETRAG',
-                        'type' => 'hidden',
-                        'class' => 'form-control col-sm-3',
-                        'label' => '',
                     )); ?>
                 </div>
                 <div class="form-group">
@@ -108,7 +99,7 @@
             <ul class="list-group m-b-0 user-list" style="max-height: 500px; overflow: auto;">
                 <?php foreach($contacts as $contact){	?>
                     <li class="list-group-item">
-                        <a href="#" class="user-list-item">
+                        <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'editContact', 'contact' => $contact->id]) ?>" class="user-list-item">
                             <div class="avatar">
                                 <i class="ti-user"></i>
                             </div>
@@ -129,7 +120,7 @@
             <ul class="list-group m-b-0 user-list" style="max-height: 500px; overflow: auto;">
                 <?php foreach($campagnes as $campagne){	?>
                     <li class="list-group-item">
-                        <a href="#" class="user-list-item">
+                        <a href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'edit', 'campagne' => $campagne->id]) ?>" class="user-list-item">
                             <div class="avatar text-center">
                                 <i class="zmdi zmdi-circle <?=  new \DateTime($campagne->dateEnvoi) > new \DateTime(date('Y-m-d H:i:s')) ? 'text-success' : 'text-danger' ?>"></i>
                             </div>

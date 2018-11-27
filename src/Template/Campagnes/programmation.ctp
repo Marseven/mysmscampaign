@@ -32,7 +32,7 @@
                         <td><?php echo htmlentities($camp->nbre_echec);?></td>
                         <td><strong><?php echo htmlentities(\App\Controller\AppController::change_format_date($camp->dateEnvoi));?></strong></td>
                         <td>
-                        <?php if($user->id == $camp->iduser || $user->role == "Administrateur"){ ?>
+                        <?php if($user->id == $camp->iduser || $user->role == "Administrateur"|| $user->role == "SuperAdministrateur"){ ?>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'edit', 'campagne' => $camp->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette campagne !');" href="<?= $this->Url->build(['controller' => 'Campagne', 'action' => 'delete', 'campagne' => $camp->id]) ?>"><i class="ti-trash"></i></a>
                             <?php } ?>

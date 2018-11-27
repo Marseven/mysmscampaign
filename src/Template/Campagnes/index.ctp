@@ -139,7 +139,7 @@
                         <td><?php echo $camp->cout*650;?> XAF</td>
                         <td><?php echo htmlentities(\App\Controller\AppController::change_format_date($camp->dateEnvoi));?></td>
                         <td>
-                        <?php if($user->id == $camp->iduser || $user->role == "Administrateur"){ ?>
+                        <?php if($user->id == $camp->iduser || $user->role == "Administrateur"|| $user->role == "SuperAdministrateur"){ ?>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'edit', 'campagne' => $camp->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Campagnes', 'action' => 'delete', 'campagne' => $camp->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer cette campagne !');"><i class="ti-trash"></i></a>
                             <?php } ?>

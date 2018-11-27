@@ -38,7 +38,7 @@
                             <?php if(($us->role == 'Utilisateur' && $user->role == 'SuperAdministrateur') || ($us->role == 'Administrateur' && $user->role == 'SuperAdministrateur') || ($us->role == 'Utilisateur' && $user->role == 'Administrateur')){ ?>
                                 <?php if($us->role == 'Utilisateur'){ ?>
                                     <a class="btn btn-success" title="Rendre Administrateur" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'becomeAdministrator', 'user' => $us->id]) ?>"><i class="ti-headphone-alt"></i></a>
-                                <?php } ?> 
+                                <?php } ?>
                                 <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'edit', 'user' => $us->id]) ?>"><i class="ti-pencil"></i></a>
                                 <a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette utilisateur !');" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'delete', 'user' => $us->id]) ?>"><i class="ti-trash"></i></a>
                             <?php } ?>

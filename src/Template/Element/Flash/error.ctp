@@ -1,6 +1,6 @@
 <?php
 if (!isset($params['escape']) || $params['escape'] !== false) {
-    $message = h($message);
+    $message = $message;
 }
 ?>
 <div style="text-align: center;" class="alert alert-block alert-danger">

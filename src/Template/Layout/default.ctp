@@ -24,7 +24,7 @@
 
     <link rel="shortcut icon" href="/img/ico.png">
 
-    <title>MySMSCampaign By Setrag</title>
+    <title>Application SMS</title>
 
     <!-- App css -->
     <?= $this->Html->css('bootstrap.min.css') ?>
@@ -60,7 +60,7 @@
         <!-- LOGO -->
         <div class="topbar-left">
             <a href="/" class="logo">
-                <img src="http://mysmscampaign.jobs-conseil.com/img/Logo-Setrag.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 55%; margin-left: 23%; margin-top: 0;">
+                <img src="#" alt="logo-img" title="logo-app" class="img-responsive logo-setrag" style="max-width: 55%; margin-left: 23%;">
             </a>
         </div>
 
@@ -104,20 +104,20 @@
             <!-- User -->
             <div class="user-box">
                 <div class="user-img">
-                    <?= $this->Html->image($user->picture != '' ? 'user/'.$user->picture : 'default-avatar.png', ['class' => 'img-circle img-thumbnail img-responsive', 'alt'=>'user-image', 'title'=>'user']); ?>
+                    <?= $this->Html->image($user->picture != '' ? 'user/'.$user->picture : 'default-avatar.png', ['class' => 'img-circle img-thumbnail img-responsive', 'alt'=>'user-image', 'title'=>'user', 'style' => "height:97%; width: auto;"]); ?>
                     <div class="user-status online"><i class="zmdi zmdi-dot-circle"></i></div>
                 </div>
                 <h5><a style="color: #fee82e;" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>"> <span class="text-uppercase"><?= $user->nom ?></span> <?= $user->prenom ?> </a> </h5>
                 <ul class="list-inline">
-                    <!--li>
+                    <li>
                         <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profil']) ?>" >
                             <i class="zmdi zmdi-settings"></i>
                         </a>
-                    </li-->
+                    </li>
 
                     <li>
-                        <a class="btn btn-sm btn-danger" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>" class="text-custom">
-                            <i class="zmdi zmdi-power"></i> Deconnexion
+                        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>" class="text-custom">
+                            <i class="zmdi zmdi-power"></i>
                         </a>
                     </li>
                 </ul>
@@ -131,7 +131,7 @@
 
                     <?php if ($user->role == "Administrateur" || $user->role == "SuperAdministrateur") { ?>
 	                    <li>
-	                        <a href="/" class="waves-effect <?= $title == 'Tableau de Bord' ? 'active' : '' ?>"><i class="ti-dashboard"></i> <span> Tableau de Bord </span> </a>
+	                        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="waves-effect <?= $title == 'Tableau de Bord' ? 'active' : '' ?>"><i class="ti-dashboard"></i> <span> Tableau de Bord </span> </a>
 	                    </li>
 					<?php } ?>
 
@@ -139,7 +139,7 @@
                         <a href="javascript:void(0);" class="waves-effect <?= $title == 'Envoi de SMS' || $title == 'Gestion des Expéditeurs' || $title == 'Gestion de Modèles de SMS' ? 'active' : '' ?>"><i class="ti-comment"></i> <span> SMS </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li class="<?= $title == 'Envoi de SMS' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'sendSms']) ?>">Envoyer des SMS</a></li>
-                            <!--li class="<?= $title == 'Gestion des Expéditeurs' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>">Expéditeurs</a></li-->
+                            <li class="<?= $title == 'Gestion des Expéditeurs' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Expediteurs', 'action' => 'index']) ?>">Expéditeurs</a></li>
                             <li class="<?= $title == 'Gestion de Modèles de SMS' ? 'active' : '' ?>"><a href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'model_sms']) ?>">Modèles</a></li>
                         </ul>
                     </li>
@@ -217,7 +217,7 @@
         </div> <!-- content -->
 
         <footer class="footer text-right text-white">
-            2018 © MySMSCampaign By Setrag - Tous Droits Reservés.
+            2018 © Application SMS - Tous Droits Reservés.
         </footer>
 
     </div>

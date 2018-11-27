@@ -133,7 +133,7 @@
             <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>#ID</th>
+                    <th>ID</th>
                     <th>Nom</th>
                     <th>Message</th>
                     <th>Action</th>
@@ -148,7 +148,7 @@
                         <td><?php echo htmlentities($ms->libelle);?></td>
                         <td><?php echo htmlentities($ms->contenu);?></td>
                         <td>
-                        <?php if($user->id == $ms->iduser || $user->role == "Administrateur"){ ?>
+                        <?php if($user->id == $ms->iduser || $user->role == "Administrateur"|| $user->role == "SuperAdministrateur"){ ?>
                             <a class="btn btn-primary" href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'editModelSms', 'modelsms' => $ms->id]) ?>"><i class="ti-pencil"></i></a>
                             <a class="btn btn-danger" href="<?= $this->Url->build(['controller' => 'Sms', 'action' => 'deleteModelSms', 'modelsms' => $ms->id]) ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce modèle de SMS !');"><i class="ti-trash"></i></a>
                             <?php } ?>
@@ -260,4 +260,3 @@ document.getElementById("js_partie2").style.display = "block";
 }
 }
 <?= $this->Html->scriptEnd()?>
-

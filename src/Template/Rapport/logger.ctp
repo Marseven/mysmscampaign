@@ -95,21 +95,37 @@
                     </div>
                 </div>
             </article>
-            <?php $i=0; foreach($campagnes_today as $cpt):	?>
-                <article class="timeline-item <?= fmod($i, 2) == 0 ? 'alt' : '' ?>">
+            <?php if(isset($campagnes_today)):  ?>
+                <?php  $i=0; foreach($campagnes_today as $cpt):	?>
+                    <article class="timeline-item <?= fmod($i, 2) == 0 ? 'alt' : '' ?>">
+                        <div class="timeline-desk">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <span class="arrow<?= fmod($i, 2) == 0 ? '-alt' : '' ?>"></span>
+                                    <span class="timeline-icon bg-success"><i class="zmdi zmdi-circle"></i></span>
+                                    <h4 class="text-success"><?= $cpt->libelle ?></h4>
+                                    <p class="timeline-date text-muted"><small><?= \App\Controller\AppController::change_format_date($cpt->dateCreation) ?></small></p>
+                                    <p><?= $cpt->users['nom'] ?> <?= $cpt->users['prenom'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                <?php $i++; endforeach; ?>
+            <?php endif; ?>
+            <?php if(!isset($campagnes_today)):  ?>
+                <article class="timeline-item">
                     <div class="timeline-desk">
                         <div class="panel">
                             <div class="panel-body">
-                                <span class="arrow<?= fmod($i, 2) == 0 ? '-alt' : '' ?>"></span>
+                                <span class="arrow"></span>
                                 <span class="timeline-icon bg-success"><i class="zmdi zmdi-circle"></i></span>
-                                <h4 class="text-success"><?= $cpt->libelle ?></h4>
-                                <p class="timeline-date text-muted"><small><?= \App\Controller\AppController::change_format_date($cpt->dateCreation) ?></small></p>
-                                <p><?= $cpt->users['nom'] ?> <?= $cpt->users['prenom'] ?></p>
+                                <h4 class="text-success">Aucune Campagne lancée</h4>
+                                <p class="timeline-date text-muted"></p>
                             </div>
                         </div>
                     </div>
                 </article>
-            <?php $i++; endforeach; ?>
+            <?php endif; ?>
             <article class="timeline-item alt">
                 <div class="text-right">
                     <div class="time-show">
@@ -117,46 +133,75 @@
                     </div>
                 </div>
             </article>
-            <?php $i=0; foreach($campagnes_week as $cpt):	?>
-                <article class="timeline-item <?= fmod($i, 2) == 0 ? 'alt' : '' ?>">
+            <?php if(isset($campagnes_week)):  ?>
+                <?php $i=0; foreach($campagnes_week as $cpt):	?>
+                    <article class="timeline-item <?= fmod($i, 2) == 0 ? 'alt' : '' ?>">
+                        <div class="timeline-desk">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <span class="arrow<?= fmod($i, 2) == 0 ? '-alt' : '' ?>"></span>
+                                    <span class="timeline-icon bg-warning"><i class="zmdi zmdi-circle"></i></span>
+                                    <h4 class="text-warning"><?= $cpt->libelle ?></h4>
+                                        <p class="timeline-date text-muted"><small><?= \App\Controller\AppController::change_format_date($cpt->dateCreation) ?></small></p>
+                                        <p><?= $cpt->users['nom'] ?> <?= $cpt->users['prenom'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                <?php $i++; endforeach; ?>
+            <?php endif; ?>
+            <?php if(!isset($campagnes_week)):  ?>
+                <article class="timeline-item alt">
                     <div class="timeline-desk">
                         <div class="panel">
                             <div class="panel-body">
-                                <span class="arrow<?= fmod($i, 2) == 0 ? '-alt' : '' ?>"></span>
+                                <span class="arrow-alt"></span>
                                 <span class="timeline-icon bg-warning"><i class="zmdi zmdi-circle"></i></span>
-                                <h4 class="text-warning"><?= $cpt->libelle ?></h4>
-                                    <p class="timeline-date text-muted"><small><?= \App\Controller\AppController::change_format_date($cpt->dateCreation) ?></small></p>
-                                    <p><?= $cpt->users['nom'] ?> <?= $cpt->users['prenom'] ?></p>
+                                <h4 class="text-warning">Aucune Campagne lancée</h4>
+                                <p class="timeline-date text-muted"></p>
                             </div>
                         </div>
                     </div>
                 </article>
-            <?php $i++; endforeach; ?>
-
-            <article class="timeline-item alt">s
+            <?php endif; ?>
+            <article class="timeline-item alt">
                 <div class="text-right">
                     <div class="time-show">
                         <a href="#" class="btn btn-custom w-lg">Mois Passé</a>
                     </div>
                 </div>
             </article>
-
-            <?= $i=0; foreach($campagnes_month as $cpt):	?>
-                <article class="timeline-item <?= fmod($i, 2) == 0 ? 'alt' : '' ?>">
+            <?php if(isset($campagnes_month)):  ?>
+                <?= $i=0; foreach($campagnes_month as $cpt):	?>
+                    <article class="timeline-item <?= fmod($i, 2) == 0 ? 'alt' : '' ?>">
+                        <div class="timeline-desk">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <span class="arrow<?= fmod($i, 2) == 0 ? '-alt' : '' ?>"></span>
+                                    <span class="timeline-icon bg-danger"><i class="zmdi zmdi-circle"></i></span>
+                                    <h4 class="text-danger"><?= $cpt->libelle ?></h4>
+                                        <p class="timeline-date text-muted"><small><?= \App\Controller\AppController::change_format_date($cpt->dateCreation) ?></small></p>
+                                        <p><?= $cpt->users['nom'] ?> <?= $cpt->users['prenom'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                <?php $i++; endforeach; ?>
+            <?php endif; ?>
+            <?php if(!isset($campagnes_month)):  ?>
+                <article class="timeline-item">
                     <div class="timeline-desk">
                         <div class="panel">
                             <div class="panel-body">
-                                <span class="arrow<?= fmod($i, 2) == 0 ? '-alt' : '' ?>"></span>
+                                <span class="arrow"></span>
                                 <span class="timeline-icon bg-danger"><i class="zmdi zmdi-circle"></i></span>
-                                <h4 class="text-danger"><?= $cpt->libelle ?></h4>
-                                    <p class="timeline-date text-muted"><small><?= \App\Controller\AppController::change_format_date($cpt->dateCreation) ?></small></p>
-                                    <p><?= $cpt->users['nom'] ?> <?= $cpt->users['prenom'] ?></p>
+                                <h4 class="text-danger">Aucune Campagne lancée</h4>
+                                <p class="timeline-date text-muted"></p>
                             </div>
                         </div>
                     </div>
                 </article>
-            <?php $i++; endforeach; ?>
-
+            <?php endif; ?>
         </div>
     </div>
 </div>

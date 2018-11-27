@@ -63,7 +63,7 @@ class RapportController extends AppController
             foreach($contactsms as $contact){
                 if ($contact->sms->idcampagne == $cpg->id){
                     if($telephone == "" && $i == 0){
-                        //echo htmlentities($contact->contact_id); $i++; $telephone = $contact->contact_id;
+                        
                         $contacts[$j]['telephone'] = $contact->contact_id;
                         $contacts[$j]['contenu'] = $contact->sms->contenu;
                         $contacts[$j]['etat'] = $contact->sms->etat;
@@ -71,7 +71,7 @@ class RapportController extends AppController
                         $contacts[$j]['idcampagne'] = $cpg->id;
                         $j++;
                     }elseif ($telephone != $contact->contact_id && $i != 0){
-                        //echo htmlentities($contact->contact_id); $telephone = $contact->contact_id;
+                        
                         $contacts[$j]['telephone'] = $contact->contact_id;
                         $contacts[$j]['contenu'] = $contact->sms->contenu;
                         $contacts[$j]['etat'] = $contact->sms->etat;
@@ -97,7 +97,14 @@ class RapportController extends AppController
             $nbre_non_envoye = 0;
             $nbre_echec = 0;
             $i=0;
+			
+			$pourcentage[$camp->id]['envoye'] = 0;
+	        $pourcentage[$camp->id]['non_envoye'] = 0;
+	        $pourcentage[$camp->id]['echec'] = 0;
+	        $pourcentage[$camp->id]['message_emis'] = 0;
+            
             foreach ($camp->smss as $ms){
+
                 foreach ($reponse_sms as $rs){
 
                     if ($ms->id == $rs->sms_id){
@@ -232,9 +239,15 @@ class RapportController extends AppController
                 'campagnes.dateCreation <' => $weekDay,
             ])
             ->all();
-        $this->set(compact('campagnes_today'));
-        $this->set(compact('campagnes_week'));
-        $this->set(compact('campagnes_month'));
+       if(!empty($campagnes_today->items)){
+           $this->set(compact('campagnes_today'));
+       }
+        if(!empty($campagnes_week->items)){
+            $this->set(compact('campagnes_week'));
+        }
+        if(!empty($campagnes_month->items)){
+            $this->set(compact('campagnes_month'));
+        }
 
     }
 
@@ -248,7 +261,7 @@ class RapportController extends AppController
             $date = $date->format('Ymd');
             $log_exist = file_exists(WWW_ROOT . 'files' . DS . 'logs/log'.$date.'.txt');
             if($log_exist){
-                $this->redirect('http://mysmscampaign.jobs-conseil.com/files/logs/log'.$date.'.txt');
+                $this->redirect('https://setrag-info.com/files/logs/log'.$date.'.txt');
             }else{
                 $this->Flash->error('Le log demandé n\'existe pas.');
                 $this->redirect(['action' => 'logger']);
@@ -259,7 +272,7 @@ class RapportController extends AppController
 
     public function imprimer(){
         if($this->request->getQuery('campagne') == false){
-            $this->Flash->error('Information manquante.');
+            $this->Flash->error('Information manquante.'); 
             $this->redirect(['controller' => 'Users','action' => 'logout']);
         }else{
             $campagneTable = TableRegistry::get('campagnes');
@@ -304,6 +317,7 @@ class RapportController extends AppController
                 $data_SMS['npai'] = $campagne->nbre_echec;
 
                 foreach ($campagne->smss as $ms){
+                	$smsId = NULL;
                     foreach ($reponse_sms as $rs){
 
                         if ($ms->id == $rs->sms_id){
@@ -327,7 +341,6 @@ class RapportController extends AppController
                             }else{
                                 $data_SMS['sms_sans_accuse']++;
                             }
-
                             $i++;
                         }
                     }
@@ -354,10 +367,17 @@ class RapportController extends AppController
                     $statistiques_SMS[$j]['id'] = $smsId;
                     $statistiques_SMS[$j]['nbre_caratere'] = strlen($ms->contenu);
                     $statistiques_SMS[$j]['mot'] = str_word_count($ms->contenu);
+                    
                     $statistiques_SMS[$j]['paragraphe'] = substr_count($ms->contenu, '\r');
                     $statistiques_SMS[$j]['ligne'] = substr_count($ms->contenu, '\n');
 
+                    if ($statistiques_SMS[$j]['paragraphe'] == 0) {
+                    	$statistiques_SMS[$j]['paragraphe'] = 1;
+                    }
 
+                    if ($statistiques_SMS[$j]['ligne'] == 0) {
+                    	$statistiques_SMS[$j]['ligne'] = 1;
+                    }
                 }
 
 
@@ -386,7 +406,7 @@ class RapportController extends AppController
                 // Get the PDF string returned
                 $pdf = $CakePdf->output();
                 $pdf = $CakePdf->write(WWW_ROOT . 'files' . DS . 'Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
-                $this->redirect('http://localhost/mysmscampaign/files/Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
+                $this->redirect('https://setrag-info.com/files/Rapport_Campagne'.$campagne->id.'_'.$date.'.pdf');
             }
         }
     }

@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group">
                             <label for="dateNziss">Date de Naissance</label>
-                            <input type="date" name="dateNaiss"  required placeholder="Date de Naissance" class="form-control" id="dateNaiss">
+                            <input type="date" name="dateNaiss" value="<?= $date ?>"  required placeholder="Date de Naissance" class="form-control" id="dateNaiss">
                         </div>
                         <div class="form-group">
                             <?= $this->Form->control('adresse', array(
@@ -89,25 +89,6 @@
                                 'type' => 'text',
                                 'placeholder' => 'Pays',
                                 'label' => 'Pays',
-                                'required',
-                            )); ?>
-                        </div>
-                        <div class="form-group">
-                            <?= $this->Form->control('password', array(
-                                'class' => 'form-control',
-                                'placeholder' => 'Mot de Passe*',
-                                'type' => 'password',
-                                'label' => 'Mot de Passe',
-                                'required',
-                            )); ?>
-
-                        </div>
-                        <div class="form-group">
-                            <?= $this->Form->control('password_verify', array(
-                                'class' => 'form-control',
-                                'type' => 'password',
-                                'placeholder' => 'Confirmer Mot de Passe*',
-                                'label' => 'Confirmer Mot de Passe',
                                 'required',
                             )); ?>
                         </div>

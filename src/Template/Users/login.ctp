@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/img/ico.png">
 
     <!-- App title -->
-    <title>MySMSCampaign By Setrag</title>
+    <title>Application SMS</title>
 
     <!-- App css -->
     <?= $this->Html->css('bootstrap.min.css') ?>
@@ -32,13 +32,13 @@
     <?= $this->Html->script('modernizr.min') ?>
 
 </head>
-<body> 
+<body>
 
 <div class="account-pages"></div>
 <div class="clearfix"></div>
 <div class="wrapper-page">
     <div class="text-center">
-        <a href="/" class="logo"><img src="http://mysmscampaign.jobs-conseil.com/img/Logo-Setrag.png" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 92%; margin-left: 12%;"></a>
+        <a href="/" class="logo"><img src="#" alt="logo-img" title="logo-app" class="img-responsive" style="max-width: 92%; margin-left: 12%;"></a>
         <h5 class="text-white m-t-0 font-600">Application de Campagne de SMS</h5>
     </div>
     <div class="m-t-40 card-box" style="background: #ffffff85">

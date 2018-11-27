@@ -234,7 +234,7 @@ class UsersController extends AppController {
                     $user->confirmed_token = md5($user->password);
                     $usersTable->save($user);
                     $mail = new Email();
-                    $mail->setFrom('contact@jobs-conseil.com')
+                    $mail->setFrom('support@setrag.ga')
                          ->setTo($user->email)
                          ->setSubject('Confirmation d\'enregistrement')
                          ->setEmailFormat('html')
@@ -270,46 +270,44 @@ class UsersController extends AppController {
                 $this->Flash->error('Ce profil n\'exite pas');
                 $this->redirect(['action' => 'logout']);
             }
-            $this->set('user_edit', $user_edit);
+            $date = new \DateTime($user_edit->dateNaiss);
+            $date = $date->format('Y-m-d');
+            $this->set(['user_edit' => $user_edit, 'date' => $date]);
         }
         if ($this->request->is(array('post','put'))) {
-            if(empty($this->request->getData()['password']) || $this->request->getData()['password'] != $this->request->getData()['password_verify']){
-                $this->Flash->error('Mots de passe différents !');
-            }else{
-                $now = date('Y-m-d');
-                $now = new \DateTime($now);
-                $now = $now->modify('-18 years');
-                $dateNaiss = new \DateTime($this->request->getData()['dateNaiss']);
-                if($dateNaiss < $now){
-                    $user = $usersTable->newEntity($this->request->getData());
-                    if($id != null){
-                        $user->id = $id;
-                    }else{
-                        $user->id = $user_edit->id;
-                    }
-                    $filename = $this->request->getData()['picture']['name'];
-                    $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-                    $good_ext = in_array($extension, ['png', 'jpg', 'jpeg']);
-                    if($good_ext && $filename != ''){
-                         $user->picture = $this->request->getData()["picture"]["name"];
-                        move_uploaded_file($this->request->getData()["picture"]["tmp_name"],"img/user/".$this->request->getData()["picture"]["name"]);
-                    }else{
-                        $this->Flash->error('Mauvais type de fichier importé. Type correct : jpg, png, jpeg');
-                        $this->redirect(['action' => 'edit', 'user' => $user->id]);
-                    }
-                    
-                    if ($usersTable->save($user)) {
-                        $user = $usersTable->get($id);
-                        $this->Auth->setUser($user);
-                        $this->Flash->success('Votre profil a été mis à jour avec succès !');
-                        $this->_log('Modification de utilisateur '.$user->id);
-                        return $this->redirect(['action' => 'profil', 'user' => $user->id]);
-                    }else{
-                        $this->Flash->error('Certains champs ont été mal saisis');
-                    }
+            $now = date('Y-m-d');
+            $now = new \DateTime($now);
+            $now = $now->modify('-18 years');
+            $dateNaiss = new \DateTime($this->request->getData()['dateNaiss']);
+            if($dateNaiss < $now){
+                $user = $usersTable->newEntity($this->request->getData());
+                if($id != null){
+                    $user->id = $id;
                 }else{
-                    $this->Flash->error('Mauvaise Date, veuillez saisir des dates conformes et inférieur à'.$now->format('d-m-Y'));
+                    $user->id = $user_edit->id;
                 }
+                $filename = $this->request->getData()['picture']['name'];
+                $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $good_ext = in_array($extension, ['png', 'jpg', 'jpeg']);
+                if($good_ext && $filename != ''){
+                     $user->picture = $this->request->getData()["picture"]["name"];
+                    move_uploaded_file($this->request->getData()["picture"]["tmp_name"],"img/user/".$this->request->getData()["picture"]["name"]);
+                }else{
+                    $this->Flash->error('Mauvais type de fichier importé. Type correct : jpg, png, jpeg');
+                    $this->redirect(['action' => 'edit', 'user' => $user->id]);
+                }
+                
+                if ($usersTable->save($user)) {
+                    $user = $usersTable->get($id);
+                    $this->Auth->setUser($user);
+                    $this->Flash->success('Votre profil a été mis à jour avec succès !');
+                    $this->_log('Modification de utilisateur '.$user->id);
+                    return $this->redirect(['action' => 'profil', 'user' => $user->id]);
+                }else{
+                    $this->Flash->error('Certains champs ont été mal saisis');
+                }
+            }else{
+                $this->Flash->error('Mauvaise Date, veuillez saisir des dates conformes et inférieur à'.$now->format('d-m-Y'));
             }
         }
     }
@@ -372,7 +370,7 @@ class UsersController extends AppController {
 				$user->reset_token = md5($user->password);
                 $usersTable->save($user);
                 $mail = new Email();
-                $mail->setFrom('contact@jobs-conseil.com')
+                $mail->setFrom('support@setrag.ga')
                     ->setTo($user->email)
                     ->setSubject('Mot de Passe Oublié')
                     ->setEmailFormat('html')
@@ -435,7 +433,7 @@ class UsersController extends AppController {
             }
             $user->reset_at = date('Y-m-d H:m:s');
             $user->reset_token = NULL;
-            $user->password = $user->_setPassword($this->request->getData()['password']);
+            $user->password = $this->request->getData()['password'];
             $usersTable->save($user);
             $this->Auth->setUser($user);
             $this->Flash->success('Mot de passe réinitialisé avec succès.');
@@ -448,6 +446,51 @@ class UsersController extends AppController {
         }
 
         $this->render('reset_password', 'login');
+    }
+
+    function password(){
+        $usersTable = TableRegistry::get('Users');
+        if($this->request->getQuery('user')){
+            $id = (int)$this->request->getQuery('user');
+            $user_edit = $usersTable->get($id);
+            if (!$user_edit) {
+                $this->Flash->error('Ce profil n\'exite pas');
+                $this->redirect(['action' => 'logout']);
+            }
+            $this->set('user_edit', $user_edit);
+        }  
+        if($this->request->is(array('post','put'))){
+            if(empty($this->request->getData()['password']) || $this->request->getData()['password'] != $this->request->getData()['password_verify']){
+                $this->Flash->set('Mots de passe différents !', ['element' => 'error']);
+                return $this->render('reset_password', 'login');
+            }
+            $user = $this->Auth->user();
+            if(isset($user) && $user != null){
+                if(is_array($user)){
+                    $user = $usersTable->newEntity($user);
+                }
+            }
+            if (!$user) {
+                $this->Flash->error('Cette utilisateur n\'est pas valide.');
+                return $this->redirect(array(
+                    'controller' => 'users',
+                    'action' => 'login',
+                ));
+            }
+            
+            $user->password = $this->request->getData()['password'];
+            $usersTable->save($user);
+            $this->Auth->setUser($user);
+            $this->Flash->success('Mot de passe réinitialisé avec succès.');
+            $this->_log('Mot de passe réinitialisé pour utilisateur '.$user->id);
+            return $this->redirect([
+                'controller' => 'users',
+                'action' => 'profil',
+            ]);
+
+        }
+
+        $this->render('password');
     }
 
     public function delete(){

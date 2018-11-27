@@ -125,19 +125,20 @@
                                         </div>
                                         <div class="col-sm-6 col-lg-4">
                                             <div data-plugin="circliful" class="circliful-chart m-b-30" data-dimension="180"
-                                                 data-text="<?= $pct['non_envoye']?>%" data-info="SMS Programmé" data-width="20" data-fontsize="24"
+                                                 data-text="<?= $pct['non_envoye']?>%" data-info="SMS Non Envoyé" data-width="20" data-fontsize="24"
                                                  data-percent="<?= $pct['non_envoye']?>" data-fgcolor="#c47816" data-bgcolor="#ebeff2"
                                                  data-fill="#f4f8fb"></div>
                                         </div>
                                         <div class="col-sm-6 col-lg-4">
                                             <div data-plugin="circliful" class="circliful-chart m-b-30" data-dimension="180"
-                                                 data-text="<?= $pct['echec']?>%" data-info="SMS Non Envoyé" data-width="20" data-fontsize="24"
+                                                 data-text="<?= $pct['echec']?>%" data-info="NPAI" data-width="20" data-fontsize="24"
                                                  data-percent="<?= $pct['echec']?>" data-fgcolor="#c41b1a" data-bgcolor="#ebeff2"
                                                  data-fill="#f4f8fb"></div>
                                         </div>
                                     </div>
                                 <?php endif;
                                 endforeach; ?>
+                                <p><em>*NPAI (N'habite Plus à l'Adresse Indiquée) correspondent aux numéros de mobiles invalides.</em></p>
                             </div>
                         </div>
                     </div>
@@ -182,7 +183,7 @@
                                             Attention, il est préférable d'attendre 3 jours pour récupérer l'intégralité des accusés de réception.
                                         </p>
                                         <div class="">
-                                            <a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'imprimer', 'campagne' => $cpg->id]) ?>"><button class="btn btn-rounded btn-info">TELECHARGER</button></a>
+                                            <a href="<?= $this->Url->build(['controller' => 'Rapport', 'action' => 'imprimer', 'campagne' => $cpg->id]) ?>" target="_blank"><button class="btn btn-rounded btn-info">TELECHARGER</button></a>
                                         </div>
                                     </div>
                                 </div>
